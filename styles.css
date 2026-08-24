@@ -130,7 +130,7 @@ button {
   border: 1px solid transparent;
   border-radius: 4px;
   color: #fff;
-  background: var(--blue);
+  background: var(--cyan);
   font-weight: 600;
 }
 
@@ -437,12 +437,12 @@ button {
   border: 0;
   border-radius: 4px;
   color: #fff;
-  background: #2f8df4;
+  background: var(--cyan);
   font-weight: 600;
 }
 
 .row-actions button[disabled] {
-  background: #a8d2ff;
+  background: #a9e6ec;
 }
 
 .row-actions .delete {
@@ -489,8 +489,8 @@ button {
 
 .pager .active {
   color: #fff;
-  border-color: var(--blue);
-  background: var(--blue);
+  border-color: var(--cyan);
+  background: var(--cyan);
 }
 
 .sales-questionnaire-view {
