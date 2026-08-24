@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>患教端收案线上化 - 交互原型</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="review-shell">
+    <aside class="prototype-nav" aria-label="原型页面导航">
+      <div class="nav-title">
+        <span class="dot"></span>
+        <div>
+          <b>患教端</b>
+          <small>收案线上化改造</small>
+        </div>
+      </div>
+      <button class="nav-item active" data-view="list">收案管理</button>
+      <button class="nav-item" data-view="notice">待接收提醒</button>
+      <button class="nav-item" data-view="receive">收案弹窗</button>
+      <button class="nav-item" data-view="sales-questionnaire">销售部分问卷</button>
+    </aside>
+
+    <main class="prototype-stage">
+      <header class="review-header">
+        <div>
+          <h1>患教端收案线上化交互原型</h1>
+          <p>基于测试环境页面重搭，先覆盖患教端本轮改造点。</p>
+        </div>
+        <div class="header-actions">
+          <button class="ghost-btn" id="resetDemo">重置演示</button>
+          <button class="primary-btn" id="openReceiveFromHeader">模拟处理收案</button>
+        </div>
+      </header>
+
+      <section class="browser-frame" id="browserFrame" aria-label="患教端页面原型">
+        <div class="browser-top">
+          <div class="window-dot"></div>
+          <div class="window-dot"></div>
+          <div class="window-dot"></div>
+          <span>test.ttq.so/main.html</span>
+        </div>
+
+        <div class="app-shell" id="appShell">
+          <header class="app-topbar">
+            <div class="brand">
+              <div class="brand-logo">◎</div>
+              <span>糖糖圈1型糖友学校</span>
+            </div>
+            <nav class="top-menu">
+              <span>患者</span>
+              <span>问卷</span>
+              <span>统计</span>
+              <span>权限</span>
+              <span>设置</span>
+            </nav>
+            <div class="user-box">
+              <span>2026年8月24日　星期一　10:02</span>
+              <b>您好,三组团队</b>
+              <a>退出</a>
+            </div>
+          </header>
+
+          <div id="caseManagementView">
+            <div class="dashboard-strip">
+              <b>随访面板统计</b>
+              <span>›</span>
+            </div>
+
+            <section class="notice-banner" id="topNotice">
+              <div>
+                <b>当前有 <span id="pendingCount">2</span> 条收案任务未确认接收</b>
+              </div>
+              <button class="primary-btn compact" id="openNoticePanel">查看</button>
+            </section>
+
+            <section class="patient-tabs">
+              <button>我的患者</button>
+              <button>全部患者</button>
+              <button>添加患者</button>
+              <button>分组管理</button>
+              <button>建群管理</button>
+              <button>交班管理</button>
+              <button class="active">收案管理</button>
+            </section>
+
+            <section class="filters">
+              <label>用户ID:<input placeholder="请输入" /></label>
+              <label>下单日期:<input placeholder="年/月/日 - 年/月/日" /></label>
+              <label>状态:
+                <select>
+                  <option>全部</option>
+                  <option>待接收</option>
+                  <option>已接收</option>
+                  <option>待用户填写</option>
+                  <option>用户填写中</option>
+                  <option>用户已填写</option>
+                  <option>已收案</option>
+                </select>
+              </label>
+              <label>姓名:<input placeholder="请输入" /></label>
+              <label>业务经理:<input placeholder="请输入" /></label>
+              <label>胰岛素泵:<input placeholder="请输入" /></label>
+              <label>用户渠道:<select><option>请输入</option></select></label>
+              <label>下单电话:<input placeholder="请输入" /></label>
+              <label>分型:<select><option>请输入</option></select></label>
+              <div class="filter-actions">
+                <button class="primary-btn compact">查询</button>
+                <button class="ghost-btn compact">重置</button>
+              </div>
+            </section>
+
+            <div class="table-toolbar">
+              <span>已选 0 条，共 10 条</span>
+              <button class="primary-btn compact muted">批量推送</button>
+            </div>
+
+            <section class="data-table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th><input type="checkbox" /></th>
+                    <th>收案ID</th>
+                    <th>姓名</th>
+                    <th>性别</th>
+                    <th>年龄</th>
+                    <th>身高</th>
+                    <th>体重</th>
+                    <th>分型</th>
+                    <th>病程</th>
+                    <th>原方案</th>
+                    <th>血糖照护人</th>
+                    <th>联系方式</th>
+                    <th>下单日期</th>
+                    <th>下单电话</th>
+                    <th>胰岛素泵</th>
+                    <th>手机/手表</th>
+                    <th>血糖监测</th>
+                    <th>用户渠道</th>
+                    <th>业务经理</th>
+                    <th>状态</th>
+                    <th class="sticky-col">操作</th>
+                  </tr>
+                </thead>
+                <tbody id="caseRows"></tbody>
+              </table>
+            </section>
+
+            <footer class="pager">
+              <button disabled>‹</button>
+              <button class="active">1</button>
+              <button>2</button>
+              <span>前往</span>
+              <input value="1" />
+              <span>页</span>
+            </footer>
+          </div>
+
+          <section class="sales-questionnaire-view hidden" id="salesQuestionnaireView" aria-label="销售部分问卷">
+            <aside class="sales-added-topics" aria-label="销售端新增以下题目">
+              <h3>销售端新增以下题目</h3>
+              <ul>
+                <li>联系电话</li>
+                <li>用泵人姓名（昵称）</li>
+                <li>出生日期</li>
+                <li>性别</li>
+                <li>身高</li>
+                <li>体重</li>
+                <li>糖尿病分型</li>
+                <li>确诊时间</li>
+                <li>糖尿病并发症</li>
+                <li>糖化血红蛋白 HbA1c</li>
+                <li>血糖监测方式</li>
+                <li>最近血糖达标率</li>
+                <li>血糖报告、截图</li>
+                <li>皮肤相关异常史</li>
+                <li>早餐时间</li>
+                <li>午餐时间</li>
+                <li>晚餐时间</li>
+                <li>用泵/用AAPS闭环软件主要想改善的问题</li>
+                <li>当前治疗方案</li>
+                <li>每日胰岛素用量和种类（笔）</li>
+                <li>每日胰岛素用量和种类（泵）</li>
+                <li>上传基础率分段截图</li>
+              </ul>
+            </aside>
+            <div class="sales-questionnaire-card">
+              <header class="sales-questionnaire-title">
+                <span>问卷详情</span>
+                <button type="button">×</button>
+              </header>
+              <form class="sales-form">
+                <label><span>业务经理 <strong>*</strong></span><input value="邵雯" /></label>
+                <label><span>用户姓名 <strong>*</strong></span><input placeholder="请输入用户姓名" /></label>
+                <label><span>下单电话 <strong>*</strong></span><input placeholder="请输入下单电话" /></label>
+                <label class="textarea-field"><span>收件地址 <strong>*</strong></span><textarea placeholder="请输入收件地址" maxlength="100"></textarea><em>0/100</em></label>
+                <label><span>下单时间 <strong>*</strong></span><input placeholder="请选择" /></label>
+                <label><span>安装时间 <strong>*</strong></span><input placeholder="请选择" /></label>
+                <label><span>安装方式 <strong>*</strong></span><select><option>请选择</option></select></label>
+                <label><span>用户渠道 <strong>*</strong></span><select><option>请选择</option></select></label>
+                <div class="sales-choice-row">
+                  <span>服务类型 <strong>*</strong></span>
+                  <button type="button">购买</button>
+                  <button type="button">试戴</button>
+                </div>
+                <label><span>泵型号 <strong>*</strong></span><select><option>请选择</option></select></label>
+                <div class="sales-choice-row" data-toggle-group="aapsDevice">
+                  <span>AAPS安装设备 <strong>*</strong></span>
+                  <button class="selected" type="button" data-toggle-value="phone">手机</button>
+                  <button type="button" data-toggle-value="watch">手表</button>
+                </div>
+                <label data-toggle-target="aapsDevice" data-show-when="phone"><span>手机型号 <strong>*</strong></span><input placeholder="请输入手机型号" /></label>
+                <label class="hidden" data-toggle-target="aapsDevice" data-show-when="watch"><span>手表型号 <strong>*</strong></span><input placeholder="请输入手表型号" /></label>
+                  <label><span>联系电话 <strong>*</strong></span><input value="17700000570" placeholder="请输入联系电话" /></label>
+                  <label><span>用泵人姓名（昵称） <strong>*</strong></span><input value="JJ" placeholder="请输入用泵人姓名或昵称" /></label>
+                  <label><span>出生日期 <strong>*</strong></span><input value="2008-07-01" /></label>
+                  <div class="sales-choice-row">
+                    <span>性别 <strong>*</strong></span>
+                    <button class="selected" type="button">男</button>
+                    <button type="button">女</button>
+                  </div>
+                  <label><span>身高（cm） <strong>*</strong></span><input value="1" /></label>
+                  <label><span>体重（kg） <strong>*</strong></span><input value="1" /></label>
+                  <label><span>糖尿病分型 <em>2/24</em> <strong>*</strong></span><select><option>请选择</option><option>T1DM（1型糖尿病）</option><option>T2DM（2型糖尿病）</option><option>GDM（妊娠糖尿病）</option><option>其他特定类型糖尿病</option></select></label>
+                  <label><span>确诊时间 <em>3/24</em> <strong>*</strong></span><input value="2026-07-17" /></label>
+
+                <section class="sales-section">
+                  <h3>一、疾病与血糖信息</h3>
+                  <div class="field-with-note">
+                    <aside class="field-note">选了“有”之后，具体疾病选项非必选</aside>
+                    <div class="sales-choice-row" data-toggle-group="complication">
+                      <span>糖尿病并发症 <em>5/24</em> <strong>*</strong></span>
+                      <button class="selected" type="button" data-toggle-value="none">无</button>
+                      <button type="button" data-toggle-value="has">有</button>
+                    </div>
+                  </div>
+                  <div class="sales-sub-options hidden" data-toggle-target="complication">
+                    <button type="button">肾病</button>
+                    <button type="button">视网膜病变</button>
+                    <button type="button">神经病变</button>
+                    <button type="button">糖尿病足</button>
+                    <button type="button">酮症酸中毒史</button>
+                    <button type="button">其他</button>
+                  </div>
+                  <label><span>糖化血红蛋白 HbA1c <em>11/26</em></span><select><option>医院静脉采血检测（近3个月内）</option></select></label>
+                  <label><span>检测日期 <strong>*</strong></span><input placeholder="请选择检测日期" /></label>
+                  <label><span>检测结果(%) <strong>*</strong></span><input placeholder="请输入检测结果" /></label>
+                  <div class="sales-choice-row triple">
+                    <span>血糖监测方式 <em>8/26</em> <strong>*</strong></span>
+                    <button class="selected" type="button">动态血糖仪</button>
+                    <button class="selected" type="button">指血血糖仪</button>
+                    <button type="button">未监测</button>
+                  </div>
+                  <label><span>动态血糖仪品牌 <strong>*</strong></span><select><option>硅基</option></select></label>
+                  <label><span>平均每月使用次数 <strong>*</strong></span><select><option>2次</option></select></label>
+                  <label><span>指尖血糖检测频率 <strong>*</strong></span><select><option>2次</option></select></label>
+                  <div class="field-with-note">
+                    <aside class="field-note">1、最近血糖达标率非必填<br />2、报告或截图必传</aside>
+                    <label><span>最近血糖达标率</span><input placeholder="请输入最近血糖达标率" /></label>
+                    <div class="upload-box sales-upload-full">点击上传血糖报告、截图 <strong>*</strong><span>0/9张</span></div>
+                  </div>
+                  <div class="field-with-note">
+                    <aside class="field-note">选了“有”之后，子题目都非必填</aside>
+                    <div class="sales-choice-row" data-toggle-group="skin">
+                      <span>皮肤相关异常史 <em>6/24</em> <strong>*</strong></span>
+                      <button class="selected" type="button" data-toggle-value="none">无</button>
+                      <button type="button" data-toggle-value="has">有</button>
+                    </div>
+                  </div>
+                  <div class="sales-skin-detail hidden" data-toggle-target="skin">
+                    <label><span>过敏原</span><input placeholder="请简要说明" /></label>
+                    <div class="sales-chip-row">
+                      <span>过敏表现</span>
+                      <div>
+                        <button type="button">瘙痒</button>
+                        <button type="button">红斑</button>
+                        <button type="button">水疱</button>
+                        <button type="button">红疹</button>
+                        <button type="button">其他</button>
+                      </div>
+                    </div>
+                    <div class="sales-chip-row">
+                      <span>皮肤异常史</span>
+                      <div>
+                        <button type="button">注射部位硬结/感染史</button>
+                        <button type="button">过敏性皮炎/湿疹</button>
+                        <button type="button">皮肤破溃/难愈合伤口</button>
+                      </div>
+                    </div>
+                    <label><span>其他皮肤异常</span><input placeholder="请简要说明" /></label>
+                  </div>
+                </section>
+
+                <section class="sales-section">
+                  <h3>二、饮食与期望</h3>
+                  <div class="sales-green-panel compact-meals">
+                    <label><span>早餐时间</span><input placeholder="请选择早餐时间" /></label>
+                    <label><span>午餐时间</span><input placeholder="请选择午餐时间" /></label>
+                    <label><span>晚餐时间</span><input placeholder="请选择晚餐时间" /></label>
+                  </div>
+                  <div class="sales-long-choice">
+                    <span>用泵/用AAPS闭环软件主要想改善的问题 <em>20/25</em> <strong>*</strong></span>
+                    <button type="button">血糖达标率（3.9-10mmol/L）控制在70%或以上</button>
+                    <button type="button">觉得血糖波动比较大，想要血糖更平稳</button>
+                    <button type="button">低血糖严重，夜间睡不好，想要改善夜间或者日间低血糖</button>
+                    <button type="button">高血糖严重，想要减少高血糖（不超过13.9mmol/L以上）</button>
+                    <button type="button">AAPS闭环可以帮忙控糖，想要减少我的控糖精力</button>
+                    <button type="button">胰岛素泵更方便控糖，减少打针次数</button>
+                  </div>
+                </section>
+
+                <section class="sales-section">
+                  <h3>三、治疗相关信息</h3>
+                  <label><span>当前治疗方案 <em>12/26</em> <strong>*</strong></span><select id="treatmentPlanSelect"><option value="pump">胰岛素泵</option><option value="pen">餐前+基础（胰岛素笔等）</option><option value="medicine">降糖药物治疗</option><option value="lifestyle">生活方式干预（饮食+运动）</option><option value="premix">预混（胰岛素笔等）</option></select></label>
+                  <div class="sales-green-panel hidden" data-plan-panel="pen">
+                    <b>每日胰岛素用量和种类（笔）</b>
+                    <label><span>餐前胰岛素注射种类 <strong>*</strong></span><select><option>其他</option></select></label>
+                    <label><span>其他种类</span><input placeholder="请输入" /></label>
+                    <div class="meal-dose">
+                      <b>三餐大剂量(U)</b>
+                      <label><span>早餐大剂量 <strong>*</strong></span><input placeholder="请输入早餐大剂量" /></label>
+                      <label><span>午餐大剂量 <strong>*</strong></span><input placeholder="请输入午餐大剂量" /></label>
+                      <label><span>晚餐大剂量 <strong>*</strong></span><input placeholder="请输入晚餐大剂量" /></label>
+                    </div>
+                    <label><span>基础胰岛素注射剂量(U)</span><input placeholder="请输入基础胰岛素注射剂量" /></label>
+                    <label><span>基础胰岛素种类 <strong>*</strong></span><select><option>请选择</option></select></label>
+                    <label><span>注射次数 <strong>*</strong></span><select><option>请选择</option></select></label>
+                    <label><span>胰岛素敏感系数(ISF)</span><input placeholder="请输入" /></label>
+                  </div>
+                  <div class="sales-green-panel" data-plan-panel="pump">
+                    <b>每日胰岛素用量和种类（泵）</b>
+                    <label><span>泵品牌/型号 <em>13/26</em> <strong>*</strong></span><select><option>请选择</option></select></label>
+                    <label><span>餐前胰岛素注射种类 <strong>*</strong></span><select><option>其他</option></select></label>
+                    <label><span>其他种类</span><input placeholder="请输入" /></label>
+                    <div class="meal-dose">
+                      <b>三餐大剂量(U)</b>
+                      <label><span>早餐大剂量 <strong>*</strong></span><input placeholder="请输入早餐大剂量" /></label>
+                      <label><span>午餐大剂量 <strong>*</strong></span><input placeholder="请输入午餐大剂量" /></label>
+                      <label><span>晚餐大剂量 <strong>*</strong></span><input placeholder="请输入晚餐大剂量" /></label>
+                    </div>
+                    <label><span>基础率分段和用量 <strong>*</strong></span><input value="基础率总量：0.00 U" /></label>
+                    <div class="upload-box">点击上传基础率分段截图(jpg、png)<span>0/9张</span></div>
+                    <label><span>胰岛素敏感系数(ISF)</span><input placeholder="请输入" /></label>
+                  </div>
+                </section>
+                <label class="textarea-field"><span>售前备注</span><textarea placeholder="如果涉及到用户推荐，请备注清楚原用户姓名和电话" maxlength="50"></textarea><em>0/50</em></label>
+
+                <div class="sales-form-actions">
+                  <button class="sales-reset" type="button">重置</button>
+                  <button class="sales-submit" type="button">提交</button>
+                </div>
+              </form>
+            </div>
+          </section>
+
+          <section class="station-mail-dialog hidden" id="stationMailDialog" aria-label="站内信弹窗">
+            <aside class="mail-rail">
+              <div class="mail-logo">糖</div>
+              <button class="rail-item active">公益咨询</button>
+              <button class="rail-item">密集照护期</button>
+              <button class="rail-item">随访期</button>
+              <button class="rail-item">个案用户</button>
+              <div class="rail-spacer"></div>
+              <button class="rail-icon">□</button>
+              <button class="rail-icon active">✉</button>
+              <button class="rail-icon">⚙</button>
+            </aside>
+            <div class="mail-content">
+              <header class="mail-titlebar">
+                <b>站内信</b>
+                <button class="mail-close" id="closeStationMail">×</button>
+              </header>
+              <div class="mail-list" id="stationMailRows"></div>
+            </div>
+          </section>
+          <div class="mail-dialog-backdrop hidden" id="stationMailBackdrop"></div>
+        </div>
+      </section>
+    </main>
+
+    <aside class="notes-panel" id="notesPanel" aria-label="修改点">
+      <h2>修改点</h2>
+      <div class="note-card" data-note="list">
+        <h3>收案状态</h3>
+        <p>收案任务状态调整为：待接收、已接收、待用户填写、用户填写中、用户已填写、已收案。</p>
+      </div>
+      <div class="note-card" data-note="notice">
+        <h3>待接收提醒</h3>
+        <p>患教端增加固定横幅，展示未确认接收的收案任务数量；点击“查看”打开站内信弹窗。</p>
+        <p>待接收站内信增加“确认”操作，确认后对应收案状态改为“已接收”，横幅数量同步减少；数量为 0 时横幅隐藏。</p>
+      </div>
+      <div class="note-card" data-note="receive">
+        <h3>收案弹窗</h3>
+        <p>操作列主按钮按状态展示：未提交问卷阶段显示“收案准备”，用户已填写后显示“处理收案”。</p>
+        <p>两种弹窗顶部信息保持一致，均展示患者姓名、下单电话、问卷总得分、当前步骤、售前备注和复制问卷链接。</p>
+        <p>“收案准备”包含创建看板、创建群聊；试戴用户仅需创建看板；退出后再次打开继续上次未完成步骤。</p>
+        <p>“处理收案”仅用于信息核对和完成收案，不再展示创建看板、创建群聊，且不展示单步骤进度条。</p>
+      </div>
+      <div class="note-card">
+        <h3>问卷代填</h3>
+        <p>收案管理列表操作列增加“代填”入口，仅“待用户填写”“用户填写中”状态可点击；点击后打开患者部分问卷抽屉。</p>
+      </div>
+      <div class="note-card" data-note="sales-questionnaire">
+        <h3>销售部分问卷</h3>
+        <p>患者填写时可继续修改销售已填内容。</p>
+        <p>同一题支持按销售端、患者端分别配置必填规则；两端提交时分别按本端规则校验。</p>
+        <p>如果本页中未展示的题目，就算满足原有显隐逻辑，也不在销售部分展示，例如吸烟、饮酒。</p>
+      </div>
+    </aside>
+  </div>
+
+  <div class="drawer-backdrop hidden" id="autofillDrawer">
+    <aside class="autofill-drawer" role="dialog" aria-modal="true" aria-label="问卷代填">
+      <header class="drawer-titlebar">
+        <span>问卷代填</span>
+        <button id="closeAutofill">×</button>
+      </header>
+      <div class="drawer-body">
+        <section class="drawer-section patient-section">
+          <h3>患者部分</h3>
+          <div class="question-card">
+            <div class="question-title">
+              <b>一、基础信息</b>
+              <em>1/24</em>
+            </div>
+            <label>姓名 <strong>*</strong><input id="autofillName" value="JJ" /></label>
+            <label>联系电话 <strong>*</strong><input id="autofillPhone" value="17700000570" /></label>
+            <div class="radio-row">
+              <span>性别 <strong>*</strong></span>
+              <button type="button">男</button>
+              <button class="selected" type="button">女</button>
+            </div>
+            <label>出生日期 <strong>*</strong><input value="2026-07-17" /></label>
+
+            <fieldset class="caregiver-box">
+              <legend>主要照护人信息 <small>请您确认好主要照护人，便于医护老师与您沟通</small></legend>
+              <label>亲属关系 <strong>*</strong><select><option>请选择亲属关系</option><option>母亲</option><option>父亲</option></select></label>
+              <label>姓名/称呼 <strong>*</strong><input placeholder="请输入照护人的姓名或者昵称" /></label>
+              <label>联系电话 <strong>*</strong><input placeholder="请输入照护人的电话" /></label>
+            </fieldset>
+
+            <label>身高（cm） <strong>*</strong><input placeholder="请输入身高" /></label>
+            <label>体重（kg） <strong>*</strong><input placeholder="请输入体重" /></label>
+          </div>
+        </section>
+      </div>
+      <footer class="drawer-actions">
+        <button class="primary-btn green-btn" id="nextAutofillPage">下一页</button>
+      </footer>
+    </aside>
+  </div>
+
+  <div class="modal-backdrop hidden" id="receiveModal">
+    <section class="case-modal" role="dialog" aria-modal="true" aria-label="收案弹窗">
+      <header class="modal-titlebar">
+        <span id="modalTitle">收案弹窗</span>
+        <button id="closeReceive">×</button>
+      </header>
+      <div class="case-summary">
+        <h2><span id="receiveHeading">收案准备</span> - <span id="caseName">用户41807</span></h2>
+        <div class="questionnaire-link">
+          <button id="copyQuestionnaireLink" type="button">复制问卷链接</button>
+        </div>
+        <div class="summary-grid">
+          <span>患者姓名：<b id="summaryName">用户41807</b></span>
+          <span>下单电话：<b id="summaryPhone">13800041807</b></span>
+          <span class="questionnaire-result">问卷总得分：<mark id="scoreText">20分</mark></span>
+          <span>当前步骤：<b id="stepName">信息核对</b></span>
+          <span class="questionnaire-result">售前备注：<b id="remarkText">还没收案时，年龄没显示，为空</b></span>
+        </div>
+      </div>
+
+      <div class="stepper" id="stepper">
+        <button class="step active" data-mode="process" data-step="1"><span>1</span>信息核对</button>
+        <button class="step" data-mode="prepare" data-step="2"><span>1</span>创建看板</button>
+        <button class="step" data-mode="prepare" data-step="3"><span>2</span>创建群聊</button>
+      </div>
+
+      <div class="step-body" data-step-body="1">
+        <h3>第一部分：可同步至电子病历的信息</h3>
+        <table class="check-table">
+          <thead><tr><th><input type="checkbox" checked /></th><th>属性</th><th>更新前</th><th>更新后</th><th>附件</th><th>得分</th></tr></thead>
+          <tbody>
+            <tr><td><input type="checkbox" checked /></td><td>身高</td><td>170cm</td><td><b>175cm</b></td><td>--</td><td>--</td></tr>
+            <tr><td><input type="checkbox" checked /></td><td>体重</td><td>65kg</td><td><b>70kg</b></td><td>--</td><td>--</td></tr>
+            <tr><td><input type="checkbox" checked /></td><td>设备品牌</td><td>未绑定</td><td><b>微泰</b></td><td>--</td><td>--</td></tr>
+            <tr><td><input type="checkbox" checked /></td><td>基础率分段和用量</td><td>--</td><td><b>00:00-08:00 0.5u/h<br />08:00-12:00 0.8u/h<br />12:00-18:00 0.6u/h</b></td><td><a>xxx.pdf</a></td><td>--</td></tr>
+          </tbody>
+        </table>
+        <h3 class="orange">第二部分：其他问卷核对内容</h3>
+        <table class="check-table compact-table">
+          <thead><tr><th>题目</th><th>选项</th><th>得分</th></tr></thead>
+          <tbody>
+            <tr><td>关注血糖的频率</td><td>会频繁看血糖</td><td><strong class="score">2分</strong></td></tr>
+            <tr><td>Q11. 皮肤相关异常史</td><td>过敏原：动态CGM胶布；过敏表现：红肿、瘙痒</td><td><strong class="score">5分</strong></td></tr>
+          </tbody>
+        </table>
+        <div class="modal-actions"><button class="primary-btn" id="finishReceive">完成收案</button></div>
+      </div>
+
+      <div class="step-body hidden" data-step-body="2">
+        <div class="empty-card">
+          <b>创建类型：个案</b>
+          <p>服务看板名称：<span id="boardName">收案准备-用户41807</span></p>
+        </div>
+        <div class="modal-actions"><button class="primary-btn next-step" data-next="3">创建，下一步</button></div>
+      </div>
+
+      <div class="step-body hidden" data-step-body="3">
+        <form class="group-form">
+          <label>群聊名称：<input id="groupName" value="收案准备-用户41807" /></label>
+          <label>群聊描述：<textarea placeholder="可不填"></textarea></label>
+        </form>
+        <div class="modal-actions"><button class="primary-btn" id="finishPrep">完成准备</button></div>
+      </div>
+    </section>
+  </div>
+
+  <div class="toast hidden" id="toast">已更新演示状态</div>
+  <script src="app.js"></script>
+</body>
+</html>
