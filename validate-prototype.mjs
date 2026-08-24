@@ -54,8 +54,10 @@ const pumpUserFieldVisible = await page.locator("#salesQuestionnaireView label",
 const glucoseTargetRateVisible = await page.locator("#salesQuestionnaireView label", { hasText: "最近血糖达标率" }).count();
 const glucoseReportUploadVisible = await page.locator("#salesQuestionnaireView .upload-box", { hasText: "点击上传血糖报告、截图" }).count();
 const glucoseReportUploadRequired = await page.locator("#salesQuestionnaireView .upload-box", { hasText: "点击上传血糖报告、截图" }).locator("strong").count();
-const glucoseReportUploadNoteVisible = await page.locator("#salesQuestionnaireView .field-note", { hasText: "1、最近血糖达标率非必填" }).locator(":scope", { hasText: "2、报告或截图必传" }).count();
+const glucoseReportUploadNoteVisible = await page.locator("#salesQuestionnaireView .field-note", { hasText: "1、最近血糖达标率非必填" }).locator(":scope", { hasText: "2、报告或截图非必传" }).count();
 const fieldNotesVisible = await page.locator("#salesQuestionnaireView .field-note").count();
+const mealTimeFieldsVisible = await page.locator("#salesQuestionnaireView", { hasText: "早餐时间" }).count() + await page.locator("#salesQuestionnaireView", { hasText: "午餐时间" }).count() + await page.locator("#salesQuestionnaireView", { hasText: "晚餐时间" }).count();
+const relatedInfoRequiredMarks = await page.locator("#salesQuestionnaireView .sales-section", { hasText: "三、相关信息" }).locator("strong").count();
 const fieldNotesLeftOfCard = await page.locator("#salesQuestionnaireView").evaluate(root => {
   const cardLeft = root.querySelector(".sales-questionnaire-card").getBoundingClientRect().left;
   return Array.from(root.querySelectorAll(".field-note")).every(note => note.getBoundingClientRect().right < cardLeft);
@@ -86,19 +88,21 @@ const salesFieldOrder = await page.locator("#salesQuestionnaireView").evaluate(r
     "体重（kg）",
     "糖尿病分型 2/24",
     "确诊时间 3/24",
-    "糖尿病并发症 5/24",
-    "糖化血红蛋白 HbA1c 11/26",
-    "血糖监测方式 8/26",
-    "最近血糖达标率",
-    "点击上传血糖报告、截图 *0/9张",
-    "皮肤相关异常史 6/24",
-    "早餐时间",
-    "午餐时间",
-    "晚餐时间",
-    "用泵/用AAPS闭环软件主要想改善的问题 20/25",
     "当前治疗方案 12/26",
     "每日胰岛素用量和种类（泵）",
     "点击上传基础率分段截图(jpg、png)0/9张",
+    "糖尿病并发症 5/24",
+    "皮肤相关异常史 6/24",
+    "血糖监测方式 8/26",
+    "动态血糖仪品牌",
+    "平均每月使用次数",
+    "指尖血糖检测频率",
+    "最近血糖达标率",
+    "点击上传血糖报告、截图0/9张",
+    "糖化血红蛋白 HbA1c 11/26",
+    "检测日期",
+    "检测结果(%)",
+    "用泵/用AAPS闭环软件主要想改善的问题 20/25",
     "售前备注"
   ];
   const positions = expected.map(label => fields.findIndex(field => field.includes(label)));
@@ -203,7 +207,7 @@ const autofillDrawerHidden = await page.locator("#autofillDrawer.hidden").count(
 await browser.close();
 
 console.log(JSON.stringify({
-  ok: consoleErrors.length === 0 && failedRequests.length === 0 && tableRows >= 8 && salesQuestionnaireVisible === 1 && salesNotesVisible === 1 && salesNoteVisible === 1 && salesPatientEditableNoteVisible === 1 && salesHiddenQuestionNoteVisible === 1 && healthcareNotesVisibleInSales === 0 && salesBrowserTopHidden === 1 && salesAppTopbarHidden === 1 && salesAddedTopicsTitleVisible === 1 && salesAddedTopicsCount === 22 && listBrowserTopVisible === 1 && listNotesVisible === 1 && salesNoteHiddenInList === 1 && salesRequiredFields >= 30 && salesSubmitVisible === 1 && logisticsFieldVisible === 0 && userNameFieldVisible === 1 && contactFieldVisible === 1 && pumpUserFieldVisible === 1 && glucoseTargetRateVisible === 1 && glucoseReportUploadVisible === 1 && glucoseReportUploadRequired === 1 && glucoseReportUploadNoteVisible === 1 && fieldNotesVisible === 3 && fieldNotesLeftOfCard === true && salesFieldOrder.ok === true && phoneModelVisibleInitial === 1 && watchModelHiddenInitial === 1 && watchModelVisibleAfterClick === 1 && phoneModelHiddenAfterClick === 1 && complicationDetailVisible === 1 && complicationOptionVisible === 1 && complicationRequiredMarks === 0 && skinDetailVisible === 1 && skinDetailFieldsVisible === 1 && skinDetailRequiredMarks === 0 && pumpPanelVisibleInitial === 1 && penPanelHiddenInitial === 1 && penPanelVisibleAfterSelect === 1 && pumpPanelHiddenAfterSelect === 1 && salesNewQuestionSections === 3 && Number(pendingAfterOneConfirm) === Number(pendingBefore) - 1 && enabledPushButtons === 7 && enabledAutofillButtons === 3 && disabledAutofillButtons === 5 && enabledDeleteButtons === 1 && disabledDeleteButtons === 7 && prepButtons === 6 && processButtons === 2 && disabledProcessButtons === 1 && finishedActionButtons === 0 && receiveActionButtons === tableRows && autofillSalesSectionVisible === 0 && reopenedPrepStep === "创建群聊" && trialUserControlCount === 0 && prevStepButtonCount === 0 && trialPrepStep === "创建看板" && trialVisiblePrepareSteps === 1 && trialGroupBodyVisible === 0 && trialFinishButtonVisible === 1 && processStep === "信息核对" && visiblePrepareStepsInProcess === 0 && processStepperHidden === 1 && prepQuestionnaireLinkVisible === 1 && prepQuestionnaireResultsVisible === 2 && processQuestionnaireLinkVisible === 1 && processQuestionnaireResultsVisible === 2 && autofillDrawerHidden === 1,
+  ok: consoleErrors.length === 0 && failedRequests.length === 0 && tableRows >= 8 && salesQuestionnaireVisible === 1 && salesNotesVisible === 1 && salesNoteVisible === 1 && salesPatientEditableNoteVisible === 1 && salesHiddenQuestionNoteVisible === 1 && healthcareNotesVisibleInSales === 0 && salesBrowserTopHidden === 1 && salesAppTopbarHidden === 1 && salesAddedTopicsTitleVisible === 1 && salesAddedTopicsCount === 19 && listBrowserTopVisible === 1 && listNotesVisible === 1 && salesNoteHiddenInList === 1 && salesRequiredFields >= 25 && salesSubmitVisible === 1 && logisticsFieldVisible === 0 && userNameFieldVisible === 1 && contactFieldVisible === 1 && pumpUserFieldVisible === 1 && glucoseTargetRateVisible === 1 && glucoseReportUploadVisible === 1 && glucoseReportUploadRequired === 0 && glucoseReportUploadNoteVisible === 1 && fieldNotesVisible === 3 && mealTimeFieldsVisible === 0 && relatedInfoRequiredMarks === 3 && fieldNotesLeftOfCard === true && salesFieldOrder.ok === true && phoneModelVisibleInitial === 1 && watchModelHiddenInitial === 1 && watchModelVisibleAfterClick === 1 && phoneModelHiddenAfterClick === 1 && complicationDetailVisible === 1 && complicationOptionVisible === 1 && complicationRequiredMarks === 0 && skinDetailVisible === 1 && skinDetailFieldsVisible === 1 && skinDetailRequiredMarks === 0 && pumpPanelVisibleInitial === 1 && penPanelHiddenInitial === 1 && penPanelVisibleAfterSelect === 1 && pumpPanelHiddenAfterSelect === 1 && salesNewQuestionSections === 3 && Number(pendingAfterOneConfirm) === Number(pendingBefore) - 1 && enabledPushButtons === 7 && enabledAutofillButtons === 3 && disabledAutofillButtons === 5 && enabledDeleteButtons === 1 && disabledDeleteButtons === 7 && prepButtons === 6 && processButtons === 2 && disabledProcessButtons === 1 && finishedActionButtons === 0 && receiveActionButtons === tableRows && autofillSalesSectionVisible === 0 && reopenedPrepStep === "创建群聊" && trialUserControlCount === 0 && prevStepButtonCount === 0 && trialPrepStep === "创建看板" && trialVisiblePrepareSteps === 1 && trialGroupBodyVisible === 0 && trialFinishButtonVisible === 1 && processStep === "信息核对" && visiblePrepareStepsInProcess === 0 && processStepperHidden === 1 && prepQuestionnaireLinkVisible === 1 && prepQuestionnaireResultsVisible === 2 && processQuestionnaireLinkVisible === 1 && processQuestionnaireResultsVisible === 2 && autofillDrawerHidden === 1,
   activeNav,
   tableRows,
   salesQuestionnaireVisible,
@@ -230,6 +234,8 @@ console.log(JSON.stringify({
   glucoseReportUploadRequired,
   glucoseReportUploadNoteVisible,
   fieldNotesVisible,
+  mealTimeFieldsVisible,
+  relatedInfoRequiredMarks,
   fieldNotesLeftOfCard,
   salesFieldOrder,
   phoneModelVisibleInitial,

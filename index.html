@@ -175,9 +175,6 @@
                 <li>最近血糖达标率</li>
                 <li>血糖报告、截图</li>
                 <li>皮肤相关异常史</li>
-                <li>早餐时间</li>
-                <li>午餐时间</li>
-                <li>晚餐时间</li>
                 <li>用泵/用AAPS闭环软件主要想改善的问题</li>
                 <li>当前治疗方案</li>
                 <li>每日胰岛素用量和种类（笔）</li>
@@ -212,6 +209,9 @@
                 </div>
                 <label data-toggle-target="aapsDevice" data-show-when="phone"><span>手机型号 <strong>*</strong></span><input placeholder="请输入手机型号" /></label>
                 <label class="hidden" data-toggle-target="aapsDevice" data-show-when="watch"><span>手表型号 <strong>*</strong></span><input placeholder="请输入手表型号" /></label>
+
+                <section class="sales-section">
+                  <h3>一、基本信息</h3>
                   <label><span>联系电话 <strong>*</strong></span><input value="17700000570" placeholder="请输入联系电话" /></label>
                   <label><span>用泵人姓名（昵称） <strong>*</strong></span><input value="JJ" placeholder="请输入用泵人姓名或昵称" /></label>
                   <label><span>出生日期 <strong>*</strong></span><input value="2008-07-01" /></label>
@@ -224,9 +224,45 @@
                   <label><span>体重（kg） <strong>*</strong></span><input value="1" /></label>
                   <label><span>糖尿病分型 <em>2/24</em> <strong>*</strong></span><select><option>请选择</option><option>T1DM（1型糖尿病）</option><option>T2DM（2型糖尿病）</option><option>GDM（妊娠糖尿病）</option><option>其他特定类型糖尿病</option></select></label>
                   <label><span>确诊时间 <em>3/24</em> <strong>*</strong></span><input value="2026-07-17" /></label>
+                </section>
 
                 <section class="sales-section">
-                  <h3>一、疾病与血糖信息</h3>
+                  <h3>二、治疗方案</h3>
+                  <label><span>当前治疗方案 <em>12/26</em> <strong>*</strong></span><select id="treatmentPlanSelect"><option value="pump">胰岛素泵</option><option value="pen">餐前+基础（胰岛素笔等）</option><option value="medicine">降糖药物治疗</option><option value="lifestyle">生活方式干预（饮食+运动）</option><option value="premix">预混（胰岛素笔等）</option></select></label>
+                  <div class="sales-green-panel hidden" data-plan-panel="pen">
+                    <b>每日胰岛素用量和种类（笔）</b>
+                    <label><span>餐前胰岛素注射种类 <strong>*</strong></span><select><option>其他</option></select></label>
+                    <label><span>其他种类</span><input placeholder="请输入" /></label>
+                    <div class="meal-dose">
+                      <b>三餐大剂量(U)</b>
+                      <label><span>早餐大剂量 <strong>*</strong></span><input placeholder="请输入早餐大剂量" /></label>
+                      <label><span>午餐大剂量 <strong>*</strong></span><input placeholder="请输入午餐大剂量" /></label>
+                      <label><span>晚餐大剂量 <strong>*</strong></span><input placeholder="请输入晚餐大剂量" /></label>
+                    </div>
+                    <label><span>基础胰岛素注射剂量(U)</span><input placeholder="请输入基础胰岛素注射剂量" /></label>
+                    <label><span>基础胰岛素种类 <strong>*</strong></span><select><option>请选择</option></select></label>
+                    <label><span>注射次数 <strong>*</strong></span><select><option>请选择</option></select></label>
+                    <label><span>胰岛素敏感系数(ISF)</span><input placeholder="请输入" /></label>
+                  </div>
+                  <div class="sales-green-panel" data-plan-panel="pump">
+                    <b>每日胰岛素用量和种类（泵）</b>
+                    <label><span>泵品牌/型号 <em>13/26</em> <strong>*</strong></span><select><option>请选择</option></select></label>
+                    <label><span>餐前胰岛素注射种类 <strong>*</strong></span><select><option>其他</option></select></label>
+                    <label><span>其他种类</span><input placeholder="请输入" /></label>
+                    <div class="meal-dose">
+                      <b>三餐大剂量(U)</b>
+                      <label><span>早餐大剂量 <strong>*</strong></span><input placeholder="请输入早餐大剂量" /></label>
+                      <label><span>午餐大剂量 <strong>*</strong></span><input placeholder="请输入午餐大剂量" /></label>
+                      <label><span>晚餐大剂量 <strong>*</strong></span><input placeholder="请输入晚餐大剂量" /></label>
+                    </div>
+                    <label><span>基础率分段和用量 <strong>*</strong></span><input value="基础率总量：0.00 U" /></label>
+                    <div class="upload-box">点击上传基础率分段截图(jpg、png)<span>0/9张</span></div>
+                    <label><span>胰岛素敏感系数(ISF)</span><input placeholder="请输入" /></label>
+                  </div>
+                </section>
+
+                <section class="sales-section">
+                  <h3>三、相关信息</h3>
                   <div class="field-with-note">
                     <aside class="field-note">选了“有”之后，具体疾病选项非必选</aside>
                     <div class="sales-choice-row" data-toggle-group="complication">
@@ -242,23 +278,6 @@
                     <button type="button">糖尿病足</button>
                     <button type="button">酮症酸中毒史</button>
                     <button type="button">其他</button>
-                  </div>
-                  <label><span>糖化血红蛋白 HbA1c <em>11/26</em></span><select><option>医院静脉采血检测（近3个月内）</option></select></label>
-                  <label><span>检测日期 <strong>*</strong></span><input placeholder="请选择检测日期" /></label>
-                  <label><span>检测结果(%) <strong>*</strong></span><input placeholder="请输入检测结果" /></label>
-                  <div class="sales-choice-row triple">
-                    <span>血糖监测方式 <em>8/26</em> <strong>*</strong></span>
-                    <button class="selected" type="button">动态血糖仪</button>
-                    <button class="selected" type="button">指血血糖仪</button>
-                    <button type="button">未监测</button>
-                  </div>
-                  <label><span>动态血糖仪品牌 <strong>*</strong></span><select><option>硅基</option></select></label>
-                  <label><span>平均每月使用次数 <strong>*</strong></span><select><option>2次</option></select></label>
-                  <label><span>指尖血糖检测频率 <strong>*</strong></span><select><option>2次</option></select></label>
-                  <div class="field-with-note">
-                    <aside class="field-note">1、最近血糖达标率非必填<br />2、报告或截图必传</aside>
-                    <label><span>最近血糖达标率</span><input placeholder="请输入最近血糖达标率" /></label>
-                    <div class="upload-box sales-upload-full">点击上传血糖报告、截图 <strong>*</strong><span>0/9张</span></div>
                   </div>
                   <div class="field-with-note">
                     <aside class="field-note">选了“有”之后，子题目都非必填</aside>
@@ -290,58 +309,31 @@
                     </div>
                     <label><span>其他皮肤异常</span><input placeholder="请简要说明" /></label>
                   </div>
-                </section>
-
-                <section class="sales-section">
-                  <h3>二、饮食与期望</h3>
-                  <div class="sales-green-panel compact-meals">
-                    <label><span>早餐时间</span><input placeholder="请选择早餐时间" /></label>
-                    <label><span>午餐时间</span><input placeholder="请选择午餐时间" /></label>
-                    <label><span>晚餐时间</span><input placeholder="请选择晚餐时间" /></label>
+                  <div class="sales-choice-row triple">
+                    <span>血糖监测方式 <em>8/26</em> <strong>*</strong></span>
+                    <button class="selected" type="button">动态血糖仪</button>
+                    <button class="selected" type="button">指血血糖仪</button>
+                    <button type="button">未监测</button>
                   </div>
+                  <label><span>动态血糖仪品牌</span><select><option>硅基</option></select></label>
+                  <label><span>平均每月使用次数</span><select><option>2次</option></select></label>
+                  <label><span>指尖血糖检测频率</span><select><option>2次</option></select></label>
+                  <div class="field-with-note">
+                    <aside class="field-note">1、最近血糖达标率非必填<br />2、报告或截图非必传</aside>
+                    <label><span>最近血糖达标率</span><input placeholder="请输入最近血糖达标率" /></label>
+                    <div class="upload-box sales-upload-full">点击上传血糖报告、截图<span>0/9张</span></div>
+                  </div>
+                  <label><span>糖化血红蛋白 HbA1c <em>11/26</em></span><select><option>医院静脉采血检测（近3个月内）</option></select></label>
+                  <label><span>检测日期</span><input placeholder="请选择检测日期" /></label>
+                  <label><span>检测结果(%)</span><input placeholder="请输入检测结果" /></label>
                   <div class="sales-long-choice">
-                    <span>用泵/用AAPS闭环软件主要想改善的问题 <em>20/25</em> <strong>*</strong></span>
+                    <span>用泵/用AAPS闭环软件主要想改善的问题 <em>20/25</em></span>
                     <button type="button">血糖达标率（3.9-10mmol/L）控制在70%或以上</button>
                     <button type="button">觉得血糖波动比较大，想要血糖更平稳</button>
                     <button type="button">低血糖严重，夜间睡不好，想要改善夜间或者日间低血糖</button>
                     <button type="button">高血糖严重，想要减少高血糖（不超过13.9mmol/L以上）</button>
                     <button type="button">AAPS闭环可以帮忙控糖，想要减少我的控糖精力</button>
                     <button type="button">胰岛素泵更方便控糖，减少打针次数</button>
-                  </div>
-                </section>
-
-                <section class="sales-section">
-                  <h3>三、治疗相关信息</h3>
-                  <label><span>当前治疗方案 <em>12/26</em> <strong>*</strong></span><select id="treatmentPlanSelect"><option value="pump">胰岛素泵</option><option value="pen">餐前+基础（胰岛素笔等）</option><option value="medicine">降糖药物治疗</option><option value="lifestyle">生活方式干预（饮食+运动）</option><option value="premix">预混（胰岛素笔等）</option></select></label>
-                  <div class="sales-green-panel hidden" data-plan-panel="pen">
-                    <b>每日胰岛素用量和种类（笔）</b>
-                    <label><span>餐前胰岛素注射种类 <strong>*</strong></span><select><option>其他</option></select></label>
-                    <label><span>其他种类</span><input placeholder="请输入" /></label>
-                    <div class="meal-dose">
-                      <b>三餐大剂量(U)</b>
-                      <label><span>早餐大剂量 <strong>*</strong></span><input placeholder="请输入早餐大剂量" /></label>
-                      <label><span>午餐大剂量 <strong>*</strong></span><input placeholder="请输入午餐大剂量" /></label>
-                      <label><span>晚餐大剂量 <strong>*</strong></span><input placeholder="请输入晚餐大剂量" /></label>
-                    </div>
-                    <label><span>基础胰岛素注射剂量(U)</span><input placeholder="请输入基础胰岛素注射剂量" /></label>
-                    <label><span>基础胰岛素种类 <strong>*</strong></span><select><option>请选择</option></select></label>
-                    <label><span>注射次数 <strong>*</strong></span><select><option>请选择</option></select></label>
-                    <label><span>胰岛素敏感系数(ISF)</span><input placeholder="请输入" /></label>
-                  </div>
-                  <div class="sales-green-panel" data-plan-panel="pump">
-                    <b>每日胰岛素用量和种类（泵）</b>
-                    <label><span>泵品牌/型号 <em>13/26</em> <strong>*</strong></span><select><option>请选择</option></select></label>
-                    <label><span>餐前胰岛素注射种类 <strong>*</strong></span><select><option>其他</option></select></label>
-                    <label><span>其他种类</span><input placeholder="请输入" /></label>
-                    <div class="meal-dose">
-                      <b>三餐大剂量(U)</b>
-                      <label><span>早餐大剂量 <strong>*</strong></span><input placeholder="请输入早餐大剂量" /></label>
-                      <label><span>午餐大剂量 <strong>*</strong></span><input placeholder="请输入午餐大剂量" /></label>
-                      <label><span>晚餐大剂量 <strong>*</strong></span><input placeholder="请输入晚餐大剂量" /></label>
-                    </div>
-                    <label><span>基础率分段和用量 <strong>*</strong></span><input value="基础率总量：0.00 U" /></label>
-                    <div class="upload-box">点击上传基础率分段截图(jpg、png)<span>0/9张</span></div>
-                    <label><span>胰岛素敏感系数(ISF)</span><input placeholder="请输入" /></label>
                   </div>
                 </section>
                 <label class="textarea-field"><span>售前备注</span><textarea placeholder="如果涉及到用户推荐，请备注清楚原用户姓名和电话" maxlength="50"></textarea><em>0/50</em></label>
