@@ -2,6 +2,10 @@
 
 这是收案线上化改造的内部评审原型，当前用于患教端收案管理和销售部分问卷的页面演示。
 
+## 在线预览
+
+https://mosyoung0710-ai.github.io/case-intake-online-prototype/
+
 ## 文件说明
 
 - `index.html`：原型页面入口
@@ -17,4 +21,4 @@
 
 ## 说明
 
-本仓库当前为私有仓库，未启用 GitHub Pages。
+本仓库当前为公开仓库，已启用 GitHub Pages。
