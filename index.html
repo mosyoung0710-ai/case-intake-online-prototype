@@ -74,7 +74,7 @@
               <button>分组管理</button>
               <button>建群管理</button>
               <button>交班管理</button>
-              <button class="active case-tab">收案管理<span class="tab-alert" id="pendingDot" aria-label="有待确认收案任务"></span></button>
+              <button class="active case-tab">收案管理<span class="tab-alert" id="pendingDot" aria-label="待确认收案任务数"></span></button>
             </section>
 
             <section class="filters">
@@ -200,6 +200,7 @@
                 </div>
                 <label data-toggle-target="aapsDevice" data-show-when="phone"><span>手机型号 <strong>*</strong></span><input placeholder="请输入手机型号" /></label>
                 <label class="hidden" data-toggle-target="aapsDevice" data-show-when="watch"><span>手表型号 <strong>*</strong></span><input placeholder="请输入手表型号" /></label>
+                <label class="textarea-field"><span>售前备注</span><textarea placeholder="如果涉及到用户推荐，请备注清楚原用户姓名和电话" maxlength="50"></textarea><em>0/50</em></label>
 
                 <section class="sales-section">
                   <h3>一、基本信息</h3>
@@ -213,13 +214,13 @@
                   </div>
                   <label><span>身高（cm） <strong>*</strong></span><input value="1" /></label>
                   <label><span>体重（kg） <strong>*</strong></span><input value="1" /></label>
-                  <label><span>糖尿病分型 <em>2/24</em> <strong>*</strong></span><select><option>请选择</option><option>T1DM（1型糖尿病）</option><option>T2DM（2型糖尿病）</option><option>GDM（妊娠糖尿病）</option><option>其他特定类型糖尿病</option></select></label>
-                  <label><span>确诊时间 <em>3/24</em> <strong>*</strong></span><input value="2026-07-17" /></label>
+                  <label><span>糖尿病分型 <strong>*</strong></span><select><option>请选择</option><option>T1DM（1型糖尿病）</option><option>T2DM（2型糖尿病）</option><option>GDM（妊娠糖尿病）</option><option>其他特定类型糖尿病</option></select></label>
+                  <label><span>确诊时间 <strong>*</strong></span><input value="2026-07-17" /></label>
                 </section>
 
                 <section class="sales-section">
                   <h3>二、治疗方案</h3>
-                  <label><span>当前治疗方案 <em>12/26</em> <strong>*</strong></span><select id="treatmentPlanSelect"><option value="pump">胰岛素泵</option><option value="pen">餐前+基础（胰岛素笔等）</option><option value="medicine">降糖药物治疗</option><option value="lifestyle">生活方式干预（饮食+运动）</option><option value="premix">预混（胰岛素笔等）</option></select></label>
+                  <label><span>当前治疗方案 <strong>*</strong></span><select id="treatmentPlanSelect"><option value="pump">胰岛素泵</option><option value="pen">餐前+基础（胰岛素笔等）</option><option value="medicine">降糖药物治疗</option><option value="lifestyle">生活方式干预（饮食+运动）</option><option value="premix">预混（胰岛素笔等）</option></select></label>
                   <div class="sales-green-panel hidden" data-plan-panel="pen">
                     <b>每日胰岛素用量和种类（笔）</b>
                     <label><span>餐前胰岛素注射种类 <strong>*</strong></span><select><option>其他</option></select></label>
@@ -230,14 +231,27 @@
                       <label><span>午餐大剂量 <strong>*</strong></span><input placeholder="请输入午餐大剂量" /></label>
                       <label><span>晚餐大剂量 <strong>*</strong></span><input placeholder="请输入晚餐大剂量" /></label>
                     </div>
-                    <label><span>基础胰岛素注射剂量(U)</span><input placeholder="请输入基础胰岛素注射剂量" /></label>
                     <label><span>基础胰岛素种类 <strong>*</strong></span><select><option>请选择</option></select></label>
-                    <label><span>注射次数 <strong>*</strong></span><select><option>请选择</option></select></label>
-                    <label><span>胰岛素敏感系数(ISF)</span><input placeholder="请输入" /></label>
+                    <label><span>注射次数 <strong>*</strong></span><select id="injectionCountSelect"><option value="0">0次</option><option value="1">1次</option><option value="2" selected>2次</option></select></label>
+                    <div class="injection-time-dose" id="injectionTimeDose">
+                      <div class="injection-dose-row" data-injection-row="1">
+                        <input placeholder="请选择注射时间" />
+                        <div class="unit-input"><input placeholder="请输入注射剂量" /><span>U</span></div>
+                      </div>
+                      <div class="injection-dose-row" data-injection-row="2">
+                        <input placeholder="请选择注射时间" />
+                        <div class="unit-input"><input placeholder="请输入注射剂量" /><span>U</span></div>
+                      </div>
+                    </div>
+                  <div class="field-with-note panel-field-note">
+                    <aside class="field-note">改为系统计算，=基础胰岛素注射剂量之和</aside>
+                    <label><span>基础胰岛素注射剂量(U)</span><input placeholder></label>
+                  </div>
+                    <label><span>胰岛素敏感系数(ISF)</span><input placeholder></label>
                   </div>
                   <div class="sales-green-panel" data-plan-panel="pump">
                     <b>每日胰岛素用量和种类（泵）</b>
-                    <label><span>泵品牌/型号 <em>13/26</em> <strong>*</strong></span><select><option>请选择</option></select></label>
+                    <label><span>泵品牌/型号 <strong>*</strong></span><select><option>请选择</option></select></label>
                     <label><span>餐前胰岛素注射种类 <strong>*</strong></span><select><option>其他</option></select></label>
                     <label><span>其他种类</span><input placeholder="请输入" /></label>
                     <div class="meal-dose">
@@ -257,7 +271,7 @@
                   <div class="field-with-note">
                     <aside class="field-note">选了“有”之后，具体疾病选项非必选</aside>
                     <div class="sales-choice-row" data-toggle-group="complication">
-                      <span>糖尿病并发症 <em>5/24</em> <strong>*</strong></span>
+                      <span>糖尿病并发症 <strong>*</strong></span>
                       <button class="selected" type="button" data-toggle-value="none">无</button>
                       <button type="button" data-toggle-value="has">有</button>
                     </div>
@@ -273,7 +287,7 @@
                   <div class="field-with-note">
                     <aside class="field-note">选了“有”之后，子题目都非必填</aside>
                     <div class="sales-choice-row" data-toggle-group="skin">
-                      <span>皮肤相关异常史 <em>6/24</em> <strong>*</strong></span>
+                      <span>皮肤相关异常史 <strong>*</strong></span>
                       <button class="selected" type="button" data-toggle-value="none">无</button>
                       <button type="button" data-toggle-value="has">有</button>
                     </div>
@@ -301,21 +315,30 @@
                     <label><span>其他皮肤异常</span><input placeholder="请简要说明" /></label>
                   </div>
                   <div class="sales-choice-row triple">
-                    <span>血糖监测方式 <em>8/26</em> <strong>*</strong></span>
+                    <span>血糖监测方式 <strong>*</strong></span>
                     <button class="selected" type="button">动态血糖仪</button>
                     <button class="selected" type="button">指血血糖仪</button>
                     <button type="button">未监测</button>
                   </div>
+                <div class="field-with-note">
+                  <aside class="field-note">品牌、次数和频率，都非必填</aside>
                   <label><span>动态血糖仪品牌</span><select><option>硅基</option></select></label>
+                </div>
                   <label><span>平均每月使用次数</span><select><option>2次</option></select></label>
                   <label><span>指尖血糖检测频率</span><select><option>2次</option></select></label>
+                <div class="field-with-note">
+                  <aside class="field-note">最近血糖达标率和报告/截图均为非必填</aside>
                   <label><span>最近血糖达标率</span><input placeholder="请输入最近血糖达标率" /></label>
+                </div>
                   <div class="upload-box sales-upload-full">点击上传血糖报告、截图<span>0/9张</span></div>
-                  <label><span>糖化血红蛋白 HbA1c <em>11/26</em></span><select><option>医院静脉采血检测（近3个月内）</option></select></label>
+                <div class="field-with-note">
+                  <aside class="field-note">糖化血红蛋白、检测日期和检测结果全都非必填</aside>
+                  <label><span>糖化血红蛋白 HbA1c</span><select><option>医院静脉采血检测（近3个月内）</option></select></label>
+                </div>
                   <label><span>检测日期</span><input placeholder="请选择检测日期" /></label>
                   <label><span>检测结果(%)</span><input placeholder="请输入检测结果" /></label>
                   <div class="sales-long-choice">
-                    <span>用泵/用AAPS闭环软件主要想改善的问题 <em>20/25</em></span>
+                    <span>用泵/用AAPS闭环软件主要想改善的问题 <strong>*</strong></span>
                     <button type="button">血糖达标率（3.9-10mmol/L）控制在70%或以上</button>
                     <button type="button">觉得血糖波动比较大，想要血糖更平稳</button>
                     <button type="button">低血糖严重，夜间睡不好，想要改善夜间或者日间低血糖</button>
@@ -324,7 +347,6 @@
                     <button type="button">胰岛素泵更方便控糖，减少打针次数</button>
                   </div>
                 </section>
-                <label class="textarea-field"><span>售前备注</span><textarea placeholder="如果涉及到用户推荐，请备注清楚原用户姓名和电话" maxlength="50"></textarea><em>0/50</em></label>
 
                 <div class="sales-form-actions">
                   <button class="sales-reset" type="button">重置</button>
@@ -343,31 +365,41 @@
       <div class="note-card" data-note="list">
         <h3>收案状态</h3>
         <p>收案任务状态调整为：待接收、已接收、用户填写中、用户已填写、已收案。</p>
+        <p>销售提交→待接收</p>
+        <p>患教确认→已接收</p>
+        <p>用户登录问卷→用户填写中</p>
+        <p>用户提交/代填提交问卷→用户已填写</p>
+        <p>患教完成收案→已收案</p>
       </div>
       <div class="note-card" data-note="list">
         <h3>待接收提醒</h3>
-        <p>收案管理 tab 右上角增加小红点，用于提示存在待确认接收的收案任务；全部确认后小红点消失。</p>
+        <p>收案管理 tab 右上角增加数字徽标，用于提示待确认接收的收案任务数量；全部确认后徽标消失。</p>
       </div>
       <div class="note-card" data-note="receive">
         <h3>收案弹窗</h3>
-        <p>操作列主按钮按状态展示：未提交问卷阶段显示“收案准备”，用户已填写后显示“处理收案”。</p>
-        <p>两种弹窗顶部信息保持一致，均展示患者姓名、下单电话、问卷总得分、当前步骤、售前备注和复制问卷链接。</p>
-        <p>“收案准备”包含创建看板、创建群聊；试戴用户仅需创建看板；退出后再次打开继续上次未完成步骤。</p>
-        <p>“处理收案”仅用于信息核对和完成收案，不再展示创建看板、创建群聊，且不展示单步骤进度条。</p>
+        <p>操作列主按钮按状态展示：用户已填写之前的状态都显示“收案准备”，用户已填写之后显示“处理收案”。</p>
+        <p>两种弹窗顶部信息保持一致，均展示患者姓名、下单电话、问卷总得分、当前步骤、售前备注。</p>
+        <p>“收案准备”包含创建看板、创建群聊（试戴用户仅需创建看板）。</p>
+        <p>“处理收案”仅用于信息核对和完成收案，不再展示创建看板、创建群聊，且不展示步骤进度条。</p>
       </div>
       <div class="note-card">
         <h3>问卷代填</h3>
-        <p>收案管理列表操作列增加“代填”入口，仅“已接收”“用户填写中”状态可点击；点击后打开患者部分问卷抽屉。</p>
+        <p>收案管理列表操作列增加“代填”入口，仅“已接收”“用户填写中”状态可点击；点击后打开患者部分问卷抽屉，可由患教师代用户填写问卷并提交，实时保存。</p>
       </div>
       <div class="note-card">
         <h3>快捷操作</h3>
-        <p>收案管理列表操作列增加“确认”“复制”入口；“确认”仅待接收状态可点击，点击后状态变为“已接收”。</p>
+        <p>收案管理列表操作列增加“确认”“复制”入口；</p>
+        <p>“确认”仅待接收状态可点击，点击后状态变为“已接收”；</p>
+        <p>“复制”按钮常亮，点击后页面顶部展示“复制成功”提示，并复制一段带问卷链接的文案：【糖糖圈】您好，您的专属糖尿病教育师已为您开启收案评估服务。请点击链接完成详细健康填报：https://https.ttq.so/html/tangtangquan/</p>
+        <p>html/#/newCase/intro?id=xx。请使用糖糖圈手机号登录，以便自动同步档案。</p>
       </div>
       <div class="note-card" data-note="sales-questionnaire">
         <h3>销售部分问卷</h3>
-        <p>患者填写时可继续修改销售已填内容。</p>
-        <p>同一题支持按销售端、患者端分别配置必填规则；两端提交时分别按本端规则校验。</p>
-        <p>如果本页中未展示的题目，就算满足原有显隐逻辑，也不在销售部分展示，例如吸烟、饮酒。</p>
+        <p>1、同一题支持按销售端、患者端分别配置必填规则（都在本页具体题目旁标注出来了）；两端提交时分别按本端规则校验。</p>
+        <p>2、患者填写时可继续修改销售已填内容。</p>
+        <p>3、如果本页中未展示的题目，就算满足原有显隐逻辑，也不在销售部分展示，例如吸烟、饮酒。</p>
+        <P>4、其他修改点（患者端也要改）：治疗方案选了餐前+基础或预混后的“基础胰岛素注射剂量”改为系统计算，=输注剂量之和</p>
+
       </div>
     </aside>
   </div>
@@ -384,7 +416,6 @@
           <div class="question-card">
             <div class="question-title">
               <b>一、基础信息</b>
-              <em>1/24</em>
             </div>
             <label>姓名 <strong>*</strong><input id="autofillName" value="JJ" /></label>
             <label>联系电话 <strong>*</strong><input id="autofillPhone" value="17700000570" /></label>
@@ -421,9 +452,6 @@
       </header>
       <div class="case-summary">
         <h2><span id="receiveHeading">收案准备</span> - <span id="caseName">用户41807</span></h2>
-        <div class="questionnaire-link">
-          <button id="copyQuestionnaireLink" type="button">复制问卷链接</button>
-        </div>
         <div class="summary-grid">
           <span>患者姓名：<b id="summaryName">用户41807</b></span>
           <span>下单电话：<b id="summaryPhone">13800041807</b></span>

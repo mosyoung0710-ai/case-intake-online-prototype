@@ -288,12 +288,18 @@ button {
 
 .tab-alert {
   position: absolute;
-  top: 8px;
-  right: 12px;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
+  top: 5px;
+  right: 8px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 999px;
   background: #f04438;
+  color: #fff;
+  font-size: 12px;
+  line-height: 16px;
+  text-align: center;
+  font-weight: 400;
 }
 
 .filters {
@@ -664,6 +670,10 @@ button {
   line-height: 1.55;
 }
 
+.panel-field-note .field-note {
+  right: calc(100% + 35px);
+}
+
 .sales-section {
   margin: 18px 0;
   padding: 14px 10px 2px;
@@ -769,6 +779,39 @@ button {
 .meal-dose b {
   display: block;
   margin-bottom: 10px;
+}
+
+.injection-time-dose {
+  display: grid;
+  gap: 8px;
+  margin: -4px 0 12px 146px;
+}
+
+.injection-dose-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.unit-input {
+  display: grid;
+  grid-template-columns: 1fr 48px;
+}
+
+.unit-input input {
+  border-radius: 6px 0 0 6px;
+}
+
+.unit-input span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 38px;
+  border: 1px solid #d5dde9;
+  border-left: 0;
+  border-radius: 0 6px 6px 0;
+  color: #6b778c;
+  background: #fff;
 }
 
 .upload-box {

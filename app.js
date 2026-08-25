@@ -101,6 +101,7 @@ function pendingCases() {
 function updatePendingNotice() {
   const count = pendingCases().length;
   pendingDot.classList.toggle("hidden", count === 0);
+  pendingDot.textContent = count > 0 ? count : "";
 }
 
 function resetTableScroll() {
@@ -239,14 +240,25 @@ document.querySelectorAll("[data-toggle-group]").forEach(group => {
 });
 
 const treatmentPlanSelect = document.querySelector("#treatmentPlanSelect");
+const injectionCountSelect = document.querySelector("#injectionCountSelect");
 function syncTreatmentPlan() {
   const selectedPlan = treatmentPlanSelect.value;
+  const visiblePlan = selectedPlan === "premix" ? "pen" : selectedPlan;
   document.querySelectorAll("[data-plan-panel]").forEach(panel => {
-    panel.classList.toggle("hidden", panel.dataset.planPanel !== selectedPlan);
+    panel.classList.toggle("hidden", panel.dataset.planPanel !== visiblePlan);
   });
 }
 treatmentPlanSelect.addEventListener("change", syncTreatmentPlan);
 syncTreatmentPlan();
+
+function syncInjectionRows() {
+  const count = Number(injectionCountSelect.value);
+  document.querySelectorAll("[data-injection-row]").forEach(row => {
+    row.classList.toggle("hidden", Number(row.dataset.injectionRow) > count);
+  });
+}
+injectionCountSelect.addEventListener("change", syncInjectionRows);
+syncInjectionRows();
 
 document.querySelector("#openReceiveFromHeader").addEventListener("click", () => {
   const demoCase = cases.find(item => item.status === "用户填写中") || cases[0];
@@ -288,9 +300,12 @@ document.querySelector("#finishPrep").addEventListener("click", () => {
   showToast("已完成收案准备");
 });
 
-document.querySelector("#copyQuestionnaireLink").addEventListener("click", () => {
-  showToast("已复制问卷链接");
-});
+const copyQuestionnaireLink = document.querySelector("#copyQuestionnaireLink");
+if (copyQuestionnaireLink) {
+  copyQuestionnaireLink.addEventListener("click", () => {
+    showToast("已复制问卷链接");
+  });
+}
 
 document.querySelector("#resetDemo").addEventListener("click", () => {
   cases = initialCases.map(item => ({ ...item }));

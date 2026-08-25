@@ -61,6 +61,7 @@ const glucoseTargetRateVisible = await page.locator("#salesQuestionnaireView lab
 const glucoseReportUploadVisible = await page.locator("#salesQuestionnaireView .upload-box", { hasText: "点击上传血糖报告、截图" }).count();
 const glucoseReportUploadRequired = await page.locator("#salesQuestionnaireView .upload-box", { hasText: "点击上传血糖报告、截图" }).locator("strong").count();
 const fieldNotesVisible = await page.locator("#salesQuestionnaireView .field-note").count();
+const progressLabelVisible = await page.locator("#salesQuestionnaireView").evaluate(root => /(?:^|\D)\d+\/(?:24|25|26)(?:\D|$)/.test(root.textContent) ? 1 : 0);
 const mealTimeFieldsVisible = await page.locator("#salesQuestionnaireView", { hasText: "早餐时间" }).count() + await page.locator("#salesQuestionnaireView", { hasText: "午餐时间" }).count() + await page.locator("#salesQuestionnaireView", { hasText: "晚餐时间" }).count();
 const relatedInfoRequiredMarks = await page.locator("#salesQuestionnaireView .sales-section", { hasText: "三、相关信息" }).locator("strong").count();
 const fieldNotesLeftOfCard = await page.locator("#salesQuestionnaireView").evaluate(root => {
@@ -85,30 +86,30 @@ const salesFieldOrder = await page.locator("#salesQuestionnaireView").evaluate(r
     "泵型号",
     "AAPS安装设备",
     "手机型号",
+    "售前备注",
     "联系电话",
     "用泵人姓名（昵称）",
     "出生日期",
     "性别",
     "身高（cm）",
     "体重（kg）",
-    "糖尿病分型 2/24",
-    "确诊时间 3/24",
-    "当前治疗方案 12/26",
+    "糖尿病分型",
+    "确诊时间",
+    "当前治疗方案",
     "每日胰岛素用量和种类（泵）",
     "点击上传基础率分段截图(jpg、png)0/9张",
-    "糖尿病并发症 5/24",
-    "皮肤相关异常史 6/24",
-    "血糖监测方式 8/26",
+    "糖尿病并发症",
+    "皮肤相关异常史",
+    "血糖监测方式",
     "动态血糖仪品牌",
     "平均每月使用次数",
     "指尖血糖检测频率",
     "最近血糖达标率",
     "点击上传血糖报告、截图0/9张",
-    "糖化血红蛋白 HbA1c 11/26",
+    "糖化血红蛋白 HbA1c",
     "检测日期",
     "检测结果(%)",
-    "用泵/用AAPS闭环软件主要想改善的问题 20/25",
-    "售前备注"
+    "用泵/用AAPS闭环软件主要想改善的问题"
   ];
   const positions = expected.map(label => fields.findIndex(field => field.includes(label)));
   return {
@@ -137,6 +138,17 @@ const penPanelHiddenInitial = await page.locator('[data-plan-panel="pen"].hidden
 await page.locator("#treatmentPlanSelect").selectOption("pen");
 const penPanelVisibleAfterSelect = await page.locator('[data-plan-panel="pen"]:not(.hidden)').count();
 const pumpPanelHiddenAfterSelect = await page.locator('[data-plan-panel="pump"].hidden').count();
+await page.locator("#treatmentPlanSelect").selectOption("premix");
+const penPanelVisibleAfterPremix = await page.locator('[data-plan-panel="pen"]:not(.hidden)').count();
+const pumpPanelHiddenAfterPremix = await page.locator('[data-plan-panel="pump"].hidden').count();
+const injectionOptions = await page.locator("#injectionCountSelect option").evaluateAll(options => options.map(option => option.textContent.trim()));
+const injectionRowsInitial = await page.locator('.injection-dose-row:not(.hidden)').count();
+await page.locator("#injectionCountSelect").selectOption("1");
+const injectionRowsAfterOne = await page.locator('.injection-dose-row:not(.hidden)').count();
+await page.locator("#injectionCountSelect").selectOption("0");
+const injectionRowsAfterZero = await page.locator('.injection-dose-row:not(.hidden)').count();
+await page.locator("#injectionCountSelect").selectOption("2");
+await page.screenshot({ path: path.join(validationDir, "09-injection-times.png"), fullPage: true });
 await page.locator("#treatmentPlanSelect").selectOption("pump");
 const salesNewQuestionSections = await page.locator("#salesQuestionnaireView .sales-section").count();
 await page.screenshot({ path: path.join(validationDir, "08-sales-questionnaire.png"), fullPage: true });
@@ -150,6 +162,7 @@ const noticeNavVisible = await page.locator('.nav-item[data-view="notice"]').cou
 const noticeBannerVisible = await page.locator("#topNotice").count();
 const stationMailVisible = await page.locator("#stationMailDialog").count();
 const pendingDotInitial = await page.locator("#pendingDot:not(.hidden)").count();
+const pendingDotTextInitial = await page.locator("#pendingDot").innerText();
 const copyActionButtons = await page.locator('button[data-action="copy"]').count();
 await page.locator('button[data-action="copy"]').first().click();
 const enabledConfirmButtonsBefore = await page.locator('button[data-action="confirm"]:not([disabled])').count();
@@ -159,6 +172,7 @@ while (await page.locator('button[data-action="confirm"]:not([disabled])').count
 const enabledConfirmButtonsAfter = await page.locator('button[data-action="confirm"]:not([disabled])').count();
 const disabledConfirmButtonsAfter = await page.locator('button[data-action="confirm"][disabled]').count();
 const pendingDotAfterAllConfirm = await page.locator("#pendingDot.hidden").count();
+const pendingDotTextAfterAllConfirm = await page.locator("#pendingDot").innerText();
 const firstConfirmedStatus = await page.locator("#caseRows tr", { hasText: "78" }).locator(".status").innerText();
 await page.screenshot({ path: path.join(validationDir, "02-notice-confirmed.png"), fullPage: true });
 
@@ -180,7 +194,6 @@ await page.getByRole("button", { name: "下一页" }).click();
 await page.locator("#closeAutofill").click();
 
 await page.locator('button[data-action="receive"][data-id="68"]').click();
-await page.getByRole("button", { name: "复制问卷链接" }).click();
 await page.getByRole("button", { name: "创建，下一步" }).click();
 await page.locator("#closeReceive").click();
 await page.locator('button[data-action="receive"][data-id="68"]').click();
@@ -221,7 +234,7 @@ const autofillDrawerHidden = await page.locator("#autofillDrawer.hidden").count(
 await browser.close();
 
 console.log(JSON.stringify({
-  ok: consoleErrors.length === 0 && failedRequests.length === 0 && initialTableRows >= 8 && initialTableScrollLeft === 0 && firstIdHeaderVisible === true && tableRows >= 8 && salesQuestionnaireVisible === 1 && salesNotesVisible === 1 && salesNoteVisible === 1 && salesPatientEditableNoteVisible === 1 && salesHiddenQuestionNoteVisible === 1 && healthcareNotesVisibleInSales === 0 && salesBrowserTopHidden === 1 && salesAppTopbarHidden === 1 && salesAddedTopicsTitleVisible === 1 && salesAddedTopicsCount === 19 && listBrowserTopVisible === 1 && listNotesVisible === 1 && salesNoteHiddenInList === 1 && removedStatusVisible === 0 && noticeNavVisible === 0 && noticeBannerVisible === 0 && stationMailVisible === 0 && pendingDotInitial === 1 && pendingDotAfterAllConfirm === 1 && copyActionButtons === tableRows && enabledConfirmButtonsBefore === 2 && enabledConfirmButtonsAfter === 0 && disabledConfirmButtonsAfter === tableRows && firstConfirmedStatus === "已接收" && salesRequiredFields >= 25 && salesSubmitVisible === 1 && logisticsFieldVisible === 0 && userNameFieldVisible === 1 && contactFieldVisible === 1 && pumpUserFieldVisible === 1 && glucoseTargetRateVisible === 1 && glucoseReportUploadVisible === 1 && glucoseReportUploadRequired === 0 && fieldNotesVisible === 2 && mealTimeFieldsVisible === 0 && relatedInfoRequiredMarks === 3 && fieldNotesLeftOfCard === true && salesFieldOrder.ok === true && phoneModelVisibleInitial === 1 && watchModelHiddenInitial === 1 && watchModelVisibleAfterClick === 1 && phoneModelHiddenAfterClick === 1 && complicationDetailVisible === 1 && complicationOptionVisible === 1 && complicationRequiredMarks === 0 && skinDetailVisible === 1 && skinDetailFieldsVisible === 1 && skinDetailRequiredMarks === 0 && pumpPanelVisibleInitial === 1 && penPanelHiddenInitial === 1 && penPanelVisibleAfterSelect === 1 && pumpPanelHiddenAfterSelect === 1 && salesNewQuestionSections === 3 && enabledPushButtons === 7 && enabledAutofillButtons === 6 && disabledAutofillButtons === 2 && enabledDeleteButtons === 1 && disabledDeleteButtons === 7 && prepButtons === 6 && processButtons === 2 && disabledProcessButtons === 1 && finishedActionButtons === 0 && receiveActionButtons === tableRows && autofillSalesSectionVisible === 0 && reopenedPrepStep === "创建群聊" && trialUserControlCount === 0 && prevStepButtonCount === 0 && trialPrepStep === "创建看板" && trialVisiblePrepareSteps === 1 && trialGroupBodyVisible === 0 && trialFinishButtonVisible === 1 && processStep === "信息核对" && visiblePrepareStepsInProcess === 0 && processStepperHidden === 1 && prepQuestionnaireLinkVisible === 1 && prepQuestionnaireResultsVisible === 2 && processQuestionnaireLinkVisible === 1 && processQuestionnaireResultsVisible === 2 && autofillDrawerHidden === 1,
+  ok: consoleErrors.length === 0 && failedRequests.length === 0 && initialTableRows >= 8 && initialTableScrollLeft === 0 && firstIdHeaderVisible === true && tableRows >= 8 && salesQuestionnaireVisible === 1 && salesNotesVisible === 1 && salesNoteVisible === 1 && salesPatientEditableNoteVisible === 1 && salesHiddenQuestionNoteVisible === 1 && healthcareNotesVisibleInSales === 0 && salesBrowserTopHidden === 1 && salesAppTopbarHidden === 1 && salesAddedTopicsTitleVisible === 1 && salesAddedTopicsCount === 19 && listBrowserTopVisible === 1 && listNotesVisible === 1 && salesNoteHiddenInList === 1 && removedStatusVisible === 0 && noticeNavVisible === 0 && noticeBannerVisible === 0 && stationMailVisible === 0 && pendingDotInitial === 1 && pendingDotTextInitial === "2" && pendingDotAfterAllConfirm === 1 && pendingDotTextAfterAllConfirm === "" && copyActionButtons === tableRows && enabledConfirmButtonsBefore === 2 && enabledConfirmButtonsAfter === 0 && disabledConfirmButtonsAfter === tableRows && firstConfirmedStatus === "已接收" && salesRequiredFields >= 25 && salesSubmitVisible === 1 && logisticsFieldVisible === 0 && userNameFieldVisible === 1 && contactFieldVisible === 1 && pumpUserFieldVisible === 1 && glucoseTargetRateVisible === 1 && glucoseReportUploadVisible === 1 && glucoseReportUploadRequired === 0 && fieldNotesVisible === 6 && progressLabelVisible === 0 && mealTimeFieldsVisible === 0 && relatedInfoRequiredMarks === 4 && fieldNotesLeftOfCard === true && salesFieldOrder.ok === true && phoneModelVisibleInitial === 1 && watchModelHiddenInitial === 1 && watchModelVisibleAfterClick === 1 && phoneModelHiddenAfterClick === 1 && complicationDetailVisible === 1 && complicationOptionVisible === 1 && complicationRequiredMarks === 0 && skinDetailVisible === 1 && skinDetailFieldsVisible === 1 && skinDetailRequiredMarks === 0 && pumpPanelVisibleInitial === 1 && penPanelHiddenInitial === 1 && penPanelVisibleAfterSelect === 1 && pumpPanelHiddenAfterSelect === 1 && penPanelVisibleAfterPremix === 1 && pumpPanelHiddenAfterPremix === 1 && injectionOptions.join(",") === "0次,1次,2次" && injectionRowsInitial === 2 && injectionRowsAfterOne === 1 && injectionRowsAfterZero === 0 && salesNewQuestionSections === 3 && enabledPushButtons === 7 && enabledAutofillButtons === 6 && disabledAutofillButtons === 2 && enabledDeleteButtons === 1 && disabledDeleteButtons === 7 && prepButtons === 6 && processButtons === 2 && disabledProcessButtons === 1 && finishedActionButtons === 0 && receiveActionButtons === tableRows && autofillSalesSectionVisible === 0 && reopenedPrepStep === "创建群聊" && trialUserControlCount === 0 && prevStepButtonCount === 0 && trialPrepStep === "创建看板" && trialVisiblePrepareSteps === 1 && trialGroupBodyVisible === 0 && trialFinishButtonVisible === 1 && processStep === "信息核对" && visiblePrepareStepsInProcess === 0 && processStepperHidden === 1 && prepQuestionnaireLinkVisible === 0 && prepQuestionnaireResultsVisible === 2 && processQuestionnaireLinkVisible === 0 && processQuestionnaireResultsVisible === 2 && autofillDrawerHidden === 1,
   initialTableRows,
   initialTableScrollLeft,
   firstIdHeaderVisible,
@@ -245,7 +258,9 @@ console.log(JSON.stringify({
   noticeBannerVisible,
   stationMailVisible,
   pendingDotInitial,
+  pendingDotTextInitial,
   pendingDotAfterAllConfirm,
+  pendingDotTextAfterAllConfirm,
   copyActionButtons,
   enabledConfirmButtonsBefore,
   enabledConfirmButtonsAfter,
@@ -261,6 +276,7 @@ console.log(JSON.stringify({
   glucoseReportUploadVisible,
   glucoseReportUploadRequired,
   fieldNotesVisible,
+  progressLabelVisible,
   mealTimeFieldsVisible,
   relatedInfoRequiredMarks,
   fieldNotesLeftOfCard,
@@ -279,6 +295,12 @@ console.log(JSON.stringify({
   penPanelHiddenInitial,
   penPanelVisibleAfterSelect,
   pumpPanelHiddenAfterSelect,
+  penPanelVisibleAfterPremix,
+  pumpPanelHiddenAfterPremix,
+  injectionOptions,
+  injectionRowsInitial,
+  injectionRowsAfterOne,
+  injectionRowsAfterZero,
   salesNewQuestionSections,
   enabledPushButtons,
   enabledAutofillButtons,
@@ -317,6 +339,7 @@ console.log(JSON.stringify({
     "validation/05-autofill-drawer.png",
     "validation/06-process-check.png",
     "validation/07-trial-prepare.png",
-    "validation/08-sales-questionnaire.png"
+    "validation/08-sales-questionnaire.png",
+    "validation/09-injection-times.png"
   ]
 }, null, 2));
