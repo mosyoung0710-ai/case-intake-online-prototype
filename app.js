@@ -21,6 +21,7 @@ const browserFrame = document.querySelector("#browserFrame");
 const appShell = document.querySelector("#appShell");
 const notesPanel = document.querySelector("#notesPanel");
 const pendingDot = document.querySelector("#pendingDot");
+const tableWrap = document.querySelector(".data-table-wrap");
 const caseManagementView = document.querySelector("#caseManagementView");
 const salesQuestionnaireView = document.querySelector("#salesQuestionnaireView");
 const receiveModal = document.querySelector("#receiveModal");
@@ -102,6 +103,11 @@ function updatePendingNotice() {
   pendingDot.classList.toggle("hidden", count === 0);
 }
 
+function resetTableScroll() {
+  if (!tableWrap) return;
+  tableWrap.scrollLeft = 0;
+}
+
 function showCaseManagement() {
   reviewShell.classList.remove("notes-hidden");
   notesPanel.classList.remove("hidden");
@@ -109,6 +115,7 @@ function showCaseManagement() {
   appShell.classList.remove("sales-mode");
   caseManagementView.classList.remove("hidden");
   salesQuestionnaireView.classList.add("hidden");
+  window.requestAnimationFrame(resetTableScroll);
 }
 
 function showSalesQuestionnaire() {
@@ -312,5 +319,8 @@ receiveModal.addEventListener("click", event => {
 autofillDrawer.addEventListener("click", event => {
   if (event.target === autofillDrawer) closeAutofillDrawer();
 });
+if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+window.addEventListener("pageshow", () => window.requestAnimationFrame(resetTableScroll));
+
 renderRows();
 setView("list");
