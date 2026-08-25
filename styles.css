@@ -264,34 +264,6 @@ button {
   border-bottom: 16px solid #e5e8ed;
 }
 
-.notice-banner {
-  position: sticky;
-  top: 0;
-  z-index: 12;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 18px;
-  margin: 18px 24px 0;
-  padding: 12px 16px;
-  border: 1px solid #b7ddff;
-  border-left: 4px solid var(--blue);
-  border-radius: 4px;
-  background: #eef7ff;
-  box-shadow: 0 8px 18px rgba(47, 141, 244, .08);
-}
-
-.notice-banner div {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 14px;
-  align-items: center;
-}
-
-.notice-banner span {
-  color: #536273;
-}
-
 .patient-tabs {
   display: flex;
   margin: 18px 24px 0;
@@ -299,6 +271,7 @@ button {
 }
 
 .patient-tabs button {
+  position: relative;
   min-width: 106px;
   height: 44px;
   border: 1px solid #dbe3ee;
@@ -311,6 +284,16 @@ button {
   border-color: var(--cyan);
   background: var(--cyan);
   font-weight: 600;
+}
+
+.tab-alert {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #f04438;
 }
 
 .filters {
@@ -365,7 +348,7 @@ button {
 }
 
 .data-table {
-  min-width: 2280px;
+  min-width: 2420px;
   width: 100%;
   border-collapse: collapse;
   table-layout: auto;
@@ -443,7 +426,7 @@ button {
 }
 
 .sticky-col {
-  min-width: 236px;
+  min-width: 352px;
 }
 
 .data-table th.sticky-col,
@@ -893,164 +876,6 @@ button {
 
 .note-card.soft {
   background: #f3f7fb;
-}
-
-.mail-dialog-backdrop {
-  position: absolute;
-  inset: 76px 0 0;
-  background: rgba(15, 23, 42, .18);
-  z-index: 18;
-}
-
-.station-mail-dialog {
-  position: absolute;
-  top: 116px;
-  left: 44px;
-  right: 44px;
-  display: grid;
-  grid-template-columns: 74px 1fr;
-  min-height: 560px;
-  max-height: 620px;
-  border: 1px solid #d9e2ee;
-  border-radius: 6px;
-  overflow: hidden;
-  background: #fff;
-  box-shadow: 0 22px 54px rgba(15, 23, 42, .28);
-  z-index: 19;
-}
-
-.station-mail-page {
-  display: grid;
-  grid-template-columns: 74px 1fr;
-  min-height: 684px;
-  background: #fff;
-}
-
-.mail-rail {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 0;
-  color: #c8ced6;
-  background: #3b3839;
-}
-
-.mail-logo {
-  display: grid;
-  place-items: center;
-  width: 42px;
-  height: 42px;
-  margin-bottom: 12px;
-  border-radius: 8px;
-  color: #fff;
-  background: linear-gradient(135deg, #20c3cf, #2f8df4);
-  font-weight: 700;
-}
-
-.rail-item {
-  width: 100%;
-  min-height: 54px;
-  padding: 4px 6px;
-  border: 0;
-  color: #d8dde5;
-  background: transparent;
-  font-size: 12px;
-  line-height: 1.25;
-}
-
-.rail-item.active {
-  color: #35d7e6;
-}
-
-.rail-spacer {
-  flex: 1;
-}
-
-.rail-icon {
-  width: 42px;
-  height: 42px;
-  border: 0;
-  color: #d8dde5;
-  background: transparent;
-  font-size: 20px;
-}
-
-.rail-icon.active {
-  color: #fff;
-  background: rgba(255, 255, 255, .12);
-}
-
-.mail-content {
-  min-width: 0;
-  background: #fff;
-}
-
-.mail-titlebar {
-  position: relative;
-  display: grid;
-  grid-template-columns: 1fr 44px;
-  align-items: center;
-  height: 44px;
-  padding: 0 10px 0 16px;
-  border-bottom: 1px solid #edf1f6;
-  color: #778294;
-}
-
-.mail-titlebar b {
-  justify-self: center;
-  font-weight: 500;
-}
-
-.mail-close {
-  border: 0;
-  color: #a3aab5;
-  background: transparent;
-  font-size: 28px;
-}
-
-.mail-list {
-  min-height: 516px;
-  max-height: 576px;
-  overflow: auto;
-}
-
-.mail-message {
-  display: grid;
-  grid-template-columns: 42px 1fr auto;
-  gap: 14px;
-  align-items: center;
-  padding: 14px 22px;
-  border-bottom: 1px solid #e2e8f0;
-  color: #5c6675;
-}
-
-.mail-message.confirmed {
-  background: #fafbfc;
-}
-
-.mail-message .avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-}
-
-.mail-copy b {
-  display: block;
-  margin-bottom: 4px;
-  color: #5b6675;
-  font-weight: 500;
-}
-
-.mail-copy small {
-  color: #8d98a7;
-}
-
-.mail-status {
-  min-width: 56px;
-  color: #8b96a5;
-  text-align: right;
-  font-size: 13px;
 }
 
 .im-panel {

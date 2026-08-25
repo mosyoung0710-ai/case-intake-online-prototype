@@ -138,13 +138,23 @@ await page.getByRole("button", { name: "收案管理" }).click();
 const listBrowserTopVisible = await page.locator(".browser-top").evaluate(element => getComputedStyle(element).display !== "none" ? 1 : 0);
 const listNotesVisible = await page.locator("#notesPanel:not(.hidden)").count();
 const salesNoteHiddenInList = await page.locator('.note-card[data-note="sales-questionnaire"].hidden').count();
-
-const pendingBefore = await page.locator("#pendingCount").innerText();
-await page.getByRole("button", { name: "查看" }).click();
-await page.getByRole("button", { name: "确认" }).first().click();
-const pendingAfterOneConfirm = await page.locator("#pendingCount").innerText();
+const removedStatusText = ["待", "用户", "填写"].join("");
+const removedStatusVisible = await page.locator("body", { hasText: removedStatusText }).count();
+const noticeNavVisible = await page.locator('.nav-item[data-view="notice"]').count();
+const noticeBannerVisible = await page.locator("#topNotice").count();
+const stationMailVisible = await page.locator("#stationMailDialog").count();
+const pendingDotInitial = await page.locator("#pendingDot:not(.hidden)").count();
+const copyActionButtons = await page.locator('button[data-action="copy"]').count();
+await page.locator('button[data-action="copy"]').first().click();
+const enabledConfirmButtonsBefore = await page.locator('button[data-action="confirm"]:not([disabled])').count();
+while (await page.locator('button[data-action="confirm"]:not([disabled])').count() > 0) {
+  await page.locator('button[data-action="confirm"]:not([disabled])').first().click();
+}
+const enabledConfirmButtonsAfter = await page.locator('button[data-action="confirm"]:not([disabled])').count();
+const disabledConfirmButtonsAfter = await page.locator('button[data-action="confirm"][disabled]').count();
+const pendingDotAfterAllConfirm = await page.locator("#pendingDot.hidden").count();
+const firstConfirmedStatus = await page.locator("#caseRows tr", { hasText: "78" }).locator(".status").innerText();
 await page.screenshot({ path: path.join(validationDir, "02-notice-confirmed.png"), fullPage: true });
-await page.locator("#closeStationMail").click();
 
 const enabledPushButtons = await page.locator('button[data-action="push"]:not([disabled])').count();
 const enabledAutofillButtons = await page.locator('button[data-action="autofill"]:not([disabled])').count();
@@ -200,13 +210,12 @@ await page.screenshot({ path: path.join(validationDir, "04-push-finished.png"), 
 const activeNav = await page.locator(".nav-item.active").innerText();
 const tableRows = await page.locator("#caseRows tr").count();
 const visibleToast = await page.locator("#toast:not(.hidden)").count();
-const stationMailConfirmButtons = await page.locator(".receive-confirm").count();
 const autofillDrawerHidden = await page.locator("#autofillDrawer.hidden").count();
 
 await browser.close();
 
 console.log(JSON.stringify({
-  ok: consoleErrors.length === 0 && failedRequests.length === 0 && tableRows >= 8 && salesQuestionnaireVisible === 1 && salesNotesVisible === 1 && salesNoteVisible === 1 && salesPatientEditableNoteVisible === 1 && salesHiddenQuestionNoteVisible === 1 && healthcareNotesVisibleInSales === 0 && salesBrowserTopHidden === 1 && salesAppTopbarHidden === 1 && salesAddedTopicsTitleVisible === 1 && salesAddedTopicsCount === 19 && listBrowserTopVisible === 1 && listNotesVisible === 1 && salesNoteHiddenInList === 1 && salesRequiredFields >= 25 && salesSubmitVisible === 1 && logisticsFieldVisible === 0 && userNameFieldVisible === 1 && contactFieldVisible === 1 && pumpUserFieldVisible === 1 && glucoseTargetRateVisible === 1 && glucoseReportUploadVisible === 1 && glucoseReportUploadRequired === 0 && fieldNotesVisible === 2 && mealTimeFieldsVisible === 0 && relatedInfoRequiredMarks === 3 && fieldNotesLeftOfCard === true && salesFieldOrder.ok === true && phoneModelVisibleInitial === 1 && watchModelHiddenInitial === 1 && watchModelVisibleAfterClick === 1 && phoneModelHiddenAfterClick === 1 && complicationDetailVisible === 1 && complicationOptionVisible === 1 && complicationRequiredMarks === 0 && skinDetailVisible === 1 && skinDetailFieldsVisible === 1 && skinDetailRequiredMarks === 0 && pumpPanelVisibleInitial === 1 && penPanelHiddenInitial === 1 && penPanelVisibleAfterSelect === 1 && pumpPanelHiddenAfterSelect === 1 && salesNewQuestionSections === 3 && Number(pendingAfterOneConfirm) === Number(pendingBefore) - 1 && enabledPushButtons === 7 && enabledAutofillButtons === 3 && disabledAutofillButtons === 5 && enabledDeleteButtons === 1 && disabledDeleteButtons === 7 && prepButtons === 6 && processButtons === 2 && disabledProcessButtons === 1 && finishedActionButtons === 0 && receiveActionButtons === tableRows && autofillSalesSectionVisible === 0 && reopenedPrepStep === "创建群聊" && trialUserControlCount === 0 && prevStepButtonCount === 0 && trialPrepStep === "创建看板" && trialVisiblePrepareSteps === 1 && trialGroupBodyVisible === 0 && trialFinishButtonVisible === 1 && processStep === "信息核对" && visiblePrepareStepsInProcess === 0 && processStepperHidden === 1 && prepQuestionnaireLinkVisible === 1 && prepQuestionnaireResultsVisible === 2 && processQuestionnaireLinkVisible === 1 && processQuestionnaireResultsVisible === 2 && autofillDrawerHidden === 1,
+  ok: consoleErrors.length === 0 && failedRequests.length === 0 && tableRows >= 8 && salesQuestionnaireVisible === 1 && salesNotesVisible === 1 && salesNoteVisible === 1 && salesPatientEditableNoteVisible === 1 && salesHiddenQuestionNoteVisible === 1 && healthcareNotesVisibleInSales === 0 && salesBrowserTopHidden === 1 && salesAppTopbarHidden === 1 && salesAddedTopicsTitleVisible === 1 && salesAddedTopicsCount === 19 && listBrowserTopVisible === 1 && listNotesVisible === 1 && salesNoteHiddenInList === 1 && removedStatusVisible === 0 && noticeNavVisible === 0 && noticeBannerVisible === 0 && stationMailVisible === 0 && pendingDotInitial === 1 && pendingDotAfterAllConfirm === 1 && copyActionButtons === tableRows && enabledConfirmButtonsBefore === 2 && enabledConfirmButtonsAfter === 0 && disabledConfirmButtonsAfter === tableRows && firstConfirmedStatus === "已接收" && salesRequiredFields >= 25 && salesSubmitVisible === 1 && logisticsFieldVisible === 0 && userNameFieldVisible === 1 && contactFieldVisible === 1 && pumpUserFieldVisible === 1 && glucoseTargetRateVisible === 1 && glucoseReportUploadVisible === 1 && glucoseReportUploadRequired === 0 && fieldNotesVisible === 2 && mealTimeFieldsVisible === 0 && relatedInfoRequiredMarks === 3 && fieldNotesLeftOfCard === true && salesFieldOrder.ok === true && phoneModelVisibleInitial === 1 && watchModelHiddenInitial === 1 && watchModelVisibleAfterClick === 1 && phoneModelHiddenAfterClick === 1 && complicationDetailVisible === 1 && complicationOptionVisible === 1 && complicationRequiredMarks === 0 && skinDetailVisible === 1 && skinDetailFieldsVisible === 1 && skinDetailRequiredMarks === 0 && pumpPanelVisibleInitial === 1 && penPanelHiddenInitial === 1 && penPanelVisibleAfterSelect === 1 && pumpPanelHiddenAfterSelect === 1 && salesNewQuestionSections === 3 && enabledPushButtons === 7 && enabledAutofillButtons === 6 && disabledAutofillButtons === 2 && enabledDeleteButtons === 1 && disabledDeleteButtons === 7 && prepButtons === 6 && processButtons === 2 && disabledProcessButtons === 1 && finishedActionButtons === 0 && receiveActionButtons === tableRows && autofillSalesSectionVisible === 0 && reopenedPrepStep === "创建群聊" && trialUserControlCount === 0 && prevStepButtonCount === 0 && trialPrepStep === "创建看板" && trialVisiblePrepareSteps === 1 && trialGroupBodyVisible === 0 && trialFinishButtonVisible === 1 && processStep === "信息核对" && visiblePrepareStepsInProcess === 0 && processStepperHidden === 1 && prepQuestionnaireLinkVisible === 1 && prepQuestionnaireResultsVisible === 2 && processQuestionnaireLinkVisible === 1 && processQuestionnaireResultsVisible === 2 && autofillDrawerHidden === 1,
   activeNav,
   tableRows,
   salesQuestionnaireVisible,
@@ -222,6 +231,17 @@ console.log(JSON.stringify({
   listBrowserTopVisible,
   listNotesVisible,
   salesNoteHiddenInList,
+  removedStatusVisible,
+  noticeNavVisible,
+  noticeBannerVisible,
+  stationMailVisible,
+  pendingDotInitial,
+  pendingDotAfterAllConfirm,
+  copyActionButtons,
+  enabledConfirmButtonsBefore,
+  enabledConfirmButtonsAfter,
+  disabledConfirmButtonsAfter,
+  firstConfirmedStatus,
   salesRequiredFields,
   salesSubmitVisible,
   logisticsFieldVisible,
@@ -251,8 +271,6 @@ console.log(JSON.stringify({
   penPanelVisibleAfterSelect,
   pumpPanelHiddenAfterSelect,
   salesNewQuestionSections,
-  pendingBefore,
-  pendingAfterOneConfirm,
   enabledPushButtons,
   enabledAutofillButtons,
   disabledAutofillButtons,
@@ -278,7 +296,6 @@ console.log(JSON.stringify({
   processStepperHidden,
   processQuestionnaireLinkVisible,
   processQuestionnaireResultsVisible,
-  stationMailConfirmButtons,
   autofillDrawerHidden,
   visibleToast,
   consoleErrors,

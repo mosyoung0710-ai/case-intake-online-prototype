@@ -17,7 +17,6 @@
         </div>
       </div>
       <button class="nav-item active" data-view="list">收案管理</button>
-      <button class="nav-item" data-view="notice">待接收提醒</button>
       <button class="nav-item" data-view="receive">收案弹窗</button>
       <button class="nav-item" data-view="sales-questionnaire">销售部分问卷</button>
     </aside>
@@ -68,13 +67,6 @@
               <span>›</span>
             </div>
 
-            <section class="notice-banner" id="topNotice">
-              <div>
-                <b>当前有 <span id="pendingCount">2</span> 条收案任务未确认接收</b>
-              </div>
-              <button class="primary-btn compact" id="openNoticePanel">查看</button>
-            </section>
-
             <section class="patient-tabs">
               <button>我的患者</button>
               <button>全部患者</button>
@@ -82,7 +74,7 @@
               <button>分组管理</button>
               <button>建群管理</button>
               <button>交班管理</button>
-              <button class="active">收案管理</button>
+              <button class="active case-tab">收案管理<span class="tab-alert" id="pendingDot" aria-label="有待确认收案任务"></span></button>
             </section>
 
             <section class="filters">
@@ -93,7 +85,6 @@
                   <option>全部</option>
                   <option>待接收</option>
                   <option>已接收</option>
-                  <option>待用户填写</option>
                   <option>用户填写中</option>
                   <option>用户已填写</option>
                   <option>已收案</option>
@@ -343,27 +334,6 @@
             </div>
           </section>
 
-          <section class="station-mail-dialog hidden" id="stationMailDialog" aria-label="站内信弹窗">
-            <aside class="mail-rail">
-              <div class="mail-logo">糖</div>
-              <button class="rail-item active">公益咨询</button>
-              <button class="rail-item">密集照护期</button>
-              <button class="rail-item">随访期</button>
-              <button class="rail-item">个案用户</button>
-              <div class="rail-spacer"></div>
-              <button class="rail-icon">□</button>
-              <button class="rail-icon active">✉</button>
-              <button class="rail-icon">⚙</button>
-            </aside>
-            <div class="mail-content">
-              <header class="mail-titlebar">
-                <b>站内信</b>
-                <button class="mail-close" id="closeStationMail">×</button>
-              </header>
-              <div class="mail-list" id="stationMailRows"></div>
-            </div>
-          </section>
-          <div class="mail-dialog-backdrop hidden" id="stationMailBackdrop"></div>
         </div>
       </section>
     </main>
@@ -372,12 +342,11 @@
       <h2>修改点</h2>
       <div class="note-card" data-note="list">
         <h3>收案状态</h3>
-        <p>收案任务状态调整为：待接收、已接收、待用户填写、用户填写中、用户已填写、已收案。</p>
+        <p>收案任务状态调整为：待接收、已接收、用户填写中、用户已填写、已收案。</p>
       </div>
-      <div class="note-card" data-note="notice">
+      <div class="note-card" data-note="list">
         <h3>待接收提醒</h3>
-        <p>患教端增加固定横幅，展示未确认接收的收案任务数量；点击“查看”打开站内信弹窗。</p>
-        <p>待接收站内信增加“确认”操作，确认后对应收案状态改为“已接收”，横幅数量同步减少；数量为 0 时横幅隐藏。</p>
+        <p>收案管理 tab 右上角增加小红点，用于提示存在待确认接收的收案任务；全部确认后小红点消失。</p>
       </div>
       <div class="note-card" data-note="receive">
         <h3>收案弹窗</h3>
@@ -388,7 +357,11 @@
       </div>
       <div class="note-card">
         <h3>问卷代填</h3>
-        <p>收案管理列表操作列增加“代填”入口，仅“待用户填写”“用户填写中”状态可点击；点击后打开患者部分问卷抽屉。</p>
+        <p>收案管理列表操作列增加“代填”入口，仅“已接收”“用户填写中”状态可点击；点击后打开患者部分问卷抽屉。</p>
+      </div>
+      <div class="note-card">
+        <h3>快捷操作</h3>
+        <p>收案管理列表操作列增加“确认”“复制”入口；“确认”仅待接收状态可点击，点击后状态变为“已接收”。</p>
       </div>
       <div class="note-card" data-note="sales-questionnaire">
         <h3>销售部分问卷</h3>
