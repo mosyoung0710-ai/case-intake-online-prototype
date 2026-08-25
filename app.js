@@ -1,12 +1,12 @@
 const initialCases = [
-  { id: 78, name: "11", sex: "女", age: "18岁", height: "11.00", weight: "11.00", type: "T1DM（1型糖尿病）", course: "0月18天", plan: "--", caregiver: "--", contact: "17700000574", orderDate: "2026-08-11", phone: "17700000574", pump: "凯联悦泵", device: "一加", glucoseMonitor: "硅基", channel: "糖糖圈", manager: "JJ", status: "待接收" },
-  { id: 75, name: "omt", sex: "女", age: "0月12天", height: "11.00", weight: "11.00", type: "T1DM（1型糖尿病）", course: "0月12天", plan: "生活方式干预（饮食+运动）", caregiver: "哈哈", contact: "17700000583", orderDate: "2026-08-11", phone: "17700000582", pump: "凯联悦泵", device: "中兴", glucoseMonitor: "欧泰", channel: "京东", manager: "JJ", status: "已接收" },
-  { id: 68, name: "mmmoos", sex: "女", age: "0月14天", height: "5.00", weight: "1.00", type: "T1DM（1型糖尿病）", course: "0月14天", plan: "降糖药物治疗", caregiver: "美女", contact: "17722699882", orderDate: "2026-08-06", phone: "17700000568", pump: "丹纳RS", device: "小米", glucoseMonitor: "鱼跃", channel: "天猫", manager: "JJ", status: "用户填写中" },
-  { id: 67, name: "用户41808", sex: "男", age: "3岁7月", height: "1.00", weight: "50.00", type: "T1DM（1型糖尿病）", course: "12年7月", plan: "餐前+基础（胰岛素笔）", caregiver: "哈哈", contact: "18814136000", orderDate: "2026-08-10", phone: "13800041808", pump: "丹纳RS", device: "荣耀", glucoseMonitor: "三诺", channel: "糖糖圈", manager: "JJ", status: "用户填写中" },
-  { id: 63, name: "用户41807", sex: "男", age: "0月26天", height: "185.00", weight: "60.00", type: "T2DM（2型糖尿病）", course: "1月10天", plan: "胰岛素泵", caregiver: "旺旺", contact: "18814136003", orderDate: "2026-08-05", phone: "13800041807", pump: "丹纳RS", device: "荣耀", glucoseMonitor: "德康", channel: "天猫", manager: "JJ", status: "已收案" },
-  { id: 52, name: "xionghao", sex: "男", age: "20岁1月", height: "11.00", weight: "22.00", type: "T1DM（1型糖尿病）", course: "1月3天", plan: "胰岛素泵", caregiver: "--", contact: "17700000581", orderDate: "2026-07-01", phone: "17700000581", pump: "丹纳R", device: "中兴", glucoseMonitor: "德康", channel: "京东", manager: "JJ", status: "待接收" },
-  { id: 45, name: "试戴用户", sex: "男", age: "7岁", height: "192.00", weight: "91.00", type: "GDM（妊娠糖尿病）", course: "5年4月", plan: "预混（胰岛素笔）", caregiver: "分公司公司", contact: "18814136001", orderDate: "2026-07-23", phone: "13800041805", pump: "凯联悦泵", device: "OPPO手表", glucoseMonitor: "雅培", channel: "糖糖圈", manager: "JJ", status: "用户填写中", isTrial: true },
-  { id: 15, name: "测试12", sex: "女", age: "17岁3月", height: "110.00", weight: "100.00", type: "其他特定类型糖尿病", course: "1月4天", plan: "餐前+基础（胰岛素笔）", caregiver: "1111", contact: "13751140843", orderDate: "2026-07-06", phone: "17700000571", pump: "微泰贴泵", device: "一加", glucoseMonitor: "微泰", channel: "京东", manager: "JJ", status: "用户已填写" }
+  { id: 78, name: "11", sex: "女", age: "18岁", height: "11.00", weight: "11.00", type: "T1DM（1型糖尿病）", course: "0月18天", plan: "--", caregiver: "--", contact: "177****0574", orderDate: "2026-08-11", phone: "177****0574", pump: "凯联悦泵", device: "一加", glucoseMonitor: "硅基", channel: "糖糖圈", manager: "JJ", status: "待接收" },
+  { id: 75, name: "omt", sex: "女", age: "0月12天", height: "11.00", weight: "11.00", type: "T1DM（1型糖尿病）", course: "0月12天", plan: "生活方式干预（饮食+运动）", caregiver: "哈哈", contact: "177****0583", orderDate: "2026-08-11", phone: "177****0582", pump: "凯联悦泵", device: "中兴", glucoseMonitor: "欧泰", channel: "京东", manager: "JJ", status: "已接收" },
+  { id: 68, name: "mmmoos", sex: "女", age: "0月14天", height: "5.00", weight: "1.00", type: "T1DM（1型糖尿病）", course: "0月14天", plan: "降糖药物治疗", caregiver: "美女", contact: "177****9982", orderDate: "2026-08-06", phone: "177****0568", pump: "丹纳RS", device: "小米", glucoseMonitor: "鱼跃", channel: "天猫", manager: "JJ", status: "用户填写中" },
+  { id: 67, name: "用户41808", sex: "男", age: "3岁7月", height: "1.00", weight: "50.00", type: "T1DM（1型糖尿病）", course: "12年7月", plan: "餐前+基础（胰岛素笔）", caregiver: "哈哈", contact: "188****6000", orderDate: "2026-08-10", phone: "138****1808", pump: "丹纳RS", device: "荣耀", glucoseMonitor: "三诺", channel: "糖糖圈", manager: "JJ", status: "用户填写中" },
+  { id: 63, name: "用户41807", sex: "男", age: "0月26天", height: "185.00", weight: "60.00", type: "T2DM（2型糖尿病）", course: "1月10天", plan: "胰岛素泵", caregiver: "旺旺", contact: "188****6003", orderDate: "2026-08-05", phone: "138****1807", pump: "丹纳RS", device: "荣耀", glucoseMonitor: "德康", channel: "天猫", manager: "JJ", status: "已收案" },
+  { id: 52, name: "xionghao", sex: "男", age: "20岁1月", height: "11.00", weight: "22.00", type: "T1DM（1型糖尿病）", course: "1月3天", plan: "胰岛素泵", caregiver: "--", contact: "177****0581", orderDate: "2026-07-01", phone: "177****0581", pump: "丹纳R", device: "中兴", glucoseMonitor: "德康", channel: "京东", manager: "JJ", status: "待接收" },
+  { id: 45, name: "试戴用户", sex: "男", age: "7岁", height: "192.00", weight: "91.00", type: "GDM（妊娠糖尿病）", course: "5年4月", plan: "预混（胰岛素笔）", caregiver: "分公司公司", contact: "188****6001", orderDate: "2026-07-23", phone: "138****1805", pump: "凯联悦泵", device: "OPPO手表", glucoseMonitor: "雅培", channel: "糖糖圈", manager: "JJ", status: "用户填写中", isTrial: true },
+  { id: 15, name: "测试12", sex: "女", age: "17岁3月", height: "110.00", weight: "100.00", type: "其他特定类型糖尿病", course: "1月4天", plan: "餐前+基础（胰岛素笔）", caregiver: "1111", contact: "137****0843", orderDate: "2026-07-06", phone: "177****0571", pump: "微泰贴泵", device: "一加", glucoseMonitor: "微泰", channel: "京东", manager: "JJ", status: "用户已填写" }
 ];
 
 let cases = initialCases.map(item => ({ ...item }));
@@ -14,6 +14,9 @@ let currentStep = 1;
 let currentReceiveCaseId = null;
 let receiveMode = "prepare";
 let prepProgressById = {};
+let currentSalesAppPage = "users";
+let pendingDeleteSalesAppRecord = null;
+let deletedSalesAppRecords = new Set();
 
 const rows = document.querySelector("#caseRows");
 const reviewShell = document.querySelector(".review-shell");
@@ -24,6 +27,13 @@ const pendingDot = document.querySelector("#pendingDot");
 const tableWrap = document.querySelector(".data-table-wrap");
 const caseManagementView = document.querySelector("#caseManagementView");
 const salesQuestionnaireView = document.querySelector("#salesQuestionnaireView");
+const salesAppView = document.querySelector("#salesAppView");
+const systemNoticeView = document.querySelector("#systemNoticeView");
+const salesAppTitle = document.querySelector("#salesAppTitle");
+const salesAppBack = document.querySelector("#salesAppBack");
+const appDeleteSheet = document.querySelector("#appDeleteSheet");
+const appSearchMenu = document.querySelector("[data-search-menu]");
+const appSearchFilterLabel = document.querySelector("[data-search-filter-label]");
 const receiveModal = document.querySelector("#receiveModal");
 const receiveHeading = document.querySelector("#receiveHeading");
 const autofillDrawer = document.querySelector("#autofillDrawer");
@@ -116,6 +126,8 @@ function showCaseManagement() {
   appShell.classList.remove("sales-mode");
   caseManagementView.classList.remove("hidden");
   salesQuestionnaireView.classList.add("hidden");
+  salesAppView.classList.add("hidden");
+  systemNoticeView.classList.add("hidden");
   window.requestAnimationFrame(resetTableScroll);
 }
 
@@ -126,6 +138,81 @@ function showSalesQuestionnaire() {
   appShell.classList.add("sales-mode");
   caseManagementView.classList.add("hidden");
   salesQuestionnaireView.classList.remove("hidden");
+  salesAppView.classList.add("hidden");
+  systemNoticeView.classList.add("hidden");
+}
+
+function showSalesApp(pageName = "users") {
+  reviewShell.classList.remove("notes-hidden");
+  notesPanel.classList.remove("hidden");
+  browserFrame.classList.add("sales-mode");
+  appShell.classList.add("sales-mode");
+  caseManagementView.classList.add("hidden");
+  salesQuestionnaireView.classList.add("hidden");
+  salesAppView.classList.remove("hidden");
+  systemNoticeView.classList.add("hidden");
+  openSalesAppPage(pageName);
+}
+
+function showSystemNotice() {
+  reviewShell.classList.remove("notes-hidden");
+  notesPanel.classList.remove("hidden");
+  browserFrame.classList.add("sales-mode");
+  appShell.classList.add("sales-mode");
+  caseManagementView.classList.add("hidden");
+  salesQuestionnaireView.classList.add("hidden");
+  salesAppView.classList.add("hidden");
+  systemNoticeView.classList.remove("hidden");
+}
+
+function openSalesAppPage(pageName) {
+  currentSalesAppPage = pageName;
+  const titles = {
+    users: "客户池",
+    "case-list": "收案管理",
+    "case-detail": "问卷详情",
+    "case-edit": "编辑收案"
+  };
+  closeAppDeleteSheet();
+  appSearchMenu.classList.add("hidden");
+  document.querySelectorAll("[data-sales-app-page]").forEach(page => {
+    page.classList.toggle("hidden", page.dataset.salesAppPage !== pageName);
+  });
+  salesAppTitle.textContent = titles[pageName] || "客户池";
+}
+
+function backSalesAppPage() {
+  const backMap = {
+    "case-list": "users",
+    "case-detail": "case-list",
+    "case-edit": "case-list"
+  };
+  openSalesAppPage(backMap[currentSalesAppPage] || "users");
+}
+
+function syncSalesAppDeletedRecords() {
+  document.querySelectorAll("[data-app-case-record]").forEach(record => {
+    record.classList.toggle("hidden", deletedSalesAppRecords.has(record.dataset.appCaseRecord));
+  });
+}
+
+function openAppDeleteSheet(button) {
+  const record = button.closest("[data-app-case-record]");
+  pendingDeleteSalesAppRecord = record?.dataset.appCaseRecord || null;
+  appDeleteSheet.classList.remove("hidden");
+}
+
+function closeAppDeleteSheet() {
+  pendingDeleteSalesAppRecord = null;
+  appDeleteSheet.classList.add("hidden");
+}
+
+function confirmAppDelete() {
+  if (pendingDeleteSalesAppRecord) {
+    deletedSalesAppRecords.add(pendingDeleteSalesAppRecord);
+    syncSalesAppDeletedRecords();
+  }
+  closeAppDeleteSheet();
 }
 
 function showToast(text) {
@@ -139,13 +226,19 @@ function setView(view) {
     button.classList.toggle("active", button.dataset.view === view);
   });
   document.querySelectorAll(".note-card").forEach(card => {
-    const isSalesNote = card.dataset.note === "sales-questionnaire";
-    card.classList.toggle("hidden", view === "sales-questionnaire" ? !isSalesNote : isSalesNote);
+    const scopedNote = card.dataset.note;
+    const scopedViews = ["sales-questionnaire", "sales-app", "sales-notice"];
+    const isScopedView = scopedViews.includes(view);
+    card.classList.toggle("hidden", isScopedView ? scopedNote !== view : scopedViews.includes(scopedNote));
     card.classList.toggle("active", card.dataset.note === view);
   });
 
   if (view === "sales-questionnaire") {
     showSalesQuestionnaire();
+  } else if (view === "sales-app") {
+    showSalesApp();
+  } else if (view === "sales-notice") {
+    showSystemNotice();
   } else {
     showCaseManagement();
   }
@@ -225,6 +318,34 @@ function confirmReceive(caseId) {
 document.querySelectorAll(".nav-item").forEach(button => {
   button.addEventListener("click", () => setView(button.dataset.view));
 });
+
+document.querySelectorAll("[data-open-sales-page]").forEach(button => {
+  button.addEventListener("click", () => openSalesAppPage(button.dataset.openSalesPage));
+});
+
+document.querySelectorAll("[data-open-delete-sheet]").forEach(button => {
+  button.addEventListener("click", () => openAppDeleteSheet(button));
+});
+
+document.querySelector("[data-close-delete-sheet]").addEventListener("click", closeAppDeleteSheet);
+document.querySelector("[data-confirm-app-delete]").addEventListener("click", confirmAppDelete);
+
+document.querySelector("[data-toggle-search-menu]").addEventListener("click", () => {
+  appSearchMenu.classList.toggle("hidden");
+});
+
+document.querySelectorAll("[data-search-filter]").forEach(button => {
+  button.addEventListener("click", () => {
+    appSearchFilterLabel.textContent = button.dataset.searchFilter;
+    appSearchMenu.classList.add("hidden");
+  });
+});
+
+document.querySelectorAll("[data-view-jump]").forEach(button => {
+  button.addEventListener("click", () => setView(button.dataset.viewJump));
+});
+
+salesAppBack.addEventListener("click", backSalesAppPage);
 
 document.querySelectorAll("[data-toggle-group]").forEach(group => {
   group.addEventListener("click", event => {
@@ -310,9 +431,12 @@ if (copyQuestionnaireLink) {
 document.querySelector("#resetDemo").addEventListener("click", () => {
   cases = initialCases.map(item => ({ ...item }));
   prepProgressById = {};
+  deletedSalesAppRecords = new Set();
+  syncSalesAppDeletedRecords();
   showCaseManagement();
   closeReceiveModal();
   closeAutofillDrawer();
+  closeAppDeleteSheet();
   renderRows();
   setView("list");
   showToast("已重置演示状态");

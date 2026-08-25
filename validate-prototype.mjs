@@ -152,12 +152,109 @@ await page.screenshot({ path: path.join(validationDir, "09-injection-times.png")
 await page.locator("#treatmentPlanSelect").selectOption("pump");
 const salesNewQuestionSections = await page.locator("#salesQuestionnaireView .sales-section").count();
 await page.screenshot({ path: path.join(validationDir, "08-sales-questionnaire.png"), fullPage: true });
+
+await page.getByRole("button", { name: "销售 App 端" }).click();
+const salesAppVisible = await page.locator("#salesAppView:not(.hidden)").count();
+const salesAppNoteVisible = await page.locator('.note-card[data-note="sales-app"]:not(.hidden)').count();
+const salesAppQuestionnaireHidden = await page.locator("#salesQuestionnaireView.hidden").count();
+const salesAppHealthcareNotesVisible = await page.locator('.note-card:not([data-note="sales-app"]):not(.hidden)').count();
+const salesAppPhoneVisible = await page.locator("#salesAppView .sales-phone").count();
+const salesAppUserCards = await page.locator("#salesAppView .sales-user-card").count();
+const salesAppNewCaseButtons = await page.locator("#salesAppView .sales-user-actions button", { hasText: "新收案" }).count();
+const salesAppManagementButtons = await page.locator("#salesAppView .sales-user-actions button", { hasText: "收案管理" }).count();
+const salesAppUserDetailPageCount = await page.locator('[data-sales-app-page="user-detail"]').count();
+const salesAppUserActionDescriptions = await page.locator("#salesAppView", { hasText: "填写销售部分问卷" }).count() + await page.locator("#salesAppView", { hasText: "查看历史收案记录" }).count();
+const salesAppUsersTitle = await page.locator("#salesAppTitle").innerText();
+const salesAppSummaryCardCount = await page.locator("#salesAppView .sales-summary-card").count();
+const salesAppUserTotalVisible = await page.locator("#salesAppView", { hasText: "共 65,244 位用户" }).count();
+const salesAppSearchFilterVisible = await page.locator("#salesAppView .app-search-filter", { hasText: "昵称" }).count();
+const salesAppSearchPlaceholder = await page.locator("#salesAppView .app-search input").getAttribute("placeholder");
+const salesAppSearchHintVisible = await page.locator("#salesAppView", { hasText: "可模糊查询昵称、ID、电话" }).count();
+const salesAppSearchButtonVisible = await page.locator("#salesAppView .app-search-submit").count() + await page.locator("#salesAppView .app-search button", { hasText: "搜索" }).count();
+await page.locator("#salesAppView .app-search-filter").click();
+const salesAppSearchMenuOptions = await page.locator("#salesAppView [data-search-menu] button").evaluateAll(buttons => buttons.map(button => button.textContent.trim()).join(","));
+await page.screenshot({ path: path.join(validationDir, "10-sales-app-users-search-menu.png"), fullPage: true });
+await page.locator("#salesAppView [data-search-filter='电话']").click();
+const salesAppSearchFilterAfterSelect = await page.locator("#salesAppView [data-search-filter-label]").innerText();
+const salesAppSearchMenuHiddenAfterSelect = await page.locator("#salesAppView [data-search-menu].hidden").count();
+await page.locator("#salesAppView .app-search-filter").click();
+await page.locator("#salesAppView [data-search-filter='昵称']").click();
+const salesAppUserIdsVisible = await page.locator("#salesAppView .sales-user-card strong", { hasText: "(65500)" }).count() + await page.locator("#salesAppView .sales-user-card strong", { hasText: "(65501)" }).count() + await page.locator("#salesAppView .sales-user-card strong", { hasText: "(65502)" }).count();
+const salesAppUserPhoneRows = await page.locator("#salesAppView .sales-user-card small", { hasText: "手机号：" }).count();
+const salesAppUserFollowerRows = await page.locator("#salesAppView .sales-user-card small", { hasText: "跟进人：" }).count();
+const salesAppUnreceivedProgress = await page.locator("#salesAppView .sales-user-card p", { hasText: "收案进度：--" }).count();
+await page.screenshot({ path: path.join(validationDir, "10-sales-app-users.png"), fullPage: true });
+await page.locator("#salesAppView .sales-user-card").first().getByRole("button", { name: "收案管理" }).click();
+const salesAppCaseListTitle = await page.locator("#salesAppTitle").innerText();
+const salesAppCaseRecords = await page.locator("#salesAppView .app-case-record:not(.hidden)").count();
+const salesAppCaseListFields = await page.locator("#salesAppView", { hasText: "下单日期" }).count() + await page.locator("#salesAppView", { hasText: "提交时间" }).count() + await page.locator("#salesAppView", { hasText: "泵型号" }).count() + await page.locator("#salesAppView", { hasText: "当前状态" }).count();
+const salesAppCaseListDeleteButtons = await page.locator("#salesAppView .app-case-record:not(.hidden) .danger-text", { hasText: "删除" }).count();
+const salesAppCaseListDetailButtons = await page.locator("#salesAppView .app-case-record:not(.hidden) button", { hasText: "详情" }).count();
+const salesAppCaseListEditButtons = await page.locator("#salesAppView .app-case-record:not(.hidden) button", { hasText: "编辑" }).count();
+const salesAppCaseStatusesVisible = await page.locator("#salesAppView", { hasText: "当前状态：待接收" }).count() + await page.locator("#salesAppView", { hasText: "当前状态：已接收" }).count() + await page.locator("#salesAppView", { hasText: "当前状态：待用户填写" }).count() + await page.locator("#salesAppView", { hasText: "当前状态：用户填写中" }).count() + await page.locator("#salesAppView", { hasText: "当前状态：用户已填写" }).count() + await page.locator("#salesAppView", { hasText: "当前状态：已收案" }).count();
+const salesAppCaseEnabledEditButtons = await page.locator("#salesAppView .app-case-record:not(.hidden) button:not([disabled])", { hasText: "编辑" }).count();
+const salesAppCaseDisabledEditButtons = await page.locator("#salesAppView .app-case-record:not(.hidden) button[disabled]", { hasText: "编辑" }).count();
+const salesAppCaseEnabledDeleteButtons = await page.locator("#salesAppView .app-case-record:not(.hidden) button:not([disabled])", { hasText: "删除" }).count();
+const salesAppCaseDisabledDeleteButtons = await page.locator("#salesAppView .app-case-record:not(.hidden) button[disabled]", { hasText: "删除" }).count();
+await page.screenshot({ path: path.join(validationDir, "11-sales-app-case-list.png"), fullPage: true });
+await page.locator("#salesAppBack").click();
+const salesAppBackToUsersTitle = await page.locator("#salesAppTitle").innerText();
+const salesAppBackToUsersCards = await page.locator("#salesAppView .sales-user-card").count();
+await page.locator("#salesAppView .sales-user-card").first().getByRole("button", { name: "收案管理" }).click();
+await page.locator("#salesAppView .app-case-record:not(.hidden)").first().getByRole("button", { name: "编辑" }).click();
+const salesAppEditTitleFromList = await page.locator("#salesAppTitle").innerText();
+await page.locator("#salesAppBack").click();
+const salesAppBackFromEditTitle = await page.locator("#salesAppTitle").innerText();
+await page.locator("#salesAppView .app-case-record").first().getByRole("button", { name: "详情" }).click();
+const salesAppDetailTitle = await page.locator("#salesAppTitle").innerText();
+const salesAppDetailFields = await page.locator("#salesAppView", { hasText: "业务经理" }).count() + await page.locator("#salesAppView", { hasText: "用户填写部分" }).count();
+const salesAppDetailDeleteButtons = await page.locator('[data-sales-app-page="case-detail"] .danger-text', { hasText: "删除" }).count();
+const salesAppDetailEditButtons = await page.locator('[data-sales-app-page="case-detail"] button', { hasText: "编辑" }).count();
+await page.screenshot({ path: path.join(validationDir, "12-sales-app-detail.png"), fullPage: true });
+await page.locator("#salesAppBack").click();
+await page.locator("#salesAppView .app-case-record:not(.hidden)").first().getByRole("button", { name: "编辑" }).click();
+const salesAppEditTitle = await page.locator("#salesAppTitle").innerText();
+const salesAppEditFields = await page.locator("#salesAppView .app-edit-card label").count();
+await page.screenshot({ path: path.join(validationDir, "13-sales-app-edit.png"), fullPage: true });
+await page.locator("#salesAppView button", { hasText: "保存" }).click();
+await page.locator("#salesAppView .app-case-record:not(.hidden)").first().getByRole("button", { name: "删除" }).click();
+const salesAppDeleteTitle = await page.locator("#salesAppTitle").innerText();
+const salesAppDeleteConfirmVisible = await page.locator("#appDeleteSheet:not(.hidden) .app-confirm-card", { hasText: "确认删除本次收案？" }).count();
+await page.screenshot({ path: path.join(validationDir, "14-sales-app-delete.png"), fullPage: true });
+await page.locator("#appDeleteSheet").getByRole("button", { name: "取消" }).click();
+const salesAppDeleteCancelTitle = await page.locator("#salesAppTitle").innerText();
+const salesAppDeleteConfirmHiddenAfterCancel = await page.locator("#appDeleteSheet.hidden").count();
+await page.locator("#salesAppView .app-case-record:not(.hidden)").first().getByRole("button", { name: "删除" }).click();
+await page.locator("#appDeleteSheet").getByRole("button", { name: "确认删除" }).click();
+const salesAppCaseRecordsAfterDelete = await page.locator("#salesAppView .app-case-record:not(.hidden)").count();
+await page.locator("#resetDemo").click();
+await page.getByRole("button", { name: "销售 App 端" }).click();
+await page.locator("#salesAppView .sales-user-card").first().getByRole("button", { name: "收案管理" }).click();
+const salesAppCaseRecordsAfterReset = await page.locator("#salesAppView .app-case-record:not(.hidden)").count();
+await page.locator("#salesAppBack").click();
+await page.locator("#salesAppView .sales-user-card").first().getByRole("button", { name: "新收案" }).click();
+const salesAppNewCaseJumpVisible = await page.locator("#salesQuestionnaireView:not(.hidden)").count();
+const salesAppNewCaseJumpActiveNav = await page.locator(".nav-item.active").innerText();
+
+await page.getByRole("button", { name: "系统通知" }).click();
+const systemNoticeVisible = await page.locator("#systemNoticeView:not(.hidden)").count();
+const systemNoticeActiveNav = await page.locator(".nav-item.active").innerText();
+const systemNoticeTitle = await page.locator("#systemNoticeView .sales-app-header strong").innerText();
+const systemNoticeMessageVisible = await page.locator("#systemNoticeView .intake-notice-message", { hasText: "患教已接收患者【JJ】（ID：56）。" }).count();
+const systemNoticeNoteVisible = await page.locator('.note-card[data-note="sales-notice"]:not(.hidden)').count();
+const systemNoticeOtherNotesVisible = await page.locator('.note-card:not([data-note="sales-notice"]):not(.hidden)').count();
+const systemNoticeSalesAppHidden = await page.locator("#salesAppView.hidden").count();
+const systemNoticeQuestionnaireHidden = await page.locator("#salesQuestionnaireView.hidden").count();
+await page.waitForTimeout(1700);
+await page.screenshot({ path: path.join(validationDir, "15-system-notice.png"), fullPage: true });
+
 await page.getByRole("button", { name: "收案管理" }).click();
 const listBrowserTopVisible = await page.locator(".browser-top").evaluate(element => getComputedStyle(element).display !== "none" ? 1 : 0);
 const listNotesVisible = await page.locator("#notesPanel:not(.hidden)").count();
 const salesNoteHiddenInList = await page.locator('.note-card[data-note="sales-questionnaire"].hidden').count();
+const salesAppNoteHiddenInList = await page.locator('.note-card[data-note="sales-app"].hidden').count();
 const removedStatusText = ["待", "用户", "填写"].join("");
-const removedStatusVisible = await page.locator("body", { hasText: removedStatusText }).count();
+const removedStatusVisible = await page.locator("#caseManagementView", { hasText: removedStatusText }).count();
 const noticeNavVisible = await page.locator('.nav-item[data-view="notice"]').count();
 const noticeBannerVisible = await page.locator("#topNotice").count();
 const stationMailVisible = await page.locator("#stationMailDialog").count();
@@ -234,7 +331,7 @@ const autofillDrawerHidden = await page.locator("#autofillDrawer.hidden").count(
 await browser.close();
 
 console.log(JSON.stringify({
-  ok: consoleErrors.length === 0 && failedRequests.length === 0 && initialTableRows >= 8 && initialTableScrollLeft === 0 && firstIdHeaderVisible === true && tableRows >= 8 && salesQuestionnaireVisible === 1 && salesNotesVisible === 1 && salesNoteVisible === 1 && salesPatientEditableNoteVisible === 1 && salesHiddenQuestionNoteVisible === 1 && healthcareNotesVisibleInSales === 0 && salesBrowserTopHidden === 1 && salesAppTopbarHidden === 1 && salesAddedTopicsTitleVisible === 1 && salesAddedTopicsCount === 19 && listBrowserTopVisible === 1 && listNotesVisible === 1 && salesNoteHiddenInList === 1 && removedStatusVisible === 0 && noticeNavVisible === 0 && noticeBannerVisible === 0 && stationMailVisible === 0 && pendingDotInitial === 1 && pendingDotTextInitial === "2" && pendingDotAfterAllConfirm === 1 && pendingDotTextAfterAllConfirm === "" && copyActionButtons === tableRows && enabledConfirmButtonsBefore === 2 && enabledConfirmButtonsAfter === 0 && disabledConfirmButtonsAfter === tableRows && firstConfirmedStatus === "已接收" && salesRequiredFields >= 25 && salesSubmitVisible === 1 && logisticsFieldVisible === 0 && userNameFieldVisible === 1 && contactFieldVisible === 1 && pumpUserFieldVisible === 1 && glucoseTargetRateVisible === 1 && glucoseReportUploadVisible === 1 && glucoseReportUploadRequired === 0 && fieldNotesVisible === 6 && progressLabelVisible === 0 && mealTimeFieldsVisible === 0 && relatedInfoRequiredMarks === 4 && fieldNotesLeftOfCard === true && salesFieldOrder.ok === true && phoneModelVisibleInitial === 1 && watchModelHiddenInitial === 1 && watchModelVisibleAfterClick === 1 && phoneModelHiddenAfterClick === 1 && complicationDetailVisible === 1 && complicationOptionVisible === 1 && complicationRequiredMarks === 0 && skinDetailVisible === 1 && skinDetailFieldsVisible === 1 && skinDetailRequiredMarks === 0 && pumpPanelVisibleInitial === 1 && penPanelHiddenInitial === 1 && penPanelVisibleAfterSelect === 1 && pumpPanelHiddenAfterSelect === 1 && penPanelVisibleAfterPremix === 1 && pumpPanelHiddenAfterPremix === 1 && injectionOptions.join(",") === "0次,1次,2次" && injectionRowsInitial === 2 && injectionRowsAfterOne === 1 && injectionRowsAfterZero === 0 && salesNewQuestionSections === 3 && enabledPushButtons === 7 && enabledAutofillButtons === 6 && disabledAutofillButtons === 2 && enabledDeleteButtons === 1 && disabledDeleteButtons === 7 && prepButtons === 6 && processButtons === 2 && disabledProcessButtons === 1 && finishedActionButtons === 0 && receiveActionButtons === tableRows && autofillSalesSectionVisible === 0 && reopenedPrepStep === "创建群聊" && trialUserControlCount === 0 && prevStepButtonCount === 0 && trialPrepStep === "创建看板" && trialVisiblePrepareSteps === 1 && trialGroupBodyVisible === 0 && trialFinishButtonVisible === 1 && processStep === "信息核对" && visiblePrepareStepsInProcess === 0 && processStepperHidden === 1 && prepQuestionnaireLinkVisible === 0 && prepQuestionnaireResultsVisible === 2 && processQuestionnaireLinkVisible === 0 && processQuestionnaireResultsVisible === 2 && autofillDrawerHidden === 1,
+  ok: consoleErrors.length === 0 && failedRequests.length === 0 && initialTableRows >= 8 && initialTableScrollLeft === 0 && firstIdHeaderVisible === true && tableRows >= 8 && salesQuestionnaireVisible === 1 && salesNotesVisible === 1 && salesNoteVisible === 1 && salesPatientEditableNoteVisible === 1 && salesHiddenQuestionNoteVisible === 1 && healthcareNotesVisibleInSales === 0 && salesBrowserTopHidden === 1 && salesAppTopbarHidden === 1 && salesAddedTopicsTitleVisible === 1 && salesAddedTopicsCount === 19 && salesAppVisible === 1 && salesAppNoteVisible === 1 && salesAppQuestionnaireHidden === 1 && salesAppHealthcareNotesVisible === 0 && salesAppPhoneVisible === 1 && salesAppUsersTitle === "客户池" && salesAppSummaryCardCount === 0 && salesAppUserTotalVisible === 0 && salesAppSearchFilterVisible === 1 && salesAppSearchPlaceholder === null && salesAppSearchHintVisible === 0 && salesAppSearchButtonVisible === 0 && salesAppSearchMenuOptions === "昵称,ID,电话" && salesAppSearchFilterAfterSelect === "电话" && salesAppSearchMenuHiddenAfterSelect === 1 && salesAppUserIdsVisible === 3 && salesAppUserPhoneRows === 3 && salesAppUserFollowerRows === 3 && salesAppUnreceivedProgress === 1 && salesAppUserCards === 3 && salesAppNewCaseButtons === 3 && salesAppManagementButtons === 3 && salesAppUserDetailPageCount === 0 && salesAppUserActionDescriptions === 0 && salesAppCaseListTitle === "收案管理" && salesAppCaseRecords === 6 && salesAppCaseListFields >= 4 && salesAppCaseListDeleteButtons === salesAppCaseRecords && salesAppCaseListDetailButtons === salesAppCaseRecords && salesAppCaseListEditButtons === salesAppCaseRecords && salesAppCaseStatusesVisible === 6 && salesAppCaseEnabledEditButtons === 3 && salesAppCaseDisabledEditButtons === 3 && salesAppCaseEnabledDeleteButtons === 1 && salesAppCaseDisabledDeleteButtons === 5 && salesAppBackToUsersTitle === "客户池" && salesAppBackToUsersCards === 3 && salesAppEditTitleFromList === "编辑收案" && salesAppBackFromEditTitle === "收案管理" && salesAppDetailTitle === "问卷详情" && salesAppDetailFields >= 2 && salesAppDetailDeleteButtons === 0 && salesAppDetailEditButtons === 0 && salesAppEditTitle === "编辑收案" && salesAppEditFields === 5 && salesAppDeleteTitle === "收案管理" && salesAppDeleteConfirmVisible === 1 && salesAppDeleteCancelTitle === "收案管理" && salesAppDeleteConfirmHiddenAfterCancel === 1 && salesAppCaseRecordsAfterDelete === salesAppCaseRecords - 1 && salesAppCaseRecordsAfterReset === salesAppCaseRecords && salesAppNewCaseJumpVisible === 1 && salesAppNewCaseJumpActiveNav === "销售部分问卷" && systemNoticeVisible === 1 && systemNoticeActiveNav === "系统通知" && systemNoticeTitle === "系统通知" && systemNoticeMessageVisible === 1 && systemNoticeNoteVisible === 1 && systemNoticeOtherNotesVisible === 0 && systemNoticeSalesAppHidden === 1 && systemNoticeQuestionnaireHidden === 1 && listBrowserTopVisible === 1 && listNotesVisible === 1 && salesNoteHiddenInList === 1 && salesAppNoteHiddenInList === 1 && removedStatusVisible === 0 && noticeNavVisible === 0 && noticeBannerVisible === 0 && stationMailVisible === 0 && pendingDotInitial === 1 && pendingDotTextInitial === "2" && pendingDotAfterAllConfirm === 1 && pendingDotTextAfterAllConfirm === "" && copyActionButtons === tableRows && enabledConfirmButtonsBefore === 2 && enabledConfirmButtonsAfter === 0 && disabledConfirmButtonsAfter === tableRows && firstConfirmedStatus === "已接收" && salesRequiredFields >= 25 && salesSubmitVisible === 1 && logisticsFieldVisible === 0 && userNameFieldVisible === 1 && contactFieldVisible === 1 && pumpUserFieldVisible === 1 && glucoseTargetRateVisible === 1 && glucoseReportUploadVisible === 1 && glucoseReportUploadRequired === 0 && fieldNotesVisible === 6 && progressLabelVisible === 0 && mealTimeFieldsVisible === 0 && relatedInfoRequiredMarks === 4 && fieldNotesLeftOfCard === true && salesFieldOrder.ok === true && phoneModelVisibleInitial === 1 && watchModelHiddenInitial === 1 && watchModelVisibleAfterClick === 1 && phoneModelHiddenAfterClick === 1 && complicationDetailVisible === 1 && complicationOptionVisible === 1 && complicationRequiredMarks === 0 && skinDetailVisible === 1 && skinDetailFieldsVisible === 1 && skinDetailRequiredMarks === 0 && pumpPanelVisibleInitial === 1 && penPanelHiddenInitial === 1 && penPanelVisibleAfterSelect === 1 && pumpPanelHiddenAfterSelect === 1 && penPanelVisibleAfterPremix === 1 && pumpPanelHiddenAfterPremix === 1 && injectionOptions.join(",") === "0次,1次,2次" && injectionRowsInitial === 2 && injectionRowsAfterOne === 1 && injectionRowsAfterZero === 0 && salesNewQuestionSections === 3 && enabledPushButtons === 7 && enabledAutofillButtons === 6 && disabledAutofillButtons === 2 && enabledDeleteButtons === 1 && disabledDeleteButtons === 7 && prepButtons === 6 && processButtons === 2 && disabledProcessButtons === 1 && finishedActionButtons === 0 && receiveActionButtons === tableRows && autofillSalesSectionVisible === 0 && reopenedPrepStep === "创建群聊" && trialUserControlCount === 0 && prevStepButtonCount === 0 && trialPrepStep === "创建看板" && trialVisiblePrepareSteps === 1 && trialGroupBodyVisible === 0 && trialFinishButtonVisible === 1 && processStep === "信息核对" && visiblePrepareStepsInProcess === 0 && processStepperHidden === 1 && prepQuestionnaireLinkVisible === 0 && prepQuestionnaireResultsVisible === 2 && processQuestionnaireLinkVisible === 0 && processQuestionnaireResultsVisible === 2 && autofillDrawerHidden === 1,
   initialTableRows,
   initialTableScrollLeft,
   firstIdHeaderVisible,
@@ -253,6 +350,7 @@ console.log(JSON.stringify({
   listBrowserTopVisible,
   listNotesVisible,
   salesNoteHiddenInList,
+  salesAppNoteHiddenInList,
   removedStatusVisible,
   noticeNavVisible,
   noticeBannerVisible,
@@ -302,6 +400,67 @@ console.log(JSON.stringify({
   injectionRowsAfterOne,
   injectionRowsAfterZero,
   salesNewQuestionSections,
+  salesAppVisible,
+  salesAppNoteVisible,
+  salesAppQuestionnaireHidden,
+  salesAppHealthcareNotesVisible,
+  salesAppPhoneVisible,
+  salesAppUsersTitle,
+  salesAppSummaryCardCount,
+  salesAppUserTotalVisible,
+  salesAppSearchFilterVisible,
+  salesAppSearchPlaceholder,
+  salesAppSearchHintVisible,
+  salesAppSearchButtonVisible,
+  salesAppSearchMenuOptions,
+  salesAppSearchFilterAfterSelect,
+  salesAppSearchMenuHiddenAfterSelect,
+  salesAppUserIdsVisible,
+  salesAppUserPhoneRows,
+  salesAppUserFollowerRows,
+  salesAppUnreceivedProgress,
+  salesAppUserCards,
+  salesAppNewCaseButtons,
+  salesAppManagementButtons,
+  salesAppUserDetailPageCount,
+  salesAppUserActionDescriptions,
+  salesAppCaseListTitle,
+  salesAppCaseRecords,
+  salesAppCaseListFields,
+  salesAppCaseListDeleteButtons,
+  salesAppCaseListDetailButtons,
+  salesAppCaseListEditButtons,
+  salesAppCaseStatusesVisible,
+  salesAppCaseEnabledEditButtons,
+  salesAppCaseDisabledEditButtons,
+  salesAppCaseEnabledDeleteButtons,
+  salesAppCaseDisabledDeleteButtons,
+  salesAppBackToUsersTitle,
+  salesAppBackToUsersCards,
+  salesAppEditTitleFromList,
+  salesAppBackFromEditTitle,
+  salesAppDetailTitle,
+  salesAppDetailFields,
+  salesAppDetailDeleteButtons,
+  salesAppDetailEditButtons,
+  salesAppEditTitle,
+  salesAppEditFields,
+  salesAppDeleteTitle,
+  salesAppDeleteConfirmVisible,
+  salesAppDeleteCancelTitle,
+  salesAppDeleteConfirmHiddenAfterCancel,
+  salesAppCaseRecordsAfterDelete,
+  salesAppCaseRecordsAfterReset,
+  salesAppNewCaseJumpVisible,
+  salesAppNewCaseJumpActiveNav,
+  systemNoticeVisible,
+  systemNoticeActiveNav,
+  systemNoticeTitle,
+  systemNoticeMessageVisible,
+  systemNoticeNoteVisible,
+  systemNoticeOtherNotesVisible,
+  systemNoticeSalesAppHidden,
+  systemNoticeQuestionnaireHidden,
   enabledPushButtons,
   enabledAutofillButtons,
   disabledAutofillButtons,
@@ -340,6 +499,13 @@ console.log(JSON.stringify({
     "validation/06-process-check.png",
     "validation/07-trial-prepare.png",
     "validation/08-sales-questionnaire.png",
-    "validation/09-injection-times.png"
+    "validation/09-injection-times.png",
+    "validation/10-sales-app-users.png",
+    "validation/10-sales-app-users-search-menu.png",
+    "validation/11-sales-app-case-list.png",
+    "validation/12-sales-app-detail.png",
+    "validation/13-sales-app-edit.png",
+    "validation/14-sales-app-delete.png",
+    "validation/15-system-notice.png"
   ]
 }, null, 2));

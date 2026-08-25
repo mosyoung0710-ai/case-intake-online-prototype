@@ -19,6 +19,8 @@
       <button class="nav-item active" data-view="list">收案管理</button>
       <button class="nav-item" data-view="receive">收案弹窗</button>
       <button class="nav-item" data-view="sales-questionnaire">销售部分问卷</button>
+      <button class="nav-item" data-view="sales-app">销售 App 端</button>
+      <button class="nav-item" data-view="sales-notice">系统通知</button>
     </aside>
 
     <main class="prototype-stage">
@@ -204,7 +206,7 @@
 
                 <section class="sales-section">
                   <h3>一、基本信息</h3>
-                  <label><span>联系电话 <strong>*</strong></span><input value="17700000570" placeholder="请输入联系电话" /></label>
+                  <label><span>联系电话 <strong>*</strong></span><input value="177****0570" placeholder="请输入联系电话" /></label>
                   <label><span>用泵人姓名（昵称） <strong>*</strong></span><input value="JJ" placeholder="请输入用泵人姓名或昵称" /></label>
                   <label><span>出生日期 <strong>*</strong></span><input value="2008-07-01" /></label>
                   <div class="sales-choice-row">
@@ -356,6 +358,245 @@
             </div>
           </section>
 
+          <section class="system-notice-view hidden" id="systemNoticeView" aria-label="系统通知页面">
+            <div class="sales-phone notice-phone" aria-label="糖糖圈 App 系统通知页面">
+              <div class="phone-status">
+                <span>18:36</span>
+                <span>4G 66%</span>
+              </div>
+              <header class="sales-app-header">
+                <button class="icon-button" type="button" aria-label="返回">‹</button>
+                <strong>系统通知</strong>
+              </header>
+              <div class="notice-thread">
+                <div class="notice-time">08-25 10:02</div>
+                <article class="notice-message intake-notice-message">
+                  <div class="notice-avatar">糖</div>
+                  <div>
+                    <strong>糖糖圈小管家</strong>
+                    <p>患教已接收患者【JJ】（ID：56）。</p>
+                  </div>
+                </article>
+                <div class="notice-time">08-20 15:10</div>
+                <article class="notice-message">
+                  <div class="notice-avatar">糖</div>
+                  <div>
+                    <strong>糖糖圈小管家</strong>
+                    <p>您发布的帖子（ID:1532206，内容摘要：s讲解）因【灌水】已被回收。</p>
+                  </div>
+                </article>
+                <div class="notice-time">08-19 10:34</div>
+                <article class="notice-message">
+                  <div class="notice-avatar">糖</div>
+                  <div>
+                    <strong>糖糖圈小管家</strong>
+                    <p>您发布的帖子（ID:1532043，内容摘要：美）因【灌水】已被回收。</p>
+                  </div>
+                </article>
+              </div>
+            </div>
+          </section>
+
+          <section class="sales-app-view hidden" id="salesAppView" aria-label="销售 App 端">
+            <div class="sales-phone" aria-label="糖糖圈 App 销售端页面">
+              <div class="phone-status">
+                <span>17:24</span>
+                <span>4G 54%</span>
+              </div>
+              <header class="sales-app-header">
+                <button class="icon-button" type="button" id="salesAppBack" aria-label="返回">‹</button>
+                <strong id="salesAppTitle">客户池</strong>
+              </header>
+
+              <div class="sales-app-page" data-sales-app-page="users">
+                <div class="app-search">
+                  <button class="app-search-filter" type="button" data-toggle-search-menu>
+                    <span data-search-filter-label>昵称</span>
+                    <i>⌄</i>
+                  </button>
+                  <input aria-label="搜索用户" />
+                  <div class="app-search-menu hidden" data-search-menu>
+                    <button type="button" data-search-filter="昵称">昵称</button>
+                    <button type="button" data-search-filter="ID">ID</button>
+                    <button type="button" data-search-filter="电话">电话</button>
+                  </div>
+                </div>
+                <div class="sales-user-list">
+                  <article class="sales-user-card active">
+                    <div class="sales-user-main">
+                      <strong>JJ <span>(65500)</span></strong>
+                      <p>女｜36岁｜收案进度：已收案</p>
+                      <small>手机号：177****0574｜跟进人：JJ</small>
+                    </div>
+                    <div class="sales-user-actions">
+                      <button type="button" data-view-jump="sales-questionnaire">新收案</button>
+                      <button type="button" data-open-sales-page="case-list">收案管理</button>
+                    </div>
+                  </article>
+                  <article class="sales-user-card">
+                    <div class="sales-user-main">
+                      <strong>张三 <span>(65501)</span></strong>
+                      <p>男｜4岁｜收案进度：用户已填写</p>
+                      <small>手机号：188****6000｜跟进人：liaojulan</small>
+                    </div>
+                    <div class="sales-user-actions">
+                      <button type="button" data-view-jump="sales-questionnaire">新收案</button>
+                      <button type="button" data-open-sales-page="case-list">收案管理</button>
+                    </div>
+                  </article>
+                  <article class="sales-user-card">
+                    <div class="sales-user-main">
+                      <strong>王女士 <span>(65502)</span></strong>
+                      <p>女｜25岁｜收案进度：--</p>
+                      <small>手机号：138****8001｜跟进人：--</small>
+                    </div>
+                    <div class="sales-user-actions">
+                      <button type="button" data-view-jump="sales-questionnaire">新收案</button>
+                      <button type="button" data-open-sales-page="case-list">收案管理</button>
+                    </div>
+                  </article>
+                </div>
+              </div>
+
+              <div class="sales-app-page hidden" data-sales-app-page="case-list">
+                <section class="app-list-title">
+                  <div>
+                    <strong>收案管理 - JJ</strong>
+                  </div>
+                  <button type="button" data-view-jump="sales-questionnaire">+ 新收案</button>
+                </section>
+                <article class="app-case-record" data-app-case-record="56">
+                  <div>
+                    <strong>收案ID 56</strong>
+                    <p>下单日期：2026-07-29｜提交时间：2026-07-30 14:55:47</p>
+                    <small>泵型号：丹纳R　当前状态：待接收</small>
+                  </div>
+                  <div class="app-case-actions">
+                    <button type="button" data-open-sales-page="case-detail">详情</button>
+                    <button type="button" data-open-sales-page="case-edit">编辑</button>
+                    <button class="danger-text" type="button" data-open-delete-sheet>删除</button>
+                  </div>
+                </article>
+                <article class="app-case-record" data-app-case-record="101">
+                  <div>
+                    <strong>收案ID 101</strong>
+                    <p>下单日期：2026-04-03｜提交时间：2026-04-03 15:20:00</p>
+                    <small>泵型号：科睿福　当前状态：已接收</small>
+                  </div>
+                  <div class="app-case-actions">
+                    <button type="button" data-open-sales-page="case-detail">详情</button>
+                    <button type="button" data-open-sales-page="case-edit">编辑</button>
+                    <button class="danger-text" type="button" disabled>删除</button>
+                  </div>
+                </article>
+                <article class="app-case-record" data-app-case-record="118">
+                  <div>
+                    <strong>收案ID 118</strong>
+                    <p>下单日期：2026-08-12｜提交时间：2026-08-12 18:30:12</p>
+                    <small>泵型号：丹纳RS　当前状态：待用户填写</small>
+                  </div>
+                  <div class="app-case-actions">
+                    <button type="button" data-open-sales-page="case-detail">详情</button>
+                    <button type="button" data-open-sales-page="case-edit">编辑</button>
+                    <button class="danger-text" type="button" disabled>删除</button>
+                  </div>
+                </article>
+                <article class="app-case-record" data-app-case-record="124">
+                  <div>
+                    <strong>收案ID 124</strong>
+                    <p>下单日期：2026-08-15｜提交时间：2026-08-15 09:42:18</p>
+                    <small>泵型号：微泰贴泵　当前状态：用户填写中</small>
+                  </div>
+                  <div class="app-case-actions">
+                    <button type="button" data-open-sales-page="case-detail">详情</button>
+                    <button type="button" disabled>编辑</button>
+                    <button class="danger-text" type="button" disabled>删除</button>
+                  </div>
+                </article>
+                <article class="app-case-record" data-app-case-record="127">
+                  <div>
+                    <strong>收案ID 127</strong>
+                    <p>下单日期：2026-08-16｜提交时间：2026-08-16 16:25:44</p>
+                    <small>泵型号：欧志+手机　当前状态：用户已填写</small>
+                  </div>
+                  <div class="app-case-actions">
+                    <button type="button" data-open-sales-page="case-detail">详情</button>
+                    <button type="button" disabled>编辑</button>
+                    <button class="danger-text" type="button" disabled>删除</button>
+                  </div>
+                </article>
+                <article class="app-case-record" data-app-case-record="129">
+                  <div>
+                    <strong>收案ID 129</strong>
+                    <p>下单日期：2026-08-18｜提交时间：2026-08-18 10:08:36</p>
+                    <small>泵型号：凯联悦泵　当前状态：已收案</small>
+                  </div>
+                  <div class="app-case-actions">
+                    <button type="button" data-open-sales-page="case-detail">详情</button>
+                    <button type="button" disabled>编辑</button>
+                    <button class="danger-text" type="button" disabled>删除</button>
+                  </div>
+                </article>
+              </div>
+
+              <div class="sales-app-page hidden" data-sales-app-page="case-detail">
+                <section class="app-detail-card">
+                  <h3>问卷详情</h3>
+                  <div><span>业务经理</span><b>子经理</b></div>
+                  <div><span>用户姓名</span><b>张三</b></div>
+                  <div><span>下单电话</span><b>138****8001</b></div>
+                  <div><span>安装时间</span><b>2024-03-20</b></div>
+                  <div><span>安装方式</span><b>线下经理上门安装</b></div>
+                  <div><span>用户渠道</span><b>糖糖圈</b></div>
+                  <div><span>服务类型</span><b>购买</b></div>
+                  <div><span>泵型号</span><b>欧志+手机</b></div>
+                </section>
+                <section class="app-detail-card">
+                  <h3>用户填写部分</h3>
+                  <div><span>姓名（昵称）</span><b>王女士</b></div>
+                  <div><span>性别</span><b>女</b></div>
+                  <div><span>年龄</span><b>25</b></div>
+                  <div><span>身高</span><b>160cm</b></div>
+                  <div><span>体重</span><b>55kg</b></div>
+                </section>
+              </div>
+
+              <div class="sales-app-page hidden" data-sales-app-page="case-edit">
+                <section class="app-edit-card">
+                  <h3>编辑收案</h3>
+                  <label>业务经理<input value="子经理" /></label>
+                  <label>用户姓名<input value="张三" /></label>
+                  <label>下单电话<input value="138****8001" /></label>
+                  <label>泵型号<select><option>欧志+手机</option></select></label>
+                  <label>售前备注<textarea>用户希望周末下午联系</textarea></label>
+                </section>
+                <footer class="app-bottom-actions">
+                  <button type="button" data-open-sales-page="case-list">取消</button>
+                  <button class="primary-action" type="button" data-open-sales-page="case-list">保存</button>
+                </footer>
+              </div>
+
+              <div class="app-delete-sheet hidden" id="appDeleteSheet" role="dialog" aria-modal="true" aria-labelledby="appDeleteTitle">
+                <section class="app-confirm-card">
+                  <h3 id="appDeleteTitle">确认删除本次收案？</h3>
+                  <p>删除后，该用户本次收案记录不再出现在历史收案列表中。</p>
+                  <div>
+                    <button type="button" data-close-delete-sheet>取消</button>
+                    <button class="danger-action" type="button" data-confirm-app-delete>确认删除</button>
+                  </div>
+                </section>
+              </div>
+
+              <nav class="app-tabbar" aria-label="糖糖圈 App 底部导航">
+                <span class="active">首页</span>
+                <span>问伴</span>
+                <span>AI问医</span>
+                <span>学习</span>
+                <span>商城</span>
+              </nav>
+            </div>
+          </section>
+
         </div>
       </section>
     </main>
@@ -390,8 +631,8 @@
         <h3>快捷操作</h3>
         <p>收案管理列表操作列增加“确认”“复制”入口；</p>
         <p>“确认”仅待接收状态可点击，点击后状态变为“已接收”；</p>
-        <p>“复制”按钮常亮，点击后页面顶部展示“复制成功”提示，并复制一段带问卷链接的文案：【糖糖圈】您好，您的专属糖尿病教育师已为您开启收案评估服务。请点击链接完成详细健康填报：https://https.ttq.so/html/tangtangquan/</p>
-        <p>html/#/newCase/intro?id=xx。请使用糖糖圈手机号登录，以便自动同步档案。</p>
+        <p>“复制”按钮常亮，点击后页面顶部展示“复制成功”提示，并复制一段带问卷链接的文案：【糖糖圈】您好，您的专属糖尿病教育师已为您开启收案评估服务。请点击链接完成详细健康填报：https://example.com/newCase/intro?id=xx</p>
+        <p>请使用糖糖圈手机号登录，以便自动同步档案。</p>
       </div>
       <div class="note-card" data-note="sales-questionnaire">
         <h3>销售部分问卷</h3>
@@ -400,6 +641,18 @@
         <p>3、如果本页中未展示的题目，就算满足原有显隐逻辑，也不在销售部分展示，例如吸烟、饮酒。</p>
         <P>4、其他修改点（患者端也要改）：治疗方案选了餐前+基础或预混后的“基础胰岛素注射剂量”改为系统计算，=输注剂量之和</p>
 
+      </div>
+      <div class="note-card" data-note="sales-app">
+        <h3>销售 App 端</h3>
+        <p>1、销售在糖糖圈 App 内可查看所有用户，每个用户卡片直接展示“新收案”和“收案管理”。</p>
+        <p>2、“新收案”复用已做好的销售部分问卷，填写和提交口径保持不变。</p>
+        <p>3、“收案管理”按用户展示历史收案列表，列表需保留 CRM 中的收案ID、下单日期、提交时间、泵型号、当前状态、问卷详情等关键信息。</p>
+        <p>4、历史收案详情常亮；编辑仅待接收、已接收、待用户填写可点；删除仅待接收可点，患教确认接收后处理权限转到患教侧。</p>
+      </div>
+      <div class="note-card" data-note="sales-notice">
+        <h3>系统通知</h3>
+        <p>1、患教端点击“确认”接收收案后，给发起该收案的销售发送 App 系统通知。</p>
+        <p>2、通知内容为：患教已接收患者【{昵称}】（ID：{收案 ID}）。</p>
       </div>
     </aside>
   </div>
@@ -418,7 +671,7 @@
               <b>一、基础信息</b>
             </div>
             <label>姓名 <strong>*</strong><input id="autofillName" value="JJ" /></label>
-            <label>联系电话 <strong>*</strong><input id="autofillPhone" value="17700000570" /></label>
+            <label>联系电话 <strong>*</strong><input id="autofillPhone" value="177****0570" /></label>
             <div class="radio-row">
               <span>性别 <strong>*</strong></span>
               <button type="button">男</button>
@@ -454,7 +707,7 @@
         <h2><span id="receiveHeading">收案准备</span> - <span id="caseName">用户41807</span></h2>
         <div class="summary-grid">
           <span>患者姓名：<b id="summaryName">用户41807</b></span>
-          <span>下单电话：<b id="summaryPhone">13800041807</b></span>
+          <span>下单电话：<b id="summaryPhone">138****1807</b></span>
           <span class="questionnaire-result">问卷总得分：<mark id="scoreText">20分</mark></span>
           <span>当前步骤：<b id="stepName">信息核对</b></span>
           <span class="questionnaire-result">售前备注：<b id="remarkText">还没收案时，年龄没显示，为空</b></span>
