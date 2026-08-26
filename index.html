@@ -174,35 +174,45 @@
                 <li>每日胰岛素用量和种类（泵）</li>
                 <li>上传基础率分段截图</li>
               </ul>
+              <div class="sales-submit-demo" aria-label="提交校验场景">
+                <h3>提交校验场景</h3>
+                <button class="selected" type="button" data-submit-warning="intensive-care-phone">号码密集照护中</button>
+                <button type="button" data-submit-warning="different-manager">其他经理同手机号</button>
+                <button type="button" data-submit-warning="same-manager-same-name">本人同患者</button>
+                <button type="button" data-submit-warning="same-manager-different-name">本人同号不同患者</button>
+              </div>
             </aside>
-            <div class="sales-questionnaire-card">
-              <header class="sales-questionnaire-title">
-                <span>问卷详情</span>
-                <button type="button">×</button>
-              </header>
-              <form class="sales-form">
-                <label><span>业务经理 <strong>*</strong></span><input value="邵雯" /></label>
-                <label><span>用户姓名 <strong>*</strong></span><input placeholder="请输入用户姓名" /></label>
-                <label><span>下单电话 <strong>*</strong></span><input placeholder="请输入下单电话" /></label>
-                <label class="textarea-field"><span>收件地址 <strong>*</strong></span><textarea placeholder="请输入收件地址" maxlength="100"></textarea><em>0/100</em></label>
-                <label><span>下单时间 <strong>*</strong></span><input placeholder="请选择" /></label>
-                <label><span>安装时间 <strong>*</strong></span><input placeholder="请选择" /></label>
-                <label><span>安装方式 <strong>*</strong></span><select><option>请选择</option></select></label>
-                <label><span>用户渠道 <strong>*</strong></span><select><option>请选择</option></select></label>
-                <div class="sales-choice-row">
-                  <span>服务类型 <strong>*</strong></span>
-                  <button type="button">购买</button>
-                  <button type="button">试戴</button>
+            <div class="sales-questionnaire-scroll-shell">
+              <div class="sales-questionnaire-card">
+                <header class="sales-questionnaire-title">
+                  <span>问卷详情</span>
+                  <button type="button">×</button>
+                </header>
+                <form class="sales-form">
+                <div class="sales-original-fields">
+                  <label><span>业务经理 <strong>*</strong></span><input value="糖糖经理" /></label>
+                  <label><span>用户姓名 <strong>*</strong></span><input placeholder="请输入用户姓名" /></label>
+                  <label><span>下单电话 <strong>*</strong></span><input placeholder="请输入下单电话" /></label>
+                  <label class="textarea-field"><span>收件地址 <strong>*</strong></span><textarea placeholder="请输入收件地址" maxlength="100"></textarea><em>0/100</em></label>
+                  <label><span>下单时间 <strong>*</strong></span><input placeholder="请选择" /></label>
+                  <label><span>安装时间 <strong>*</strong></span><input placeholder="请选择" /></label>
+                  <label><span>安装方式 <strong>*</strong></span><select><option>请选择</option></select></label>
+                  <label><span>用户渠道 <strong>*</strong></span><select><option>请选择</option></select></label>
+                  <div class="sales-choice-row">
+                    <span>服务类型 <strong>*</strong></span>
+                    <button type="button">购买</button>
+                    <button type="button">试戴</button>
+                  </div>
+                  <label><span>泵型号 <strong>*</strong></span><select><option>请选择</option></select></label>
+                  <div class="sales-choice-row" data-toggle-group="aapsDevice">
+                    <span>AAPS安装设备 <strong>*</strong></span>
+                    <button class="selected" type="button" data-toggle-value="phone">手机</button>
+                    <button type="button" data-toggle-value="watch">手表</button>
+                  </div>
+                  <label data-toggle-target="aapsDevice" data-show-when="phone"><span>手机型号 <strong>*</strong></span><input placeholder="请输入手机型号" /></label>
+                  <label class="hidden" data-toggle-target="aapsDevice" data-show-when="watch"><span>手表型号 <strong>*</strong></span><input placeholder="请输入手表型号" /></label>
+                  <label class="textarea-field"><span>售前备注</span><textarea placeholder="如果涉及到用户推荐，请备注清楚原用户姓名和电话" maxlength="50"></textarea><em>0/50</em></label>
                 </div>
-                <label><span>泵型号 <strong>*</strong></span><select><option>请选择</option></select></label>
-                <div class="sales-choice-row" data-toggle-group="aapsDevice">
-                  <span>AAPS安装设备 <strong>*</strong></span>
-                  <button class="selected" type="button" data-toggle-value="phone">手机</button>
-                  <button type="button" data-toggle-value="watch">手表</button>
-                </div>
-                <label data-toggle-target="aapsDevice" data-show-when="phone"><span>手机型号 <strong>*</strong></span><input placeholder="请输入手机型号" /></label>
-                <label class="hidden" data-toggle-target="aapsDevice" data-show-when="watch"><span>手表型号 <strong>*</strong></span><input placeholder="请输入手表型号" /></label>
-                <label class="textarea-field"><span>售前备注</span><textarea placeholder="如果涉及到用户推荐，请备注清楚原用户姓名和电话" maxlength="50"></textarea><em>0/50</em></label>
 
                 <section class="sales-section">
                   <h3>一、基本信息</h3>
@@ -354,7 +364,18 @@
                   <button class="sales-reset" type="button">重置</button>
                   <button class="sales-submit" type="button">提交</button>
                 </div>
-              </form>
+                </form>
+              </div>
+            </div>
+            <div class="sales-submit-warning hidden" id="salesSubmitWarning" role="dialog" aria-modal="true" aria-labelledby="salesSubmitWarningTitle">
+              <section class="sales-warning-card">
+                <header>
+                  <strong id="salesSubmitWarningTitle">温馨提醒</strong>
+                  <button type="button" aria-label="关闭" data-close-submit-warning>×</button>
+                </header>
+                <p id="salesSubmitWarningText">该号码已有其他经理提交的进行中任务，请核实！</p>
+                <button class="sales-warning-primary" type="button" data-close-submit-warning>我知道了</button>
+              </section>
             </div>
           </section>
 
@@ -639,7 +660,8 @@
         <p>1、同一题支持按销售端、患者端分别配置必填规则（都在本页具体题目旁标注出来了）；两端提交时分别按本端规则校验。</p>
         <p>2、患者填写时可继续修改销售已填内容。</p>
         <p>3、如果本页中未展示的题目，就算满足原有显隐逻辑，也不在销售部分展示，例如吸烟、饮酒。</p>
-        <P>4、其他修改点（患者端也要改）：治疗方案选了餐前+基础或预混后的“基础胰岛素注射剂量”改为系统计算，=输注剂量之和</p>
+        <p>4、其他修改点（患者端也要改）：治疗方案选了餐前+基础或预混后的“基础胰岛素注射剂量”改为系统计算，=输注剂量之和。</p>
+        <p>5、销售提交新收案时，若下单电话命中进行中的收案任务，系统按下单号码、发起经理和患者姓名关系弹出“温馨提醒”并阻止提交；进行中范围为待接收、已接收、用户填写中、用户已填写、已收案但还未开启密集照护、密集照护中。</p>
 
       </div>
       <div class="note-card" data-note="sales-app">

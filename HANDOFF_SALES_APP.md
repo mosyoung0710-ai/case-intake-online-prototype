@@ -41,6 +41,8 @@
 - 当前治疗方案选“预混”也展示餐前+基础同一套内容。
 - 当前治疗方案选“胰岛素泵”展示泵相关内容。
 - 注射次数可选 0 次、1 次、2 次；选 1 次或 2 次时，下面展示对应组数的“请选择注射时间”和“请输入注射剂量（U）”。
+- 提交按钮已模拟一号一有效看板校验：先校验下单号码是否关联密集照护中的患者，命中时弹出“温馨提醒”并阻止提交；未命中时，再按下单号码、发起经理和患者姓名关系校验进行中的收案任务。左侧“提交校验场景”可切换四种阻断文案。
+- 销售部分问卷已增加内部滚动套子：左侧“新增题目/提交校验场景”和右侧“修改点”固定在浏览器一屏内，问卷长内容在中间区域内竖向滚动；字段注释需保留在套子范围内，并向问卷题目外侧平移展示。
 
 ## 当前销售 App 端状态
 
@@ -124,10 +126,10 @@
 
 ```powershell
 $OutputEncoding = [Console]::OutputEncoding = [Console]::InputEncoding = [System.Text.UTF8Encoding]::new($false)
-& 'C:\Users\ASUS\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe' --check 'D:\糖糖圈工作\收案线上化\改\患教端交互原型\app.js'
-& 'C:\Users\ASUS\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe' --check 'D:\糖糖圈工作\收案线上化\改\患教端交互原型\validate-prototype.mjs'
-$env:PROTOTYPE_ROOT='D:\糖糖圈工作\收案线上化\改\患教端交互原型'
-& 'C:\Users\ASUS\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe' 'D:\糖糖圈工作\收案线上化\改\患教端交互原型\validate-prototype.mjs'
+$env:PROTOTYPE_ROOT='<prototype-root>'
+node --check "$env:PROTOTYPE_ROOT\app.js"
+node --check "$env:PROTOTYPE_ROOT\validate-prototype.mjs"
+node "$env:PROTOTYPE_ROOT\validate-prototype.mjs"
 ```
 
 如果新增销售 app 页面，应给 `validate-prototype.mjs` 增加对应截图和基础断言，至少确认：

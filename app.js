@@ -17,6 +17,7 @@ let prepProgressById = {};
 let currentSalesAppPage = "users";
 let pendingDeleteSalesAppRecord = null;
 let deletedSalesAppRecords = new Set();
+let currentSubmitWarning = "intensive-care-phone";
 
 const rows = document.querySelector("#caseRows");
 const reviewShell = document.querySelector(".review-shell");
@@ -40,6 +41,15 @@ const autofillDrawer = document.querySelector("#autofillDrawer");
 const autofillName = document.querySelector("#autofillName");
 const autofillPhone = document.querySelector("#autofillPhone");
 const toast = document.querySelector("#toast");
+const salesSubmitWarning = document.querySelector("#salesSubmitWarning");
+const salesSubmitWarningText = document.querySelector("#salesSubmitWarningText");
+
+const submitWarningMessages = {
+  "different-manager": "该号码已有其他经理提交的进行中任务，请核实！",
+  "intensive-care-phone": "该号码关联患者正处于密集照护中，需等待当前服务结案后再发起。",
+  "same-manager-same-name": "检测到您已为该患者发起过收案任务，请修改后重新提交！",
+  "same-manager-different-name": "该号码已有正在进行的其他患者收案任务，请提供其他手机号，或等前序任务结束后再发起！"
+};
 
 function statusClass(status) {
   if (status === "已收案") return "green";
@@ -124,6 +134,7 @@ function showCaseManagement() {
   notesPanel.classList.remove("hidden");
   browserFrame.classList.remove("sales-mode");
   appShell.classList.remove("sales-mode");
+  closeSalesSubmitWarning();
   caseManagementView.classList.remove("hidden");
   salesQuestionnaireView.classList.add("hidden");
   salesAppView.classList.add("hidden");
@@ -147,6 +158,7 @@ function showSalesApp(pageName = "users") {
   notesPanel.classList.remove("hidden");
   browserFrame.classList.add("sales-mode");
   appShell.classList.add("sales-mode");
+  closeSalesSubmitWarning();
   caseManagementView.classList.add("hidden");
   salesQuestionnaireView.classList.add("hidden");
   salesAppView.classList.remove("hidden");
@@ -159,6 +171,7 @@ function showSystemNotice() {
   notesPanel.classList.remove("hidden");
   browserFrame.classList.add("sales-mode");
   appShell.classList.add("sales-mode");
+  closeSalesSubmitWarning();
   caseManagementView.classList.add("hidden");
   salesQuestionnaireView.classList.add("hidden");
   salesAppView.classList.add("hidden");
@@ -213,6 +226,22 @@ function confirmAppDelete() {
     syncSalesAppDeletedRecords();
   }
   closeAppDeleteSheet();
+}
+
+function selectSubmitWarning(button) {
+  currentSubmitWarning = button.dataset.submitWarning;
+  document.querySelectorAll("[data-submit-warning]").forEach(item => {
+    item.classList.toggle("selected", item === button);
+  });
+}
+
+function openSalesSubmitWarning() {
+  salesSubmitWarningText.textContent = submitWarningMessages[currentSubmitWarning];
+  salesSubmitWarning.classList.remove("hidden");
+}
+
+function closeSalesSubmitWarning() {
+  salesSubmitWarning.classList.add("hidden");
 }
 
 function showToast(text) {
@@ -345,6 +374,16 @@ document.querySelectorAll("[data-view-jump]").forEach(button => {
   button.addEventListener("click", () => setView(button.dataset.viewJump));
 });
 
+document.querySelectorAll("[data-submit-warning]").forEach(button => {
+  button.addEventListener("click", () => selectSubmitWarning(button));
+});
+
+document.querySelector("#salesQuestionnaireView .sales-submit").addEventListener("click", openSalesSubmitWarning);
+
+document.querySelectorAll("[data-close-submit-warning]").forEach(button => {
+  button.addEventListener("click", closeSalesSubmitWarning);
+});
+
 salesAppBack.addEventListener("click", backSalesAppPage);
 
 document.querySelectorAll("[data-toggle-group]").forEach(group => {
@@ -437,6 +476,7 @@ document.querySelector("#resetDemo").addEventListener("click", () => {
   closeReceiveModal();
   closeAutofillDrawer();
   closeAppDeleteSheet();
+  closeSalesSubmitWarning();
   renderRows();
   setView("list");
   showToast("已重置演示状态");
@@ -457,6 +497,9 @@ receiveModal.addEventListener("click", event => {
 });
 autofillDrawer.addEventListener("click", event => {
   if (event.target === autofillDrawer) closeAutofillDrawer();
+});
+salesSubmitWarning.addEventListener("click", event => {
+  if (event.target === salesSubmitWarning) closeSalesSubmitWarning();
 });
 if ("scrollRestoration" in history) history.scrollRestoration = "manual";
 window.addEventListener("pageshow", () => window.requestAnimationFrame(resetTableScroll));

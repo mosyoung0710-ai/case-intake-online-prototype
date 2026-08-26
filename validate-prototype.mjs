@@ -4,14 +4,14 @@ import path from "node:path";
 import fs from "node:fs";
 
 const require = createRequire(import.meta.url);
-const { chromium } = require("C:\\Users\\ASUS\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\node\\node_modules\\playwright");
+const { chromium } = require(process.env.PLAYWRIGHT_PACKAGE_PATH || "playwright");
 
 const root = process.env.PROTOTYPE_ROOT;
 if (!root) {
   throw new Error("Missing PROTOTYPE_ROOT");
 }
 
-const chromePath = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
+const chromePath = process.env.CHROME_PATH || "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
 const validationDir = path.join(root, "validation");
 fs.mkdirSync(validationDir, { recursive: true });
 
@@ -53,6 +53,43 @@ const salesAddedTopicsTitleVisible = await page.locator("#salesQuestionnaireView
 const salesAddedTopicsCount = await page.locator("#salesQuestionnaireView .sales-added-topics li").count();
 const salesRequiredFields = await page.locator("#salesQuestionnaireView strong").count();
 const salesSubmitVisible = await page.locator("#salesQuestionnaireView .sales-submit", { hasText: "提交" }).count();
+const salesFormBackground = await page.locator("#salesQuestionnaireView .sales-form").evaluate(element => getComputedStyle(element).backgroundColor);
+const salesSectionBackground = await page.locator("#salesQuestionnaireView .sales-section").first().evaluate(element => getComputedStyle(element).backgroundColor);
+const salesSubmitWarningDemoButtons = await page.locator("#salesQuestionnaireView [data-submit-warning]").count();
+await page.setViewportSize({ width: 1280, height: 720 });
+await page.waitForTimeout(100);
+const salesSubmitDemoFullyVisible = await page.locator("#salesQuestionnaireView .sales-submit-demo").evaluate(element => {
+  const parentRect = element.closest(".sales-added-topics").getBoundingClientRect();
+  const rect = element.getBoundingClientRect();
+  const buttons = Array.from(element.querySelectorAll("button"));
+  return rect.top >= parentRect.top && rect.bottom <= parentRect.bottom && buttons.every(button => {
+    const buttonRect = button.getBoundingClientRect();
+    return buttonRect.top >= parentRect.top && buttonRect.bottom <= parentRect.bottom;
+  }) ? 1 : 0;
+});
+await page.setViewportSize({ width: 1440, height: 960 });
+await page.waitForTimeout(100);
+await page.locator("#salesQuestionnaireView .sales-submit").click();
+const salesSubmitWarningTitleVisible = await page.locator("#salesSubmitWarning:not(.hidden)", { hasText: "温馨提醒" }).count();
+const salesSubmitWarningIntensiveVisible = await page.locator("#salesSubmitWarning:not(.hidden)", { hasText: "该号码关联患者正处于密集照护中，需等待当前服务结案后再发起。" }).count();
+await page.screenshot({ path: path.join(validationDir, "16-sales-submit-warning.png"), fullPage: true });
+await page.locator("#salesSubmitWarning").getByRole("button", { name: "我知道了" }).click();
+const salesSubmitWarningClosedAfterIntensive = await page.locator("#salesSubmitWarning.hidden").count();
+await page.locator('[data-submit-warning="different-manager"]').click();
+await page.locator("#salesQuestionnaireView .sales-submit").click();
+const salesSubmitWarningOneVisible = await page.locator("#salesSubmitWarning:not(.hidden)", { hasText: "该号码已有其他经理提交的进行中任务，请核实！" }).count();
+await page.locator("#salesSubmitWarning").getByRole("button", { name: "我知道了" }).click();
+const salesSubmitWarningClosedByPrimary = await page.locator("#salesSubmitWarning.hidden").count();
+await page.locator('[data-submit-warning="same-manager-same-name"]').click();
+await page.locator("#salesQuestionnaireView .sales-submit").click();
+const salesSubmitWarningTwoVisible = await page.locator("#salesSubmitWarning:not(.hidden)", { hasText: "检测到您已为该患者发起过收案任务，请修改后重新提交！" }).count();
+await page.locator("#salesSubmitWarning").getByRole("button", { name: "关闭" }).click();
+const salesSubmitWarningClosedByX = await page.locator("#salesSubmitWarning.hidden").count();
+await page.locator('[data-submit-warning="same-manager-different-name"]').click();
+await page.locator("#salesQuestionnaireView .sales-submit").click();
+const salesSubmitWarningThreeVisible = await page.locator("#salesSubmitWarning:not(.hidden)", { hasText: "该号码已有正在进行的其他患者收案任务，请提供其他手机号，或等前序任务结束后再发起！" }).count();
+await page.locator("#salesSubmitWarning").getByRole("button", { name: "我知道了" }).click();
+const salesSubmitWarningClosedAfterAll = await page.locator("#salesSubmitWarning.hidden").count();
 const logisticsFieldVisible = await page.locator("#salesQuestionnaireView", { hasText: "物流单号" }).count();
 const userNameFieldVisible = await page.locator("#salesQuestionnaireView label", { hasText: "用户姓名" }).count();
 const contactFieldVisible = await page.locator("#salesQuestionnaireView label", { hasText: "联系电话" }).count();
@@ -64,9 +101,9 @@ const fieldNotesVisible = await page.locator("#salesQuestionnaireView .field-not
 const progressLabelVisible = await page.locator("#salesQuestionnaireView").evaluate(root => /(?:^|\D)\d+\/(?:24|25|26)(?:\D|$)/.test(root.textContent) ? 1 : 0);
 const mealTimeFieldsVisible = await page.locator("#salesQuestionnaireView", { hasText: "早餐时间" }).count() + await page.locator("#salesQuestionnaireView", { hasText: "午餐时间" }).count() + await page.locator("#salesQuestionnaireView", { hasText: "晚餐时间" }).count();
 const relatedInfoRequiredMarks = await page.locator("#salesQuestionnaireView .sales-section", { hasText: "三、相关信息" }).locator("strong").count();
-const fieldNotesLeftOfCard = await page.locator("#salesQuestionnaireView").evaluate(root => {
-  const cardLeft = root.querySelector(".sales-questionnaire-card").getBoundingClientRect().left;
-  return Array.from(root.querySelectorAll(".field-note")).every(note => note.getBoundingClientRect().right < cardLeft);
+const fieldNotesInsideScrollShell = await page.locator("#salesQuestionnaireView").evaluate(root => {
+  const shell = root.querySelector(".sales-questionnaire-scroll-shell");
+  return Array.from(root.querySelectorAll(".field-note")).every(note => shell.contains(note));
 });
 const salesFieldOrder = await page.locator("#salesQuestionnaireView").evaluate(root => {
   const selectors = ["label > span", ".sales-choice-row > span", ".sales-long-choice > span", ".sales-green-panel > b", ".upload-box", ".textarea-field > span"];
@@ -151,7 +188,32 @@ await page.locator("#injectionCountSelect").selectOption("2");
 await page.screenshot({ path: path.join(validationDir, "09-injection-times.png"), fullPage: true });
 await page.locator("#treatmentPlanSelect").selectOption("pump");
 const salesNewQuestionSections = await page.locator("#salesQuestionnaireView .sales-section").count();
+await page.locator("#salesQuestionnaireView .sales-questionnaire-scroll-shell").evaluate(element => {
+  element.scrollTop = 0;
+});
 await page.screenshot({ path: path.join(validationDir, "08-sales-questionnaire.png"), fullPage: true });
+const salesQuestionnaireScrollShellVisible = await page.locator("#salesQuestionnaireView .sales-questionnaire-scroll-shell").count();
+const salesQuestionnaireShellScrollable = await page.locator("#salesQuestionnaireView .sales-questionnaire-scroll-shell").evaluate(element => element.scrollHeight > element.clientHeight ? 1 : 0);
+const salesQuestionnaireViewPageSized = await page.locator("#salesQuestionnaireView").evaluate(element => {
+  const rect = element.getBoundingClientRect();
+  return rect.bottom <= window.innerHeight ? 1 : 0;
+});
+await page.locator("#salesQuestionnaireView .sales-questionnaire-scroll-shell").evaluate(element => {
+  element.scrollTop = element.scrollHeight;
+});
+await page.waitForTimeout(100);
+const salesAddedTopicsVisibleAfterInternalScroll = await page.locator("#salesQuestionnaireView .sales-added-topics").evaluate(element => {
+  const rect = element.getBoundingClientRect();
+  return rect.top >= 0 && rect.bottom <= window.innerHeight ? 1 : 0;
+});
+const salesQuestionnaireNoteVisibleAfterInternalScroll = await page.locator('.note-card[data-note="sales-questionnaire"]').evaluate(element => {
+  const rect = element.getBoundingClientRect();
+  return rect.top >= 0 && rect.bottom <= window.innerHeight ? 1 : 0;
+});
+await page.screenshot({ path: path.join(validationDir, "17-sales-questionnaire-scroll-shell.png"), fullPage: true });
+await page.locator("#salesQuestionnaireView .sales-questionnaire-scroll-shell").evaluate(element => {
+  element.scrollTop = 0;
+});
 
 await page.getByRole("button", { name: "销售 App 端" }).click();
 const salesAppVisible = await page.locator("#salesAppView:not(.hidden)").count();
@@ -331,7 +393,7 @@ const autofillDrawerHidden = await page.locator("#autofillDrawer.hidden").count(
 await browser.close();
 
 console.log(JSON.stringify({
-  ok: consoleErrors.length === 0 && failedRequests.length === 0 && initialTableRows >= 8 && initialTableScrollLeft === 0 && firstIdHeaderVisible === true && tableRows >= 8 && salesQuestionnaireVisible === 1 && salesNotesVisible === 1 && salesNoteVisible === 1 && salesPatientEditableNoteVisible === 1 && salesHiddenQuestionNoteVisible === 1 && healthcareNotesVisibleInSales === 0 && salesBrowserTopHidden === 1 && salesAppTopbarHidden === 1 && salesAddedTopicsTitleVisible === 1 && salesAddedTopicsCount === 19 && salesAppVisible === 1 && salesAppNoteVisible === 1 && salesAppQuestionnaireHidden === 1 && salesAppHealthcareNotesVisible === 0 && salesAppPhoneVisible === 1 && salesAppUsersTitle === "客户池" && salesAppSummaryCardCount === 0 && salesAppUserTotalVisible === 0 && salesAppSearchFilterVisible === 1 && salesAppSearchPlaceholder === null && salesAppSearchHintVisible === 0 && salesAppSearchButtonVisible === 0 && salesAppSearchMenuOptions === "昵称,ID,电话" && salesAppSearchFilterAfterSelect === "电话" && salesAppSearchMenuHiddenAfterSelect === 1 && salesAppUserIdsVisible === 3 && salesAppUserPhoneRows === 3 && salesAppUserFollowerRows === 3 && salesAppUnreceivedProgress === 1 && salesAppUserCards === 3 && salesAppNewCaseButtons === 3 && salesAppManagementButtons === 3 && salesAppUserDetailPageCount === 0 && salesAppUserActionDescriptions === 0 && salesAppCaseListTitle === "收案管理" && salesAppCaseRecords === 6 && salesAppCaseListFields >= 4 && salesAppCaseListDeleteButtons === salesAppCaseRecords && salesAppCaseListDetailButtons === salesAppCaseRecords && salesAppCaseListEditButtons === salesAppCaseRecords && salesAppCaseStatusesVisible === 6 && salesAppCaseEnabledEditButtons === 3 && salesAppCaseDisabledEditButtons === 3 && salesAppCaseEnabledDeleteButtons === 1 && salesAppCaseDisabledDeleteButtons === 5 && salesAppBackToUsersTitle === "客户池" && salesAppBackToUsersCards === 3 && salesAppEditTitleFromList === "编辑收案" && salesAppBackFromEditTitle === "收案管理" && salesAppDetailTitle === "问卷详情" && salesAppDetailFields >= 2 && salesAppDetailDeleteButtons === 0 && salesAppDetailEditButtons === 0 && salesAppEditTitle === "编辑收案" && salesAppEditFields === 5 && salesAppDeleteTitle === "收案管理" && salesAppDeleteConfirmVisible === 1 && salesAppDeleteCancelTitle === "收案管理" && salesAppDeleteConfirmHiddenAfterCancel === 1 && salesAppCaseRecordsAfterDelete === salesAppCaseRecords - 1 && salesAppCaseRecordsAfterReset === salesAppCaseRecords && salesAppNewCaseJumpVisible === 1 && salesAppNewCaseJumpActiveNav === "销售部分问卷" && systemNoticeVisible === 1 && systemNoticeActiveNav === "系统通知" && systemNoticeTitle === "系统通知" && systemNoticeMessageVisible === 1 && systemNoticeNoteVisible === 1 && systemNoticeOtherNotesVisible === 0 && systemNoticeSalesAppHidden === 1 && systemNoticeQuestionnaireHidden === 1 && listBrowserTopVisible === 1 && listNotesVisible === 1 && salesNoteHiddenInList === 1 && salesAppNoteHiddenInList === 1 && removedStatusVisible === 0 && noticeNavVisible === 0 && noticeBannerVisible === 0 && stationMailVisible === 0 && pendingDotInitial === 1 && pendingDotTextInitial === "2" && pendingDotAfterAllConfirm === 1 && pendingDotTextAfterAllConfirm === "" && copyActionButtons === tableRows && enabledConfirmButtonsBefore === 2 && enabledConfirmButtonsAfter === 0 && disabledConfirmButtonsAfter === tableRows && firstConfirmedStatus === "已接收" && salesRequiredFields >= 25 && salesSubmitVisible === 1 && logisticsFieldVisible === 0 && userNameFieldVisible === 1 && contactFieldVisible === 1 && pumpUserFieldVisible === 1 && glucoseTargetRateVisible === 1 && glucoseReportUploadVisible === 1 && glucoseReportUploadRequired === 0 && fieldNotesVisible === 6 && progressLabelVisible === 0 && mealTimeFieldsVisible === 0 && relatedInfoRequiredMarks === 4 && fieldNotesLeftOfCard === true && salesFieldOrder.ok === true && phoneModelVisibleInitial === 1 && watchModelHiddenInitial === 1 && watchModelVisibleAfterClick === 1 && phoneModelHiddenAfterClick === 1 && complicationDetailVisible === 1 && complicationOptionVisible === 1 && complicationRequiredMarks === 0 && skinDetailVisible === 1 && skinDetailFieldsVisible === 1 && skinDetailRequiredMarks === 0 && pumpPanelVisibleInitial === 1 && penPanelHiddenInitial === 1 && penPanelVisibleAfterSelect === 1 && pumpPanelHiddenAfterSelect === 1 && penPanelVisibleAfterPremix === 1 && pumpPanelHiddenAfterPremix === 1 && injectionOptions.join(",") === "0次,1次,2次" && injectionRowsInitial === 2 && injectionRowsAfterOne === 1 && injectionRowsAfterZero === 0 && salesNewQuestionSections === 3 && enabledPushButtons === 7 && enabledAutofillButtons === 6 && disabledAutofillButtons === 2 && enabledDeleteButtons === 1 && disabledDeleteButtons === 7 && prepButtons === 6 && processButtons === 2 && disabledProcessButtons === 1 && finishedActionButtons === 0 && receiveActionButtons === tableRows && autofillSalesSectionVisible === 0 && reopenedPrepStep === "创建群聊" && trialUserControlCount === 0 && prevStepButtonCount === 0 && trialPrepStep === "创建看板" && trialVisiblePrepareSteps === 1 && trialGroupBodyVisible === 0 && trialFinishButtonVisible === 1 && processStep === "信息核对" && visiblePrepareStepsInProcess === 0 && processStepperHidden === 1 && prepQuestionnaireLinkVisible === 0 && prepQuestionnaireResultsVisible === 2 && processQuestionnaireLinkVisible === 0 && processQuestionnaireResultsVisible === 2 && autofillDrawerHidden === 1,
+  ok: consoleErrors.length === 0 && failedRequests.length === 0 && initialTableRows >= 8 && initialTableScrollLeft === 0 && firstIdHeaderVisible === true && tableRows >= 8 && salesQuestionnaireVisible === 1 && salesNotesVisible === 1 && salesNoteVisible === 1 && salesPatientEditableNoteVisible === 1 && salesHiddenQuestionNoteVisible === 1 && healthcareNotesVisibleInSales === 0 && salesBrowserTopHidden === 1 && salesAppTopbarHidden === 1 && salesAddedTopicsTitleVisible === 1 && salesAddedTopicsCount === 19 && salesQuestionnaireScrollShellVisible === 1 && salesQuestionnaireShellScrollable === 1 && salesQuestionnaireViewPageSized === 1 && salesAddedTopicsVisibleAfterInternalScroll === 1 && salesQuestionnaireNoteVisibleAfterInternalScroll === 1 && salesAppVisible === 1 && salesAppNoteVisible === 1 && salesAppQuestionnaireHidden === 1 && salesAppHealthcareNotesVisible === 0 && salesAppPhoneVisible === 1 && salesAppUsersTitle === "客户池" && salesAppSummaryCardCount === 0 && salesAppUserTotalVisible === 0 && salesAppSearchFilterVisible === 1 && salesAppSearchPlaceholder === null && salesAppSearchHintVisible === 0 && salesAppSearchButtonVisible === 0 && salesAppSearchMenuOptions === "昵称,ID,电话" && salesAppSearchFilterAfterSelect === "电话" && salesAppSearchMenuHiddenAfterSelect === 1 && salesAppUserIdsVisible === 3 && salesAppUserPhoneRows === 3 && salesAppUserFollowerRows === 3 && salesAppUnreceivedProgress === 1 && salesAppUserCards === 3 && salesAppNewCaseButtons === 3 && salesAppManagementButtons === 3 && salesAppUserDetailPageCount === 0 && salesAppUserActionDescriptions === 0 && salesAppCaseListTitle === "收案管理" && salesAppCaseRecords === 6 && salesAppCaseListFields >= 4 && salesAppCaseListDeleteButtons === salesAppCaseRecords && salesAppCaseListDetailButtons === salesAppCaseRecords && salesAppCaseListEditButtons === salesAppCaseRecords && salesAppCaseStatusesVisible === 6 && salesAppCaseEnabledEditButtons === 3 && salesAppCaseDisabledEditButtons === 3 && salesAppCaseEnabledDeleteButtons === 1 && salesAppCaseDisabledDeleteButtons === 5 && salesAppBackToUsersTitle === "客户池" && salesAppBackToUsersCards === 3 && salesAppEditTitleFromList === "编辑收案" && salesAppBackFromEditTitle === "收案管理" && salesAppDetailTitle === "问卷详情" && salesAppDetailFields >= 2 && salesAppDetailDeleteButtons === 0 && salesAppDetailEditButtons === 0 && salesAppEditTitle === "编辑收案" && salesAppEditFields === 5 && salesAppDeleteTitle === "收案管理" && salesAppDeleteConfirmVisible === 1 && salesAppDeleteCancelTitle === "收案管理" && salesAppDeleteConfirmHiddenAfterCancel === 1 && salesAppCaseRecordsAfterDelete === salesAppCaseRecords - 1 && salesAppCaseRecordsAfterReset === salesAppCaseRecords && salesAppNewCaseJumpVisible === 1 && salesAppNewCaseJumpActiveNav === "销售部分问卷" && systemNoticeVisible === 1 && systemNoticeActiveNav === "系统通知" && systemNoticeTitle === "系统通知" && systemNoticeMessageVisible === 1 && systemNoticeNoteVisible === 1 && systemNoticeOtherNotesVisible === 0 && systemNoticeSalesAppHidden === 1 && systemNoticeQuestionnaireHidden === 1 && listBrowserTopVisible === 1 && listNotesVisible === 1 && salesNoteHiddenInList === 1 && salesAppNoteHiddenInList === 1 && removedStatusVisible === 0 && noticeNavVisible === 0 && noticeBannerVisible === 0 && stationMailVisible === 0 && pendingDotInitial === 1 && pendingDotTextInitial === "2" && pendingDotAfterAllConfirm === 1 && pendingDotTextAfterAllConfirm === "" && copyActionButtons === tableRows && enabledConfirmButtonsBefore === 2 && enabledConfirmButtonsAfter === 0 && disabledConfirmButtonsAfter === tableRows && firstConfirmedStatus === "已接收" && salesRequiredFields >= 25 && salesSubmitVisible === 1 && salesFormBackground === "rgb(243, 244, 248)" && salesSectionBackground === salesFormBackground && salesSubmitWarningDemoButtons === 4 && salesSubmitDemoFullyVisible === 1 && salesSubmitWarningTitleVisible === 1 && salesSubmitWarningOneVisible === 1 && salesSubmitWarningClosedByPrimary === 1 && salesSubmitWarningIntensiveVisible === 1 && salesSubmitWarningClosedAfterIntensive === 1 && salesSubmitWarningTwoVisible === 1 && salesSubmitWarningClosedByX === 1 && salesSubmitWarningThreeVisible === 1 && salesSubmitWarningClosedAfterAll === 1 && logisticsFieldVisible === 0 && userNameFieldVisible === 1 && contactFieldVisible === 1 && pumpUserFieldVisible === 1 && glucoseTargetRateVisible === 1 && glucoseReportUploadVisible === 1 && glucoseReportUploadRequired === 0 && fieldNotesVisible === 6 && progressLabelVisible === 0 && mealTimeFieldsVisible === 0 && relatedInfoRequiredMarks === 4 && fieldNotesInsideScrollShell === true && salesFieldOrder.ok === true && phoneModelVisibleInitial === 1 && watchModelHiddenInitial === 1 && watchModelVisibleAfterClick === 1 && phoneModelHiddenAfterClick === 1 && complicationDetailVisible === 1 && complicationOptionVisible === 1 && complicationRequiredMarks === 0 && skinDetailVisible === 1 && skinDetailFieldsVisible === 1 && skinDetailRequiredMarks === 0 && pumpPanelVisibleInitial === 1 && penPanelHiddenInitial === 1 && penPanelVisibleAfterSelect === 1 && pumpPanelHiddenAfterSelect === 1 && penPanelVisibleAfterPremix === 1 && pumpPanelHiddenAfterPremix === 1 && injectionOptions.join(",") === "0次,1次,2次" && injectionRowsInitial === 2 && injectionRowsAfterOne === 1 && injectionRowsAfterZero === 0 && salesNewQuestionSections === 3 && enabledPushButtons === 7 && enabledAutofillButtons === 6 && disabledAutofillButtons === 2 && enabledDeleteButtons === 1 && disabledDeleteButtons === 7 && prepButtons === 6 && processButtons === 2 && disabledProcessButtons === 1 && finishedActionButtons === 0 && receiveActionButtons === tableRows && autofillSalesSectionVisible === 0 && reopenedPrepStep === "创建群聊" && trialUserControlCount === 0 && prevStepButtonCount === 0 && trialPrepStep === "创建看板" && trialVisiblePrepareSteps === 1 && trialGroupBodyVisible === 0 && trialFinishButtonVisible === 1 && processStep === "信息核对" && visiblePrepareStepsInProcess === 0 && processStepperHidden === 1 && prepQuestionnaireLinkVisible === 0 && prepQuestionnaireResultsVisible === 2 && processQuestionnaireLinkVisible === 0 && processQuestionnaireResultsVisible === 2 && autofillDrawerHidden === 1,
   initialTableRows,
   initialTableScrollLeft,
   firstIdHeaderVisible,
@@ -347,6 +409,11 @@ console.log(JSON.stringify({
   salesAppTopbarHidden,
   salesAddedTopicsTitleVisible,
   salesAddedTopicsCount,
+  salesQuestionnaireScrollShellVisible,
+  salesQuestionnaireShellScrollable,
+  salesQuestionnaireViewPageSized,
+  salesAddedTopicsVisibleAfterInternalScroll,
+  salesQuestionnaireNoteVisibleAfterInternalScroll,
   listBrowserTopVisible,
   listNotesVisible,
   salesNoteHiddenInList,
@@ -366,6 +433,19 @@ console.log(JSON.stringify({
   firstConfirmedStatus,
   salesRequiredFields,
   salesSubmitVisible,
+  salesFormBackground,
+  salesSectionBackground,
+  salesSubmitWarningDemoButtons,
+  salesSubmitDemoFullyVisible,
+  salesSubmitWarningTitleVisible,
+  salesSubmitWarningOneVisible,
+  salesSubmitWarningClosedByPrimary,
+  salesSubmitWarningIntensiveVisible,
+  salesSubmitWarningClosedAfterIntensive,
+  salesSubmitWarningTwoVisible,
+  salesSubmitWarningClosedByX,
+  salesSubmitWarningThreeVisible,
+  salesSubmitWarningClosedAfterAll,
   logisticsFieldVisible,
   userNameFieldVisible,
   contactFieldVisible,
@@ -377,7 +457,7 @@ console.log(JSON.stringify({
   progressLabelVisible,
   mealTimeFieldsVisible,
   relatedInfoRequiredMarks,
-  fieldNotesLeftOfCard,
+  fieldNotesInsideScrollShell,
   salesFieldOrder,
   phoneModelVisibleInitial,
   watchModelHiddenInitial,
@@ -506,6 +586,8 @@ console.log(JSON.stringify({
     "validation/12-sales-app-detail.png",
     "validation/13-sales-app-edit.png",
     "validation/14-sales-app-delete.png",
-    "validation/15-system-notice.png"
+    "validation/15-system-notice.png",
+    "validation/16-sales-submit-warning.png",
+    "validation/17-sales-questionnaire-scroll-shell.png"
   ]
 }, null, 2));
