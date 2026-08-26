@@ -32,6 +32,7 @@ const salesAppView = document.querySelector("#salesAppView");
 const systemNoticeView = document.querySelector("#systemNoticeView");
 const salesAppTitle = document.querySelector("#salesAppTitle");
 const salesAppBack = document.querySelector("#salesAppBack");
+const noticeSalesEntry = document.querySelector("#noticeSalesEntry");
 const appDeleteSheet = document.querySelector("#appDeleteSheet");
 const appSearchMenu = document.querySelector("[data-search-menu]");
 const appSearchFilterLabel = document.querySelector("[data-search-filter-label]");
@@ -385,6 +386,10 @@ document.querySelectorAll("[data-close-submit-warning]").forEach(button => {
 });
 
 salesAppBack.addEventListener("click", backSalesAppPage);
+noticeSalesEntry.addEventListener("click", () => {
+  setView("sales-app");
+  openSalesAppPage("users");
+});
 
 document.querySelectorAll("[data-toggle-group]").forEach(group => {
   group.addEventListener("click", event => {
