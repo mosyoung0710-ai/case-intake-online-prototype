@@ -105,7 +105,7 @@ function renderRows() {
             <button data-action="copy" data-id="${item.id}">复制</button>
             <button data-action="receive" data-id="${item.id}" ${receiveMeta.enabled ? "" : "disabled"}>${receiveMeta.label}</button>
             <button data-action="autofill" data-id="${item.id}" ${canAutofill ? "" : "disabled"}>代填</button>
-            <button data-action="push" data-id="${item.id}" ${canPush ? "" : "disabled"}>推送</button>
+            <button data-action="push" data-id="${item.id}" ${canPush ? "" : "disabled"}>转组</button>
             <button class="delete" data-action="delete" data-id="${item.id}" ${canDelete ? "" : "disabled"}>删除</button>
           </div>
         </td>
@@ -494,7 +494,7 @@ rows.addEventListener("click", event => {
   if (button.dataset.action === "copy") showToast("已复制问卷链接");
   if (button.dataset.action === "confirm") confirmReceive(button.dataset.id);
   if (button.dataset.action === "autofill") openAutofillDrawer(button.dataset.id);
-  if (button.dataset.action === "push") showToast("组内推送功能本次不改，发问卷入口已放入收案弹窗");
+  if (button.dataset.action === "push") showToast("转组（推送）功能本次不改，发问卷入口已放入收案弹窗");
 });
 
 receiveModal.addEventListener("click", event => {

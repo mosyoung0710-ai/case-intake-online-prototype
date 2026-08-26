@@ -780,6 +780,11 @@ button {
   background: #f7f9fc;
 }
 
+.sales-long-choice button {
+  padding: 10px 12px;
+  text-align: left;
+}
+
 .sales-skin-detail {
   padding-top: 2px;
   border-top: 1px dashed #dfe6ef;
