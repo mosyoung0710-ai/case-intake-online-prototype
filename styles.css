@@ -1681,6 +1681,11 @@ button {
   background: #fff;
 }
 
+.text-red {
+  color: #ef4444;
+  font-weight: 700;
+}
+
 .note-card.active {
   border-color: #8fc4ff;
   box-shadow: 0 0 0 3px rgba(47, 141, 244, .12);

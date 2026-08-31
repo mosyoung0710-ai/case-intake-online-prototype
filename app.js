@@ -318,7 +318,7 @@ function setStep(step) {
   };
   const heading = receiveMode === "prepare" ? "收案准备" : "处理收案";
   receiveHeading.textContent = heading;
-  document.querySelector("#modalTitle").textContent = `${heading}弹窗 - ${titles[currentStep]}`;
+  document.querySelector("#modalTitle").textContent = `${heading} - ${titles[currentStep]}`;
   document.querySelector("#stepName").textContent = titles[currentStep];
   document.querySelector("#stepper").classList.toggle("prepare-mode", receiveMode === "prepare");
   document.querySelector("#stepper").classList.toggle("process-mode", receiveMode === "process");
