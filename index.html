@@ -20,7 +20,8 @@
       <button class="nav-item" data-view="receive">收案弹窗</button>
       <button class="nav-item" data-view="sales-questionnaire">销售部分问卷</button>
       <button class="nav-item" data-view="sales-auth">授权销售</button>
-      <button class="nav-item" data-view="sales-app">销售 App 端</button>
+      <button class="nav-item" data-view="app-entry">App 金刚区入口</button>
+      <button class="nav-item" data-view="sales-app">销售 App 端客户池页面</button>
       <button class="nav-item" data-view="sales-notice">系统通知</button>
     </aside>
 
@@ -385,6 +386,79 @@
             </div>
           </section>
 
+          <section class="app-entry-view hidden" id="appEntryView" aria-label="App 金刚区入口页面">
+            <div class="sales-phone app-home-phone" aria-label="糖糖圈 App 首页金刚区入口">
+              <div class="phone-status">
+                <span>17:10</span>
+                <span>4G 65%</span>
+              </div>
+              <div class="app-home-search">
+                <button class="signin-chip" type="button">签到</button>
+                <div class="home-search-input">5566</div>
+                <button class="home-user-icon" type="button" aria-label="个人中心"></button>
+              </div>
+              <section class="home-banner">
+                <strong>糖糖圈 · 控糖专区</strong>
+                <span>普惠性会员制</span>
+              </section>
+              <section class="home-quick-card">
+                <div class="home-quick-item">
+                  <span class="home-quick-icon blue">+</span>
+                  <b>快速问医</b>
+                  <small>1型学校 院外照护</small>
+                </div>
+                <div class="home-quick-item">
+                  <span class="home-quick-icon cyan">+</span>
+                  <b>记血糖</b>
+                  <small>控糖从记血糖做起</small>
+                </div>
+                <div class="home-quick-item">
+                  <span class="home-quick-icon green">+</span>
+                  <b>血糖日历</b>
+                  <small>控糖效果 一目了然</small>
+                </div>
+              </section>
+              <section class="home-glucose-card">
+                <nav>
+                  <b>指尖血糖</b>
+                  <span>血糖手表</span>
+                  <span>硅基动态</span>
+                  <span>NS</span>
+                  <span>动态血糖</span>
+                </nav>
+                <div class="home-metric-row">
+                  <span>-<small>平均血糖</small></span>
+                  <span>-<small>波动</small></span>
+                  <span>-<small>高/低血糖</small></span>
+                  <span>-<small>空腹血糖</small></span>
+                  <span>-<small>睡前血糖</small></span>
+                </div>
+              </section>
+              <section class="home-feature-grid">
+                <div class="home-feature-item"><span class="feature-icon purple"></span><b>基础率分段</b></div>
+                <div class="home-feature-item"><span class="feature-icon blue"></span><b>电子病历</b></div>
+                <div class="home-feature-item"><span class="feature-icon cyan"></span><b>复诊单</b></div>
+                <div class="home-feature-item"><span class="feature-icon yellow"></span><b>糖圈 FM</b></div>
+                <div class="home-feature-item"><span class="feature-icon mint"></span><b>生长曲线</b></div>
+                <div class="home-feature-item"><span class="feature-icon green"></span><b>1型名医</b></div>
+                <div class="home-feature-item"><span class="feature-icon green"></span><b>医保汇总</b></div>
+                <div class="home-feature-item"><span class="feature-icon orange"></span><b>计步运动</b></div>
+                <div class="home-feature-item"><span class="feature-icon yellow"></span><b>精选专题</b></div>
+                <div class="home-feature-item intake-entry">
+                  <span class="feature-icon intake"></span>
+                  <b>患教对接</b>
+                </div>
+              </section>
+              <nav class="home-bottom-tabs">
+                <span class="active">首页</span>
+                <span>问伴</span>
+                <span>AI问医</span>
+                <span>学习</span>
+                <span>商城</span>
+              </nav>
+            </div>
+          </section>
+
           <section class="system-notice-view hidden" id="systemNoticeView" aria-label="系统通知页面">
             <div class="sales-phone notice-phone" aria-label="糖糖圈 App 系统通知页面">
               <div class="phone-status">
@@ -674,7 +748,7 @@
         <p>1、同一题支持按销售端、患者端<span class="text-red">分别配置必填规则（都在本页具体题目旁标注出来了）</span>；两端提交时分别按本端规则校验。</p>
         <p>2、患者填写时可继续修改销售已填内容。</p>
         <p><span class="text-red">3、如果本页中未展示的题目，就算满足原有显隐逻辑，也不在销售部分展示</span>，例如吸烟、饮酒。</p>
-        <p>4、其他修改点（患者端也要改）：治疗方案选了餐前+基础或预混后的<span class="text-red">“基础胰岛素注射剂量”改为系统计算，</span>=输注剂量之和。</p>
+        <p>4、其他修改点（患者端也要改）：①姓名（昵称）改为“用泵人姓名（昵称）”；②治疗方案选了餐前+基础或预混后的<span class="text-red">“基础胰岛素注射剂量”改为系统计算，</span>=输注剂量之和；③餐前注射的胰岛素种类拆成了<span class="text-red">速效和短效</span>两个选项，便于同步至电子病历。</p>
         <p>5、销售提交新收案时，若下单电话命中进行中的收案任务，系统按下单号码、发起经理和患者姓名关系弹出“温馨提醒”并阻止提交；进行中范围为待接收、已接收、用户填写中、用户已填写、已收案但还未开启密集照护、密集照护中。</p>
         <p>6、从“碳水评估技能”开始（含），所有题目的选项和子选项，都改为<span class="text-red">左对齐</span>，本页中的“主要想改善的问题”为示例效果。</p>
 
@@ -682,10 +756,15 @@
       <div class="note-card" data-note="sales-auth">
         <h3>授权销售</h3>
         <p>1、在糖糖圈管理中心后台 - ttq用户列表 - 操作列，增加“授权销售”操作按钮，点击后需二次确认“确认授权销售吗？”，二次确认后，按钮置灰不可点击。</p>
+        <p>2、授权后的用户，可在App 金刚区看到“患教对接”入口。</p>
+      </div>
+      <div class="note-card" data-note="app-entry">
+        <h3>App 金刚区入口</h3>
+        <p>1、在App 金刚区增加销售客户池入口：“患教对接”。</p>
       </div>
       <div class="note-card" data-note="sales-app">
-        <h3>销售 App 端</h3>
-        <p>1、经授权的销售登录糖糖圈 App 后，通过 App 金刚区最后一个入口进入客户池页面，列表展示<span class="text-red">所有crm客户池 / 糖糖圈用户列表</span>的用户。</p>
+        <h3>销售 App 端客户池页面</h3>
+        <p>1、从金刚区“患教对接”进入，列表展示<span class="text-red">所有crm客户池 / 糖糖圈用户列表</span>的用户。</p>
         <p>2、列表用户卡片按创建时间倒序；<span class="text-red">首屏展示20条，上拉刷新</span>；卡片中展示用户昵称、ID、性别、姓名、收案进度、手机号。</p>
         <p>3、“新收案”按钮：复用已做好的销售部分问卷，填写和提交口径保持不变。</p>
         <p>4、“收案管理”按钮：展示用户的历史收案列表，收案卡片中展示收案ID、下单日期、提交时间、泵型号、当前状态。</p>

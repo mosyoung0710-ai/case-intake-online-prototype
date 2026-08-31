@@ -29,6 +29,7 @@ const tableWrap = document.querySelector(".data-table-wrap");
 const caseManagementView = document.querySelector("#caseManagementView");
 const salesQuestionnaireView = document.querySelector("#salesQuestionnaireView");
 const salesAuthView = document.querySelector("#salesAuthView");
+const appEntryView = document.querySelector("#appEntryView");
 const salesAppView = document.querySelector("#salesAppView");
 const systemNoticeView = document.querySelector("#systemNoticeView");
 const salesAppTitle = document.querySelector("#salesAppTitle");
@@ -139,6 +140,7 @@ function showCaseManagement() {
   caseManagementView.classList.remove("hidden");
   salesQuestionnaireView.classList.add("hidden");
   salesAuthView.classList.add("hidden");
+  appEntryView.classList.add("hidden");
   salesAppView.classList.add("hidden");
   systemNoticeView.classList.add("hidden");
   window.requestAnimationFrame(resetTableScroll);
@@ -152,6 +154,7 @@ function showSalesQuestionnaire() {
   caseManagementView.classList.add("hidden");
   salesQuestionnaireView.classList.remove("hidden");
   salesAuthView.classList.add("hidden");
+  appEntryView.classList.add("hidden");
   salesAppView.classList.add("hidden");
   systemNoticeView.classList.add("hidden");
 }
@@ -165,6 +168,21 @@ function showSalesAuth() {
   caseManagementView.classList.add("hidden");
   salesQuestionnaireView.classList.add("hidden");
   salesAuthView.classList.remove("hidden");
+  appEntryView.classList.add("hidden");
+  salesAppView.classList.add("hidden");
+  systemNoticeView.classList.add("hidden");
+}
+
+function showAppEntry() {
+  reviewShell.classList.remove("notes-hidden");
+  notesPanel.classList.remove("hidden");
+  browserFrame.classList.add("sales-mode");
+  appShell.classList.add("sales-mode");
+  closeSalesSubmitWarning();
+  caseManagementView.classList.add("hidden");
+  salesQuestionnaireView.classList.add("hidden");
+  salesAuthView.classList.add("hidden");
+  appEntryView.classList.remove("hidden");
   salesAppView.classList.add("hidden");
   systemNoticeView.classList.add("hidden");
 }
@@ -178,6 +196,7 @@ function showSalesApp(pageName = "users") {
   caseManagementView.classList.add("hidden");
   salesQuestionnaireView.classList.add("hidden");
   salesAuthView.classList.add("hidden");
+  appEntryView.classList.add("hidden");
   salesAppView.classList.remove("hidden");
   systemNoticeView.classList.add("hidden");
   openSalesAppPage(pageName);
@@ -192,6 +211,7 @@ function showSystemNotice() {
   caseManagementView.classList.add("hidden");
   salesQuestionnaireView.classList.add("hidden");
   salesAuthView.classList.add("hidden");
+  appEntryView.classList.add("hidden");
   salesAppView.classList.add("hidden");
   systemNoticeView.classList.remove("hidden");
 }
@@ -274,7 +294,7 @@ function setView(view) {
   });
   document.querySelectorAll(".note-card").forEach(card => {
     const scopedNote = card.dataset.note;
-    const scopedViews = ["sales-questionnaire", "sales-auth", "sales-app", "sales-notice"];
+    const scopedViews = ["sales-questionnaire", "sales-auth", "app-entry", "sales-app", "sales-notice"];
     const isScopedView = scopedViews.includes(view);
     card.classList.toggle("hidden", isScopedView ? scopedNote !== view : scopedViews.includes(scopedNote));
     card.classList.toggle("active", card.dataset.note === view);
@@ -284,6 +304,8 @@ function setView(view) {
     showSalesQuestionnaire();
   } else if (view === "sales-auth") {
     showSalesAuth();
+  } else if (view === "app-entry") {
+    showAppEntry();
   } else if (view === "sales-app") {
     showSalesApp();
   } else if (view === "sales-notice") {
