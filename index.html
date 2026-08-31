@@ -19,6 +19,7 @@
       <button class="nav-item active" data-view="list">收案管理</button>
       <button class="nav-item" data-view="receive">收案弹窗</button>
       <button class="nav-item" data-view="sales-questionnaire">销售部分问卷</button>
+      <button class="nav-item" data-view="sales-auth">授权销售</button>
       <button class="nav-item" data-view="sales-app">销售 App 端</button>
       <button class="nav-item" data-view="sales-notice">系统通知</button>
     </aside>
@@ -378,6 +379,12 @@
             </div>
           </section>
 
+          <section class="sales-auth-view hidden" id="salesAuthView" aria-label="授权销售页面">
+            <div class="crm-screenshot-shell">
+              <img src="assets/sales-auth-user-list.png" alt="用户列表授权销售操作示意" />
+            </div>
+          </section>
+
           <section class="system-notice-view hidden" id="systemNoticeView" aria-label="系统通知页面">
             <div class="sales-phone notice-phone" aria-label="糖糖圈 App 系统通知页面">
               <div class="phone-status">
@@ -414,12 +421,6 @@
                   </div>
                 </article>
               </div>
-              <button class="notice-sales-float" type="button" id="noticeSalesEntry" aria-label="进入销售客户池">
-                <span class="notice-sales-icon" aria-hidden="true">
-                  <i></i>
-                </span>
-                <b>销售</b>
-              </button>
             </div>
           </section>
 
@@ -642,7 +643,7 @@
         <h3>待接收提醒</h3>
         <p><span class="text-red">收案管理 tab 右上角增加数字徽标</span>，用于提示待确认接收的收案任务数量；全部确认后徽标消失。</p>
       </div>
-      <div class="note-card" data-note="receive">
+      <div class="note-card" data-note="list">
         <h3>收案弹窗</h3>
         <p>操作列主按钮按状态展示：<span class="text-red">用户已填写之前的状态</span>都显示“收案准备”，<span class="text-red">用户已填写之后</span>显示“处理收案”。</p>
         <p>两种弹窗顶部信息保持一致，均展示患者姓名、下单电话、问卷总得分、当前步骤、售前备注。</p>
@@ -653,14 +654,18 @@
         <h3>按钮名称修改</h3>
         <p>原“推送”和“批量推送”改为“转组”和“批量转组”</p>
       </div>
+      <div class="note-card" data-note="list">
+        <h3>删除问卷</h3>
+        <p>仅当收案状态为“已接收”、“用户填写中”、“用户已填写”时，删除按钮点亮、可点击</p>
+      </div>
       <div class="note-card">
         <h3>问卷代填</h3>
-        <p>收案管理列表操作列增加“代填”入口，仅<span class="text-red">“已接收”“用户填写中”状态</span>可点击；点击后打开患者部分问卷抽屉，可由患教师代用户填写问卷并提交，实时保存。</p>
+        <p>收案管理列表操作列增加“代填”入口，仅<span class="text-red">“已接收”“用户填写中”状态</span>点亮、可点击；点击后打开患者部分问卷抽屉，可由患教师代用户填写问卷并提交，实时保存。</p>
       </div>
       <div class="note-card">
         <h3>快捷操作</h3>
         <p>收案管理列表操作列增加“确认”、“复制”入口；</p>
-        <p>“确认”<span class="text-red">仅待接收状态</span>可点击，点击后状态变为“已接收”；</p>
+        <p>“确认”<span class="text-red">仅待接收状态</span>点亮、可点击，点击后状态变为“已接收”；</p>
         <p>“复制”按钮常亮，点击后页面顶部展示“复制成功”提示，并复制一段带问卷链接的文案：“【糖糖圈】您好，您的医护老师已为您开启健康评估服务。请点击链接完成详细健康填报：https://example.com/newCase/intro?id=xx</p>
         <p>请使用糖糖圈手机号登录，以便自动同步档案。”</p>
       </div>
@@ -674,24 +679,23 @@
         <p>6、从“碳水评估技能”开始（含），所有题目的选项和子选项，都改为<span class="text-red">左对齐</span>，本页中的“主要想改善的问题”为示例效果。</p>
 
       </div>
+      <div class="note-card" data-note="sales-auth">
+        <h3>授权销售</h3>
+        <p>1、在糖糖圈管理中心后台 - ttq用户列表 - 操作列，增加“授权销售”操作按钮，点击后需二次确认“确认授权销售吗？”，二次确认后，按钮置灰不可点击。</p>
+      </div>
       <div class="note-card" data-note="sales-app">
         <h3>销售 App 端</h3>
-        <p>1、经授权的销售登录糖糖圈 App 后，通过App内的悬浮窗（见“系统通知”页），进入客户池页面，列表展示<span class="text-red">所有crm客户池 / 糖糖圈用户列表</span>的用户。</p>
-        <p>2、列表用户卡片按创建时间倒序；<span class="text-red">首屏展示20条，上拉刷新</span>；卡片中展示用户昵称、ID、性别、姓名、收案进度、手机号、跟进人。</p>
+        <p>1、经授权的销售登录糖糖圈 App 后，通过 App 金刚区最后一个入口进入客户池页面，列表展示<span class="text-red">所有crm客户池 / 糖糖圈用户列表</span>的用户。</p>
+        <p>2、列表用户卡片按创建时间倒序；<span class="text-red">首屏展示20条，上拉刷新</span>；卡片中展示用户昵称、ID、性别、姓名、收案进度、手机号。</p>
         <p>3、“新收案”按钮：复用已做好的销售部分问卷，填写和提交口径保持不变。</p>
         <p>4、“收案管理”按钮：展示用户的历史收案列表，收案卡片中展示收案ID、下单日期、提交时间、泵型号、当前状态。</p>
         <p>5、顶部筛选：可选昵称、ID、电话；后端查询后返回结果。</p>
-        <p>6、历史收案详情常亮；编辑仅待接收、已接收、待用户填写可点；删除仅待接收可点，患教确认接收后处理权限转到患教侧。</p>
+        <p>6、历史收案详情常亮；编辑仅待接收、已接收、待用户填写点亮、可点；删除仅待接收点亮、可点，患教确认接收后处理权限转到患教侧。</p>
       </div>
       <div class="note-card" data-note="sales-notice">
         <h3>系统通知</h3>
         <p>1、患教端点击“确认”接收收案后，给发起该收案的销售发送 App 系统通知。</p>
         <p>2、通知内容为：患教已接收患者【{昵称}】（ID：{收案 ID}）。</p>
-      </div>
-      <div class="note-card" data-note="sales-notice">
-       <h3>app悬浮入口</h3>
-       <p>在app内增加销售客户池入口，悬浮窗形式<span class="text-red">（需要做成不管切换到app哪个页面均在最上层可见）；如果不行，就在“我的”页面最下面加个固定入口。</span></p>
-       <p>需要后台给销售的糖糖圈app账号增加授权，只有有权限的销售账号登录糖糖圈app才会看到这个入口。</p>
       </div>
     </aside>
   </div>

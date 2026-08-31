@@ -28,11 +28,11 @@ const pendingDot = document.querySelector("#pendingDot");
 const tableWrap = document.querySelector(".data-table-wrap");
 const caseManagementView = document.querySelector("#caseManagementView");
 const salesQuestionnaireView = document.querySelector("#salesQuestionnaireView");
+const salesAuthView = document.querySelector("#salesAuthView");
 const salesAppView = document.querySelector("#salesAppView");
 const systemNoticeView = document.querySelector("#systemNoticeView");
 const salesAppTitle = document.querySelector("#salesAppTitle");
 const salesAppBack = document.querySelector("#salesAppBack");
-const noticeSalesEntry = document.querySelector("#noticeSalesEntry");
 const appDeleteSheet = document.querySelector("#appDeleteSheet");
 const appSearchMenu = document.querySelector("[data-search-menu]");
 const appSearchFilterLabel = document.querySelector("[data-search-filter-label]");
@@ -138,6 +138,7 @@ function showCaseManagement() {
   closeSalesSubmitWarning();
   caseManagementView.classList.remove("hidden");
   salesQuestionnaireView.classList.add("hidden");
+  salesAuthView.classList.add("hidden");
   salesAppView.classList.add("hidden");
   systemNoticeView.classList.add("hidden");
   window.requestAnimationFrame(resetTableScroll);
@@ -150,6 +151,20 @@ function showSalesQuestionnaire() {
   appShell.classList.add("sales-mode");
   caseManagementView.classList.add("hidden");
   salesQuestionnaireView.classList.remove("hidden");
+  salesAuthView.classList.add("hidden");
+  salesAppView.classList.add("hidden");
+  systemNoticeView.classList.add("hidden");
+}
+
+function showSalesAuth() {
+  reviewShell.classList.remove("notes-hidden");
+  notesPanel.classList.remove("hidden");
+  browserFrame.classList.add("sales-mode");
+  appShell.classList.add("sales-mode");
+  closeSalesSubmitWarning();
+  caseManagementView.classList.add("hidden");
+  salesQuestionnaireView.classList.add("hidden");
+  salesAuthView.classList.remove("hidden");
   salesAppView.classList.add("hidden");
   systemNoticeView.classList.add("hidden");
 }
@@ -162,6 +177,7 @@ function showSalesApp(pageName = "users") {
   closeSalesSubmitWarning();
   caseManagementView.classList.add("hidden");
   salesQuestionnaireView.classList.add("hidden");
+  salesAuthView.classList.add("hidden");
   salesAppView.classList.remove("hidden");
   systemNoticeView.classList.add("hidden");
   openSalesAppPage(pageName);
@@ -175,6 +191,7 @@ function showSystemNotice() {
   closeSalesSubmitWarning();
   caseManagementView.classList.add("hidden");
   salesQuestionnaireView.classList.add("hidden");
+  salesAuthView.classList.add("hidden");
   salesAppView.classList.add("hidden");
   systemNoticeView.classList.remove("hidden");
 }
@@ -257,7 +274,7 @@ function setView(view) {
   });
   document.querySelectorAll(".note-card").forEach(card => {
     const scopedNote = card.dataset.note;
-    const scopedViews = ["sales-questionnaire", "sales-app", "sales-notice"];
+    const scopedViews = ["sales-questionnaire", "sales-auth", "sales-app", "sales-notice"];
     const isScopedView = scopedViews.includes(view);
     card.classList.toggle("hidden", isScopedView ? scopedNote !== view : scopedViews.includes(scopedNote));
     card.classList.toggle("active", card.dataset.note === view);
@@ -265,6 +282,8 @@ function setView(view) {
 
   if (view === "sales-questionnaire") {
     showSalesQuestionnaire();
+  } else if (view === "sales-auth") {
+    showSalesAuth();
   } else if (view === "sales-app") {
     showSalesApp();
   } else if (view === "sales-notice") {
@@ -386,10 +405,6 @@ document.querySelectorAll("[data-close-submit-warning]").forEach(button => {
 });
 
 salesAppBack.addEventListener("click", backSalesAppPage);
-noticeSalesEntry.addEventListener("click", () => {
-  setView("sales-app");
-  openSalesAppPage("users");
-});
 
 document.querySelectorAll("[data-toggle-group]").forEach(group => {
   group.addEventListener("click", event => {
