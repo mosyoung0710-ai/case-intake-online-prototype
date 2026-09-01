@@ -32,7 +32,7 @@
         </div>
         <div class="header-actions">
           <button class="ghost-btn" id="resetDemo">重置演示</button>
-          <button class="primary-btn" id="openReceiveFromHeader">模拟处理收案</button>
+          <button class="primary-btn" id="openReceiveFromHeader">模拟收案</button>
         </div>
       </header>
 
@@ -527,7 +527,7 @@
                     <div class="sales-user-main">
                       <strong>JJ <span>(65500)</span></strong>
                       <p>女｜36岁｜收案进度：已收案</p>
-                      <small>手机号：177****0574｜跟进人：JJ</small>
+                      <small>手机号：177****0574</small>
                     </div>
                     <div class="sales-user-actions">
                       <button type="button" data-view-jump="sales-questionnaire">新收案</button>
@@ -538,7 +538,7 @@
                     <div class="sales-user-main">
                       <strong>张三 <span>(65501)</span></strong>
                       <p>男｜4岁｜收案进度：用户已填写</p>
-                      <small>手机号：188****6000｜跟进人：liaojulan</small>
+                      <small>手机号：188****6000</small>
                     </div>
                     <div class="sales-user-actions">
                       <button type="button" data-view-jump="sales-questionnaire">新收案</button>
@@ -549,7 +549,7 @@
                     <div class="sales-user-main">
                       <strong>王女士 <span>(65502)</span></strong>
                       <p>女｜25岁｜收案进度：--</p>
-                      <small>手机号：138****8001｜跟进人：--</small>
+                      <small>手机号：138****8001</small>
                     </div>
                     <div class="sales-user-actions">
                       <button type="button" data-view-jump="sales-questionnaire">新收案</button>
@@ -718,11 +718,10 @@
         <p><span class="text-red">收案管理 tab 右上角增加数字徽标</span>，用于提示待确认接收的收案任务数量；全部确认后徽标消失。</p>
       </div>
       <div class="note-card" data-note="list">
-        <h3>收案弹窗</h3>
-        <p>操作列主按钮按状态展示：<span class="text-red">用户已填写之前的状态</span>都显示“收案准备”，<span class="text-red">用户已填写之后</span>显示“处理收案”。</p>
-        <p>两种弹窗顶部信息保持一致，均展示患者姓名、下单电话、问卷总得分、当前步骤、售前备注。</p>
-        <p>“收案准备”包含创建看板、创建群聊（试戴用户仅需创建看板）。</p>
-        <p>“处理收案”仅用于信息核对和完成收案，不再展示创建看板、创建群聊，且不展示步骤进度条。</p>
+        <h3>收案</h3>
+        <p>操作列主按钮不变，统一显示“收案”。</p>
+        <p>患教确认后，按钮点亮、可点击；收案完成后，置灰不可点击。</p>
+        <p>收案步骤顺序修改为：<span class="text-red">①创建看板②创建群聊③核对信息</span>。</p>
       </div>
       <div class="note-card" data-note="list">
         <h3>按钮名称修改</h3>
@@ -765,8 +764,8 @@
       </div>
       <div class="note-card" data-note="sales-app">
         <h3>销售 App 端客户池页面</h3>
-        <p>1、从金刚区“患教对接”进入，列表展示<span class="text-red">所有crm客户池 / 糖糖圈用户列表</span>的用户。</p>
-        <p>2、列表用户卡片按创建时间倒序；<span class="text-red">首屏展示20条，上拉刷新</span>；卡片中展示用户昵称、ID、性别、姓名、收案进度、手机号。</p>
+        <p>1、从金刚区“患教对接”进入，列表展示<span class="text-red">所有糖糖圈用户列表</span>的用户。</p>
+        <p>2、列表用户卡片按创建时间倒序；<span class="text-red">首屏展示20条，上拉刷新</span>；卡片中展示用户昵称、ID、性别、收案进度、手机号。</p>
         <p>3、“新收案”按钮：复用已做好的销售部分问卷，填写和提交口径保持不变。</p>
         <p>4、“收案管理”按钮：展示用户的历史收案列表，收案卡片中展示收案ID、下单日期、提交时间、泵型号、当前状态。</p>
         <p>5、顶部筛选：可选昵称、ID、电话；后端查询后返回结果。</p>
@@ -827,23 +826,39 @@
         <button id="closeReceive">×</button>
       </header>
       <div class="case-summary">
-        <h2><span id="receiveHeading">收案准备</span> - <span id="caseName">用户41807</span></h2>
+        <h2><span id="receiveHeading">收案</span> - <span id="caseName">用户41807</span></h2>
         <div class="summary-grid">
           <span>患者姓名：<b id="summaryName">用户41807</b></span>
           <span>下单电话：<b id="summaryPhone">138****1807</b></span>
           <span class="questionnaire-result">问卷总得分：<mark id="scoreText">20分</mark></span>
-          <span>当前步骤：<b id="stepName">信息核对</b></span>
+          <span>当前步骤：<b id="stepName">创建看板</b></span>
           <span class="questionnaire-result">售前备注：<b id="remarkText">还没收案时，年龄没显示，为空</b></span>
         </div>
       </div>
 
       <div class="stepper" id="stepper">
-        <button class="step active" data-mode="process" data-step="1"><span>1</span>信息核对</button>
-        <button class="step" data-mode="prepare" data-step="2"><span>1</span>创建看板</button>
-        <button class="step" data-mode="prepare" data-step="3"><span>2</span>创建群聊</button>
+        <button class="step active" data-step="1"><span>1</span>创建看板</button>
+        <button class="step" data-step="2"><span>2</span>创建群聊</button>
+        <button class="step" data-step="3"><span>3</span>核对信息</button>
       </div>
 
       <div class="step-body" data-step-body="1">
+        <div class="empty-card">
+          <b>创建类型：个案</b>
+          <p>服务看板名称：<span id="boardName">收案-用户41807</span></p>
+        </div>
+        <div class="modal-actions"><button class="primary-btn next-step" data-next="2">创建，下一步</button></div>
+      </div>
+
+      <div class="step-body hidden" data-step-body="2">
+        <form class="group-form">
+          <label>群聊名称：<input id="groupName" value="收案-用户41807" /></label>
+          <label>群聊描述：<textarea placeholder="可不填"></textarea></label>
+        </form>
+        <div class="modal-actions"><button class="primary-btn next-step" data-next="3">创建，下一步</button></div>
+      </div>
+
+      <div class="step-body hidden" data-step-body="3">
         <h3>第一部分：可同步至电子病历的信息</h3>
         <table class="check-table">
           <thead><tr><th><input type="checkbox" checked /></th><th>属性</th><th>更新前</th><th>更新后</th><th>附件</th><th>得分</th></tr></thead>
@@ -863,22 +878,6 @@
           </tbody>
         </table>
         <div class="modal-actions"><button class="primary-btn" id="finishReceive">完成收案</button></div>
-      </div>
-
-      <div class="step-body hidden" data-step-body="2">
-        <div class="empty-card">
-          <b>创建类型：个案</b>
-          <p>服务看板名称：<span id="boardName">收案准备-用户41807</span></p>
-        </div>
-        <div class="modal-actions"><button class="primary-btn next-step" data-next="3">创建，下一步</button></div>
-      </div>
-
-      <div class="step-body hidden" data-step-body="3">
-        <form class="group-form">
-          <label>群聊名称：<input id="groupName" value="收案准备-用户41807" /></label>
-          <label>群聊描述：<textarea placeholder="可不填"></textarea></label>
-        </form>
-        <div class="modal-actions"><button class="primary-btn" id="finishPrep">完成准备</button></div>
       </div>
     </section>
   </div>

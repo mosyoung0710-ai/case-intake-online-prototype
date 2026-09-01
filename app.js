@@ -12,7 +12,6 @@ const initialCases = [
 let cases = initialCases.map(item => ({ ...item }));
 let currentStep = 1;
 let currentReceiveCaseId = null;
-let receiveMode = "prepare";
 let prepProgressById = {};
 let currentSalesAppPage = "users";
 let pendingDeleteSalesAppRecord = null;
@@ -61,14 +60,7 @@ function statusClass(status) {
 }
 
 function receiveAction(status) {
-  if (["已接收", "用户填写中"].includes(status)) {
-    return { enabled: true, label: "收案准备", mode: "prepare" };
-  }
-  if (status === "用户已填写") {
-    return { enabled: true, label: "处理收案", mode: "process" };
-  }
-  if (status === "已收案") return { enabled: false, label: "处理收案", mode: "process" };
-  return { enabled: false, label: "收案准备", mode: "prepare" };
+  return { enabled: ["已接收", "用户填写中", "用户已填写"].includes(status), label: "收案" };
 }
 
 function renderRows() {
@@ -321,16 +313,14 @@ function setView(view) {
 
 function openReceiveModal(caseId) {
   const target = cases.find(item => item.id === Number(caseId)) || cases.find(item => item.status === "用户已填写") || cases[0];
-  const meta = receiveAction(target.status);
   currentReceiveCaseId = target.id;
-  receiveMode = meta.mode;
   document.querySelector("#caseName").textContent = target.name;
   document.querySelector("#summaryName").textContent = target.name;
   document.querySelector("#summaryPhone").textContent = target.phone;
-  document.querySelector("#boardName").textContent = `收案准备-${target.name}`;
-  document.querySelector("#groupName").value = `收案准备-${target.name}`;
+  document.querySelector("#boardName").textContent = `收案-${target.name}`;
+  document.querySelector("#groupName").value = `收案-${target.name}`;
   receiveModal.classList.remove("hidden");
-  setStep(receiveMode === "prepare" ? (prepProgressById[target.id] || 2) : 1);
+  setStep(prepProgressById[target.id] || 1);
 }
 
 function closeReceiveModal() {
@@ -350,32 +340,24 @@ function closeAutofillDrawer() {
 
 function setStep(step) {
   currentStep = Number(step);
-  const target = cases.find(item => item.id === Number(currentReceiveCaseId));
-  const isTrialPrepare = receiveMode === "prepare" && target?.isTrial === true;
   const titles = {
-    1: "信息核对",
-    2: "创建看板",
-    3: "创建群聊"
+    1: "创建看板",
+    2: "创建群聊",
+    3: "核对信息"
   };
-  const heading = receiveMode === "prepare" ? "收案准备" : "处理收案";
-  receiveHeading.textContent = heading;
-  document.querySelector("#modalTitle").textContent = `${heading} - ${titles[currentStep]}`;
+  receiveHeading.textContent = "收案";
+  document.querySelector("#modalTitle").textContent = `收案 - ${titles[currentStep]}`;
   document.querySelector("#stepName").textContent = titles[currentStep];
-  document.querySelector("#stepper").classList.toggle("prepare-mode", receiveMode === "prepare");
-  document.querySelector("#stepper").classList.toggle("process-mode", receiveMode === "process");
-  document.querySelector("#stepper").classList.toggle("trial-prepare-mode", isTrialPrepare);
-  document.querySelector("#stepper").classList.toggle("hidden", receiveMode === "process");
-  document.querySelector('.next-step[data-next="3"]').textContent = isTrialPrepare ? "完成准备" : "创建，下一步";
+  document.querySelector("#stepper").classList.remove("prepare-mode", "process-mode", "trial-prepare-mode", "hidden");
   document.querySelectorAll(".step").forEach(button => {
     const buttonStep = Number(button.dataset.step);
-    button.classList.toggle("hidden", button.dataset.mode !== receiveMode || (isTrialPrepare && buttonStep === 3));
+    button.classList.remove("hidden");
     button.classList.toggle("active", buttonStep === currentStep);
     button.classList.toggle("done", buttonStep < currentStep);
   });
   document.querySelectorAll("[data-step-body]").forEach(body => {
     const bodyStep = Number(body.dataset.stepBody);
-    const bodyMode = bodyStep === 1 ? "process" : "prepare";
-    body.classList.toggle("hidden", bodyMode !== receiveMode || bodyStep !== currentStep || (isTrialPrepare && bodyStep === 3));
+    body.classList.toggle("hidden", bodyStep !== currentStep);
   });
 }
 
@@ -475,15 +457,8 @@ document.querySelectorAll(".step").forEach(button => {
 });
 document.querySelectorAll(".next-step").forEach(button => {
   button.addEventListener("click", () => {
-    const target = cases.find(item => item.id === Number(currentReceiveCaseId));
-    if (receiveMode === "prepare" && target?.isTrial) {
-      prepProgressById[currentReceiveCaseId] = 2;
-      closeReceiveModal();
-      showToast("已完成收案准备");
-      return;
-    }
-    if (receiveMode === "prepare" && currentReceiveCaseId) {
-      prepProgressById[currentReceiveCaseId] = Math.max(prepProgressById[currentReceiveCaseId] || 2, Number(button.dataset.next));
+    if (currentReceiveCaseId) {
+      prepProgressById[currentReceiveCaseId] = Math.max(prepProgressById[currentReceiveCaseId] || 1, Number(button.dataset.next));
     }
     setStep(button.dataset.next);
   });
@@ -496,11 +471,13 @@ document.querySelector("#finishReceive").addEventListener("click", () => {
   showToast("已完成收案");
 });
 
-document.querySelector("#finishPrep").addEventListener("click", () => {
-  if (currentReceiveCaseId) prepProgressById[currentReceiveCaseId] = 3;
-  closeReceiveModal();
-  showToast("已完成收案准备");
-});
+const finishPrep = document.querySelector("#finishPrep");
+if (finishPrep) {
+  finishPrep.addEventListener("click", () => {
+    closeReceiveModal();
+    showToast("已完成收案");
+  });
+}
 
 const copyQuestionnaireLink = document.querySelector("#copyQuestionnaireLink");
 if (copyQuestionnaireLink) {
