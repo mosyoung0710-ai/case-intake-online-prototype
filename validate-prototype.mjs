@@ -12,7 +12,7 @@ if (!root) {
 }
 
 const chromePath = process.env.CHROME_PATH || "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
-const validationDir = path.join(root, "validation");
+const validationDir = process.env.VALIDATION_OUTPUT || path.join(root, "validation");
 fs.mkdirSync(validationDir, { recursive: true });
 
 const browser = await chromium.launch({

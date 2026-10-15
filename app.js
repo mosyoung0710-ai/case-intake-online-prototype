@@ -209,6 +209,10 @@ function showSystemNotice() {
 }
 
 function openSalesAppPage(pageName) {
+  if (pageName === "users") {
+    salesAppView.classList.remove("proxy-user-empty");
+    document.querySelector("#proxyEmptyCases")?.classList.add("hidden");
+  }
   currentSalesAppPage = pageName;
   const titles = {
     users: "客户池",
@@ -281,18 +285,32 @@ function showToast(text) {
 }
 
 function setView(view) {
+  if (view === "proxy-registration" && !document.querySelector("#demoRegistrationPermission").checked) {
+    showToast("暂无代注册权限");
+    view = "app-entry";
+  }
+  document.querySelectorAll("#proxyRegistrationView, #crmPoolView, #registrationAuthView").forEach(section => section.classList.add("hidden"));
   document.querySelectorAll(".nav-item").forEach(button => {
     button.classList.toggle("active", button.dataset.view === view);
   });
   document.querySelectorAll(".note-card").forEach(card => {
     const scopedNote = card.dataset.note;
-    const scopedViews = ["sales-questionnaire", "sales-auth", "app-entry", "sales-app", "sales-notice"];
+    const scopedViews = ["sales-questionnaire", "sales-auth", "registration-auth", "app-entry", "sales-app", "sales-notice", "proxy-registration", "crm-pool"];
     const isScopedView = scopedViews.includes(view);
     card.classList.toggle("hidden", isScopedView ? scopedNote !== view : scopedViews.includes(scopedNote));
     card.classList.toggle("active", card.dataset.note === view);
   });
 
-  if (view === "sales-questionnaire") {
+  if (view === "proxy-registration" || view === "crm-pool") {
+    showAppEntry();
+    appEntryView.classList.add("hidden");
+    document.querySelector(view === "proxy-registration" ? "#proxyRegistrationView" : "#crmPoolView").classList.remove("hidden");
+    if (view === "proxy-registration") document.querySelector(".registration-scroll").scrollTop = 0;
+  } else if (view === "registration-auth") {
+    showSalesAuth();
+    salesAuthView.classList.add("hidden");
+    document.querySelector("#registrationAuthView").classList.remove("hidden");
+  } else if (view === "sales-questionnaire") {
     showSalesQuestionnaire();
   } else if (view === "sales-auth") {
     showSalesAuth();

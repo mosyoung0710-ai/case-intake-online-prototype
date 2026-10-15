@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>患教端收案线上化 - 交互原型</title>
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="registration-crm.css" />
 </head>
 <body>
   <div class="review-shell">
@@ -20,9 +21,12 @@
       <button class="nav-item" data-view="receive">收案弹窗</button>
       <button class="nav-item" data-view="sales-questionnaire">销售部分问卷</button>
       <button class="nav-item" data-view="sales-auth">授权销售</button>
+      <button class="nav-item" data-view="registration-auth">授权代注册</button>
       <button class="nav-item" data-view="app-entry">App 金刚区入口</button>
+      <button class="nav-item" data-view="proxy-registration">代注册</button>
       <button class="nav-item" data-view="sales-app">销售 App 端客户池页面</button>
       <button class="nav-item" data-view="sales-notice">系统通知</button>
+      <button class="nav-item" data-view="crm-pool">CRM 客户池</button>
     </aside>
 
     <main class="prototype-stage">
@@ -386,12 +390,19 @@
             </div>
           </section>
 
+          <section class="sales-auth-view hidden" id="registrationAuthView" aria-label="授权代注册页面">
+            <div class="crm-screenshot-shell">
+              <img src="assets/registration-auth-user-list.png" alt="用户列表授权代注册操作示意" />
+            </div>
+          </section>
+
           <section class="app-entry-view hidden" id="appEntryView" aria-label="App 金刚区入口页面">
             <div class="sales-phone app-home-phone" aria-label="糖糖圈 App 首页金刚区入口">
               <div class="phone-status">
                 <span>17:10</span>
                 <span>4G 65%</span>
               </div>
+              <div class="home-entry-scroll">
               <div class="app-home-search">
                 <button class="signin-chip" type="button">签到</button>
                 <div class="home-search-input">5566</div>
@@ -444,11 +455,16 @@
                 <div class="home-feature-item"><span class="feature-icon green"></span><b>医保汇总</b></div>
                 <div class="home-feature-item"><span class="feature-icon orange"></span><b>计步运动</b></div>
                 <div class="home-feature-item"><span class="feature-icon yellow"></span><b>精选专题</b></div>
-                <div class="home-feature-item intake-entry">
+                <button type="button" class="home-feature-item intake-entry" data-view-jump="sales-app" data-permission-entry="sales">
                   <span class="feature-icon intake"></span>
                   <b>患教对接</b>
-                </div>
+                </button>
+                <button type="button" class="home-feature-item register-entry" data-view-jump="proxy-registration" data-permission-entry="registration">
+                  <span class="feature-icon register">+</span>
+                  <b>代注册</b>
+                </button>
               </section>
+              </div>
               <nav class="home-bottom-tabs">
                 <span class="active">首页</span>
                 <span>问伴</span>
@@ -457,6 +473,52 @@
                 <span>商城</span>
               </nav>
             </div>
+          </section>
+
+          <section class="proxy-registration-view hidden" id="proxyRegistrationView" aria-label="代注册页面">
+            <div class="sales-phone registration-phone">
+              <div class="phone-status"><span>17:10</span><span>4G 65%</span></div>
+              <header class="sales-app-header">
+                <button class="icon-button" type="button" data-view-jump="app-entry" aria-label="返回首页">‹</button>
+                <strong>代注册</strong>
+              </header>
+              <form id="proxyRegistrationForm" class="registration-form">
+                <div class="registration-scroll">
+                  <section class="registration-field">
+                    <h3><em>*</em>设置头像和昵称</h3>
+                    <div class="registration-profile">
+                      <label class="registration-avatar" aria-label="上传头像"><span>+</span><img class="hidden" alt="头像预览" id="registrationAvatar" /><input type="file" accept="image/*" id="registrationAvatarInput" /></label>
+                      <label class="registration-nickname"><span>请上传头像+输入昵称</span><input name="nickname" placeholder="请输入昵称" aria-label="昵称" required maxlength="30" /></label>
+                    </div>
+                  </section>
+                  <section class="registration-field"><h3><em>*</em>手机号</h3><input class="registration-input" type="tel" name="phone" inputmode="numeric" pattern="1[0-9]{10}" maxlength="11" placeholder="请输入手机号" aria-label="手机号" required /></section>
+                  <fieldset class="registration-field"><legend><em>*</em>请选择正确使用身份</legend><div class="registration-options" data-registration-options="identity"></div></fieldset>
+                  <section class="registration-field"><h3><em>*</em>用户渠道</h3><select class="registration-input" name="channel" aria-label="用户渠道" required><option value="">请选择用户渠道</option></select></section>
+                  <fieldset class="registration-field"><legend><em>*</em>性别</legend><div class="registration-options" data-registration-options="sex"></div></fieldset>
+                  <section class="registration-field"><h3><em>*</em>出生日期</h3><input class="registration-input" type="date" name="birthday" aria-label="出生日期" required /></section>
+                  <section class="registration-field"><h3><em>*</em>确诊时间</h3><input class="registration-input" type="date" name="diagnosis" aria-label="确诊时间" required /></section>
+                  <fieldset class="registration-field"><legend><em>*</em>患病类型</legend><div class="registration-options" data-registration-options="diabetesType"></div></fieldset>
+                  <fieldset class="registration-field"><legend><em>*</em>治疗方案</legend><div class="registration-options treatment-options" data-registration-options="treatment"></div></fieldset>
+                  <fieldset class="registration-field"><legend><em>*</em>领取新用户大礼包</legend><div class="registration-options gift-options" data-registration-options="gift"></div></fieldset>
+                </div>
+                <footer class="registration-footer"><button type="button" data-view-jump="app-entry">取消</button><button type="submit">确定</button></footer>
+              </form>
+            </div>
+          </section>
+
+          <section class="crm-pool-view hidden" id="crmPoolView" aria-label="CRM 客户池页面">
+            <header class="crm-topbar"><div class="brand"><div class="brand-logo">◎</div><span>糖糖圈1型糖友学校</span></div><nav><span>患者</span><span>问卷</span><span>统计</span><span>权限</span><span>设置</span><b>CRM系统</b></nav><span>您好,测试　退出</span></header>
+            <div class="crm-breadcrumb">客户池　›</div>
+            <div class="crm-content"><div class="crm-tab">客户池</div>
+              <form id="crmSearchForm" class="crm-filters">
+                <div class="crm-quick-search"><select name="searchType" aria-label="CRM 查询类型"><option>昵称</option><option>ID</option><option>电话</option></select><input name="keyword" placeholder="请输入内容" aria-label="CRM 查询内容" /><button type="submit">查找</button><span>全部患者数量:<b id="crmTotal"></b>人</span><button type="button" class="crm-link" data-crm-existing="添加分组">添加分组</button><button type="button" class="crm-link" data-crm-existing="添加群聊">添加群聊</button></div>
+                <div class="crm-filter-row"><label>方案<select name="plan"><option value="">选择方案</option><option>胰岛素泵</option><option>餐前+基础</option><option>运动降糖</option><option>降糖药物治疗</option></select></label><label>意向程度<select><option>选择意向程度</option><option>高</option><option>中</option><option>低</option></select></label><label>跟进人<input name="manager" placeholder="请输入关键词" /></label><label>用户身份<select name="identity"><option value="">全部</option><option>患者</option><option>亲属</option><option>孕妇</option><option>专业人士</option></select></label><label>收案进度<select name="progress"><option value="">选择收案进度</option><option>待接收</option><option>已接收</option><option>用户填写中</option><option>用户已填写</option><option>已收案</option></select></label><label>用户渠道<select name="channelGroup"><option value="">全部</option><option>私域电商</option><option>传统电商</option><option>兴趣电商</option><option>B端渠道</option><option>无</option></select></label></div>
+                <div class="crm-filter-row crm-date-row"><label>出生日期<input type="date" aria-label="出生开始日期" /><span>至</span><input type="date" aria-label="出生结束日期" /></label><label>确诊日期<input type="date" aria-label="确诊开始日期" /><span>至</span><input type="date" aria-label="确诊结束日期" /></label><label>注册时间<input type="date" aria-label="注册开始日期" /><span>至</span><input type="date" aria-label="注册结束日期" /></label><button type="submit">查询</button></div>
+              </form>
+              <div class="crm-table-scroll" tabindex="0" aria-label="客户列表，可横向滚动"><table class="crm-customer-table"><thead id="crmCustomerHead"></thead><tbody id="crmCustomerRows"></tbody></table></div>
+              <footer class="crm-pagination"><button type="button" aria-label="上一页" id="crmPrevious">‹</button><span id="crmPages"></span><button type="button" aria-label="下一页" id="crmNext">›</button><label>前往 <input type="number" min="1" value="1" id="crmPageInput" aria-label="前往页码" /> 页</label></footer>
+            </div>
+            <dialog id="crmExistingDialog"><header><strong id="crmDialogTitle">用户信息</strong><button type="button" aria-label="关闭" id="crmDialogClose">×</button></header><div id="crmDialogBody"></div></dialog>
           </section>
 
           <section class="system-notice-view hidden" id="systemNoticeView" aria-label="系统通知页面">
@@ -758,9 +820,35 @@
         <p>2、被授权销售身份的用户，可点击“取消授权”按钮，取消对其销售身份的授权，需要二次确认“确认取消授权吗”？，二次确认后，销售身份取消，按钮再次变为“授权销售”。</P>
         <p>3、已授权的用户，可在App 金刚区看到“患教对接”入口。</p>
       </div>
+      <div class="note-card" data-note="registration-auth">
+        <h3>授权代注册</h3>
+        <p>1、在糖糖圈管理中心后台 - ttq用户列表 - 操作列，增加“授权代注册”操作按钮，点击后需二次确认“确认授权代注册吗？”，二次确认后，用户获得代注册权限，同时按钮文案变为“取消授权”。</p>
+        <p>2、已获得代注册权限的用户，可点击“取消授权”按钮，需要二次确认“确认取消代注册授权吗？”，确认后取消代注册权限，按钮再次变为“授权代注册”；不影响其销售身份授权。</p>
+        <p>3、已获代注册授权的用户，可在App 金刚区看到“代注册”入口；该权限独立于销售身份，使用对象不限于销售。</p>
+      </div>
       <div class="note-card" data-note="app-entry">
         <h3>App 金刚区入口</h3>
         <p>1、在App 金刚区增加销售客户池入口：“患教对接”。</p>
+        <p>2、新增“代注册”入口，按独立的代注册权限展示，不复用销售身份授权；两项入口可分别开放。</p>
+        <div class="permission-demo"><h4>演示权限</h4><label><input type="checkbox" id="demoSalesPermission" checked />销售身份</label><label><input type="checkbox" id="demoRegistrationPermission" checked />代注册权限</label></div>
+      </div>
+      <div class="note-card" data-note="proxy-registration">
+        <h3>代注册</h3>
+        <p>1、获得独立代注册权限的账号，从首页金刚区进入。</p>
+        <p>2、沿用正常注册必填信息，合并为单页填写；信息未补齐不视为完成注册。</p>
+        <p>3、不展示密码题，初始密码默认为123456，暂不要求首次登录改密。</p>
+        <p>4、左上角返回和底部“取消”均返回首页金刚区。</p>
+        <p>5、代注册无需经过正常注册的手机验证码验证环节，无需发送、接收或填写验证码。</p>
+        <p>6、除上述差异外，其他注册失败处理、页面错误校验、交互及选项均与现有注册流程一致。</p>
+      </div>
+      <div class="note-card" data-note="crm-pool">
+        <h3>CRM 客户池 用户渠道</h3>
+        <p>1、新增“用户渠道”字段：通过代注册创建的用户，按所选渠道显示以下四类红字标记；其他来源显示黑字“无”。标记用于提示销售无需致电。</p>
+        <p>2、私域电商：内部电商-糖糖圈、老带新。</p>
+        <p>3、传统电商：传统电商-京东、传统电商-天猫、传统电商-拼多多。</p>
+        <p>4、兴趣电商：兴趣电商-抖音、兴趣电商-小红书。</p>
+        <p>5、B端渠道：外部合作-城市合伙人、线下院端、渠道合作、国控平台、合作（国控）。</p>
+        <p>6、筛选区新增“用户渠道”，按列表标记筛选四类渠道或“无”，可与其他条件组合查询。</p>
       </div>
       <div class="note-card" data-note="sales-app">
         <h3>销售 App 端客户池页面</h3>
@@ -884,5 +972,6 @@
 
   <div class="toast hidden" id="toast">已更新演示状态</div>
   <script src="app.js"></script>
+  <script src="registration-crm.js"></script>
 </body>
 </html>
