@@ -493,7 +493,7 @@
                   </section>
                   <section class="registration-field"><h3><em>*</em>手机号</h3><input class="registration-input" type="tel" name="phone" inputmode="numeric" pattern="1[0-9]{10}" maxlength="11" placeholder="请输入手机号" aria-label="手机号" required /></section>
                   <fieldset class="registration-field"><legend><em>*</em>请选择正确使用身份</legend><div class="registration-options" data-registration-options="identity"></div></fieldset>
-                  <section class="registration-field"><h3><em>*</em>用户渠道</h3><select class="registration-input" name="channel" aria-label="用户渠道" required><option value="">请选择用户渠道</option></select></section>
+                  <section class="registration-field"><div class="registration-field-title"><h3><em>*</em>用户渠道</h3><span class="registration-note-number" aria-label="修改点7">7</span></div><select class="registration-input" name="channel" aria-label="用户渠道" required><option value="">请选择用户渠道</option></select></section>
                   <fieldset class="registration-field"><legend><em>*</em>性别</legend><div class="registration-options" data-registration-options="sex"></div></fieldset>
                   <section class="registration-field"><h3><em>*</em>出生日期</h3><input class="registration-input" type="date" name="birthday" aria-label="出生日期" required /></section>
                   <section class="registration-field"><h3><em>*</em>确诊时间</h3><input class="registration-input" type="date" name="diagnosis" aria-label="确诊时间" required /></section>
@@ -512,7 +512,7 @@
             <div class="crm-content"><div class="crm-tab">客户池</div>
               <form id="crmSearchForm" class="crm-filters">
                 <div class="crm-quick-search"><select name="searchType" aria-label="CRM 查询类型"><option>昵称</option><option>ID</option><option>电话</option></select><input name="keyword" placeholder="请输入内容" aria-label="CRM 查询内容" /><button type="submit">查找</button><span>全部患者数量:<b id="crmTotal"></b>人</span><button type="button" class="crm-link" data-crm-existing="添加分组">添加分组</button><button type="button" class="crm-link" data-crm-existing="添加群聊">添加群聊</button></div>
-                <div class="crm-filter-row"><label>方案<select name="plan"><option value="">选择方案</option><option>胰岛素泵</option><option>餐前+基础</option><option>运动降糖</option><option>降糖药物治疗</option></select></label><label>意向程度<select><option>选择意向程度</option><option>高</option><option>中</option><option>低</option></select></label><label>跟进人<input name="manager" placeholder="请输入关键词" /></label><label>用户身份<select name="identity"><option value="">全部</option><option>患者</option><option>亲属</option><option>孕妇</option><option>专业人士</option></select></label><label>收案进度<select name="progress"><option value="">选择收案进度</option><option>待接收</option><option>已接收</option><option>用户填写中</option><option>用户已填写</option><option>已收案</option></select></label><label>用户渠道<select name="channelGroup"><option value="">全部</option><option>私域电商</option><option>传统电商</option><option>兴趣电商</option><option>B端渠道</option><option>无</option></select></label></div>
+                <div class="crm-filter-row"><label>方案<select name="plan"><option value="">选择方案</option><option>胰岛素泵</option><option>餐前+基础</option><option>运动降糖</option><option>降糖药物治疗</option></select></label><label>意向程度<select><option>选择意向程度</option><option>高</option><option>中</option><option>低</option></select></label><label>跟进人<input name="manager" placeholder="请输入关键词" /></label><label>用户身份<select name="identity"><option value="">全部</option><option>患者</option><option>亲属</option><option>孕妇</option><option>专业人士</option></select></label><label>收案进度<select name="progress"><option value="">选择收案进度</option><option>待接收</option><option>已接收</option><option>用户填写中</option><option>用户已填写</option><option>已收案</option></select></label><label>用户渠道<span class="registration-note-number crm-channel-note-number" aria-label="修改点6">6</span><select name="channelGroup"><option value="">全部</option><option>私域电商</option><option>传统电商</option><option>兴趣电商</option><option>B端渠道</option><option>无</option></select></label></div>
                 <div class="crm-filter-row crm-date-row"><label>出生日期<input type="date" aria-label="出生开始日期" /><span>至</span><input type="date" aria-label="出生结束日期" /></label><label>确诊日期<input type="date" aria-label="确诊开始日期" /><span>至</span><input type="date" aria-label="确诊结束日期" /></label><label>注册时间<input type="date" aria-label="注册开始日期" /><span>至</span><input type="date" aria-label="注册结束日期" /></label><button type="submit">查询</button></div>
               </form>
               <div class="crm-table-scroll" tabindex="0" aria-label="客户列表，可横向滚动"><table class="crm-customer-table"><thead id="crmCustomerHead"></thead><tbody id="crmCustomerRows"></tbody></table></div>
@@ -840,6 +840,7 @@
         <p>4、左上角返回和底部“取消”均返回首页金刚区。</p>
         <p>5、代注册无需经过正常注册的手机验证码验证环节，无需发送、接收或填写验证码。</p>
         <p>6、除上述差异外，其他注册失败处理、页面错误校验、交互及选项均与现有注册流程一致。</p>
+        <p>7、代注册时保存用户渠道；后续为该用户发起收案时，自动带入已保存的用户渠道。</p>
       </div>
       <div class="note-card" data-note="crm-pool">
         <h3>CRM 客户池 用户渠道</h3>

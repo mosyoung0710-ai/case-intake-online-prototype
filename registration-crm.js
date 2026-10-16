@@ -92,9 +92,16 @@ crmForm.querySelectorAll('input[type="date"]').forEach((input,index) => {
 });
 const crmTableRows = document.querySelector("#crmCustomerRows");
 const crmHeadRow = document.createElement("tr");
-crmColumns.forEach(([,name,width]) => {
+crmColumns.forEach(([key,name,width]) => {
   const th = document.createElement("th");
   th.textContent = name;
+  if (key === "channelLabel") {
+    const marker = document.createElement("span");
+    marker.className = "registration-note-number crm-channel-note-number";
+    marker.textContent = "1";
+    marker.setAttribute("aria-label", "修改点1");
+    th.append(marker);
+  }
   th.style.width = `${width}px`;
   crmHeadRow.append(th);
 });

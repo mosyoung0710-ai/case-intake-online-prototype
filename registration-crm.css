@@ -6,6 +6,7 @@
 .home-feature-grid button.home-feature-item { padding: 0; border: 0; background: none; font: inherit; font-size: 12px; }
 .feature-icon.register { background: #159ab5; color: white; font-size: 27px; }
 .feature-icon.register::before { display: none; }
+.register-entry { outline: 3px solid var(--blue); outline-offset: 4px; }
 .permission-demo { margin-top: 18px; padding-top: 10px; border-top: 1px solid #dce4ee; }
 .permission-demo h4 { margin: 0 0 10px; }
 .permission-demo label { display: flex; gap: 8px; align-items: center; margin: 8px 0; }
@@ -18,6 +19,9 @@ fieldset.registration-field { position: relative; padding-top: 12px; }
 .registration-field h3, .registration-field legend { font-size: 14px; font-weight: 400; color: #34383e; margin: 0 0 18px; padding: 0; }
 .registration-field legend { float: left; width: 100%; }
 .registration-field em { color: #e45757; font-style: normal; margin-right: 2px; }
+.registration-field-title { display: flex; align-items: center; gap: 8px; margin-bottom: 18px; }
+.registration-field-title h3 { margin: 0; }
+.registration-note-number { display: inline-grid; place-items: center; flex: 0 0 22px; width: 22px; height: 22px; border: 1.5px solid var(--red); border-radius: 50%; color: var(--red); font-size: 12px; line-height: 1; }
 .registration-profile { display: flex; gap: 12px; align-items: center; }
 .registration-avatar { position: relative; display: grid; place-items: center; width: 48px; height: 48px; flex: 0 0 48px; border-radius: 50%; background: #e3eef0; color: #19abc0; font-size: 32px; cursor: pointer; overflow: hidden; }
 .registration-avatar input { position: absolute; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
@@ -77,6 +81,7 @@ fieldset.registration-field { position: relative; padding-top: 12px; }
 .crm-customer-table th:last-child { z-index: 2; background: #f7f8fb; }
 .crm-customer-table .crm-channel { color: #e33434; font-weight: 500; white-space: nowrap; }
 .crm-customer-table .crm-channel-none { color: #242424; font-weight: normal; }
+.crm-channel-note-number { width: 18px; height: 18px; margin-left: 5px; font-size: 11px; vertical-align: middle; }
 .crm-customer-table td button { padding: 0; border: 0; background: transparent; color: #00adc8; font-size: 12px; }
 .crm-empty td { text-align: center; height: 160px; color: #8b98a8; }
 .crm-pagination { display: flex; gap: 10px; align-items: center; padding: 24px 16px; color: #78879a; font-size: 13px; }
